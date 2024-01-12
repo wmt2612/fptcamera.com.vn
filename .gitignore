@@ -15,5 +15,6 @@ yarn-error.log
 *.map
 .env
 /public/storage
+/public/wp-content/uploads
 /public/cms
 /bootstrap/cache/
