@@ -1,0 +1,9 @@
+{
+    "name": "$THEME_NAME$",
+    "alias": "$VARIBALE_NAME$",
+    "description": "The $THEME_NAME$ Theme.",
+    "version": "2.0.0",
+    "providers": [
+        "Themes\\$THEME_NAME$\\Providers\\ThemeServiceProvider"
+    ]
+}

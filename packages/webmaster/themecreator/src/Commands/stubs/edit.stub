@@ -1,0 +1,21 @@
+@extends('admin::layout')
+
+@section('title', trans('$VARIBALE_NAME$::$VARIBALE_NAME$.$VARIBALE_NAME$'))
+
+@section('content_header')
+    <h3>{{ trans('$VARIBALE_NAME$::$VARIBALE_NAME$.$VARIBALE_NAME$') }}</h3>
+
+    <ol class="breadcrumb">
+        <li><a href="{{ route('admin.dashboard.index') }}">{{ trans('admin::dashboard.dashboard') }}</a></li>
+        <li class="active">{{ trans('$VARIBALE_NAME$::$VARIBALE_NAME$.$VARIBALE_NAME$') }}</li>
+    </ol>
+@endsection
+
+{{-- @section('content')
+    <form method="POST" action="{{ route('admin.$VARIBALE_NAME$.settings.update') }}" class="form-horizontal" id="$VARIBALE_NAME$-settings-edit-form" novalidate>
+        {{ csrf_field() }}
+        {{ method_field('put') }}
+
+        {!! $tabs->render(compact('settings')) !!}
+    </form>
+@endsection --}}

@@ -1,0 +1,10 @@
+1. Cai dat ComposerVendor:
+composer install 
+
+2. Cai dat NodeModules
+npm install
+
+3. Setup Modules
+php artisan module:publish Import
+
+4. Download vendor: https://drive.google.com/drive/folders/1PKpH9Fr4qQ2rDggCXZ4GmFfXXOfDcAZU

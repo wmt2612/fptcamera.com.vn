@@ -1,0 +1,180 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Modules\Admin\Ui\Tabs;
+use Modules\Admin\Ui\Tab;
+use Modules\Tag\Entities\Tag;
+use Themes\$THEME_NAME$\Banner;
+use Modules\Menu\Entities\Menu;
+use Modules\Page\Entities\Page;
+use Modules\Media\Entities\File;
+use Modules\Slider\Entities\Slider;
+use Illuminate\Support\Facades\Cache;
+
+class $THEME_NAME$Tabs extends Tabs
+{
+    /**
+     * Make new tabs with groups.
+     *
+     * @return void
+    */
+
+    public function make()
+    {
+        // $this->group('general_settings', trans('$VARIBALE_NAME$::$VARIBALE_NAME$.tabs.group.general_settings'))
+        //     ->active()
+        //     ->add($this->general())
+        //     ->add($this->logo())
+        //     ->add($this->menus())
+        //     ->add($this->footer())
+        //     ->add($this->newsletter())
+        //     ->add($this->features())
+        //     ->add($this->productPage())
+        //     ->add($this->socialLinks());
+
+    }
+
+    private function general()
+    {
+        return tap(new Tab('general', trans('$VARIBALE_NAME$::$VARIBALE_NAME$.tabs.general')), function (Tab $tab) {
+            $tab->active();
+            $tab->weight(5);
+            $tab->fields(['$VARIBALE_NAME$_slider', '$VARIBALE_NAME$_copyright_text']);
+            $tab->view('admin.$VARIBALE_NAME$.tabs.general', [
+                'pages' => $this->getPages(),
+                'sliders' => $this->getSliders(),
+                'homes' => $this->getHomes()
+            ]);
+        });
+    }
+
+    private function getHomes()
+    {
+        $homes = [];
+        foreach (\File::glob(app('stylist')->current()->getPath() . '/views/public/home/*.blade.php') as $filename) {
+            $name = basename($filename,'.blade.php');
+            $homes[$name] = $name;
+        }
+        return $homes;
+    }
+
+    private function getPages()
+    {
+        return Page::all()->pluck('name', 'id')
+            ->prepend(trans('$VARIBALE_NAME$::$VARIBALE_NAME$.form.please_select'), '');
+    }
+
+    private function getSliders()
+    {
+        return Slider::all()->sortBy('name')->pluck('name', 'id')
+            ->prepend(trans('$VARIBALE_NAME$::$VARIBALE_NAME$.form.please_select'), '');
+    }
+
+    private function logo()
+    {
+        return tap(new Tab('logo', trans('$VARIBALE_NAME$::$VARIBALE_NAME$.tabs.logo')), function (Tab $tab) {
+            $tab->weight(10);
+            $tab->view('admin.$VARIBALE_NAME$.tabs.logo', [
+                'favicon' => $this->getMedia(setting('$VARIBALE_NAME$_favicon')),
+                'headerLogo' => $this->getMedia(setting('$VARIBALE_NAME$_header_logo')),
+                'footerLogo' => $this->getMedia(setting('$VARIBALE_NAME$_footer_logo')),
+                'mailLogo' => $this->getMedia(setting('$VARIBALE_NAME$_mail_logo')),
+            ]);
+        });
+    }
+
+    private function menus()
+    {
+        return tap(new Tab('menus', trans('$VARIBALE_NAME$::$VARIBALE_NAME$.tabs.menus')), function (Tab $tab) {
+            $tab->weight(15);
+
+            $tab->fields([
+                '$VARIBALE_NAME$_primary_menu',
+                '$VARIBALE_NAME$_category_menu',
+                '$VARIBALE_NAME$_footer_menu',
+                '$VARIBALE_NAME$_footer_menu_title',
+            ]);
+
+            $tab->view('admin.$VARIBALE_NAME$.tabs.menus', [
+                'menus' => $this->getMenus(),
+            ]);
+        });
+    }
+
+    private function getMenus()
+    {
+        return Menu::all()->pluck('name', 'id')
+            ->prepend(trans('$VARIBALE_NAME$::$VARIBALE_NAME$.form.please_select'), '');
+    }
+
+    private function footer()
+    {
+        return tap(new Tab('footer', trans('$VARIBALE_NAME$::$VARIBALE_NAME$.tabs.footer')), function (Tab $tab) {
+            $tab->weight(17);
+            $tab->view('admin.$VARIBALE_NAME$.tabs.footer', [
+                'tags' => Tag::list(),
+                'acceptedPaymentMethodsImage' => $this->getMedia(setting('$VARIBALE_NAME$_accepted_payment_methods_image')),
+            ]);
+        });
+    }
+
+    private function newsletter()
+    {
+        if (! setting('newsletter_enabled')) {
+            return;
+        }
+
+        return tap(new Tab('newsletter', trans('$VARIBALE_NAME$::$VARIBALE_NAME$.tabs.newsletter')), function (Tab $tab) {
+            $tab->weight(18);
+            $tab->view('admin.$VARIBALE_NAME$.tabs.newsletter', [
+                'newsletterBgImage' => $this->getMedia(setting('$VARIBALE_NAME$_newsletter_bg_image')),
+            ]);
+        });
+    }
+
+    private function getMedia($fileId)
+    {
+        return Cache::rememberForever(md5("files.{$fileId}"), function () use ($fileId) {
+            return File::findOrNew($fileId);
+        });
+    }
+
+    private function features()
+    {
+        return tap(new Tab('features', trans('$VARIBALE_NAME$::$VARIBALE_NAME$.tabs.features')), function (Tab $tab) {
+            $tab->weight(20);
+            $tab->view('admin.$VARIBALE_NAME$.tabs.features');
+        });
+    }
+
+    private function productPage()
+    {
+        return tap(new Tab('product_page', trans('$VARIBALE_NAME$::$VARIBALE_NAME$.tabs.product_page')), function (Tab $tab) {
+            $tab->weight(22);
+            $tab->view('admin.$VARIBALE_NAME$.tabs.product_page', [
+                'banner' => Banner::getProductPageBanner(),
+            ]);
+        });
+    }
+
+    private function socialLinks()
+    {
+        return tap(new Tab('social_links', trans('$VARIBALE_NAME$::$VARIBALE_NAME$.tabs.social_links')), function (Tab $tab) {
+            $tab->weight(25);
+
+            $tab->fields([
+                '$VARIBALE_NAME$_fb_link',
+                '$VARIBALE_NAME$_twitter_link',
+                '$VARIBALE_NAME$_instagram_link',
+                '$VARIBALE_NAME$_linkedin_link',
+                '$VARIBALE_NAME$_pinterest_link',
+                '$VARIBALE_NAME$_gplus_link',
+                '$VARIBALE_NAME$_youtube_link',
+            ]);
+
+            $tab->view('admin.$VARIBALE_NAME$.tabs.social_links');
+        });
+    }
+
+}

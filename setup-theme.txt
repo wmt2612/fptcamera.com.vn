@@ -1,0 +1,5 @@
+1. Chạy php artisan theme:make ThemName
+
+2. Tạo sidebar,attributes,themes, categories,404 trong lang
+
+3. 

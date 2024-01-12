@@ -1,0 +1,16 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', 'HomeController@index')->name('home');
+
+// Route::get('$VARIBALE_NAME$/featured-categories/{categoryNumber}/products', 'FeaturedCategoryProductController@index')->name('$VARIBALE_NAME$.featured_category_products.index');
+// Route::get('$VARIBALE_NAME$/tab-products/sections/{sectionNumber}/tabs/{tabNumber}', 'TabProductController@index')->name('$VARIBALE_NAME$.tab_products.index');
+// Route::get('$VARIBALE_NAME$/product-grid/tabs/{tabNumber}', 'ProductGridController@index')->name('$VARIBALE_NAME$.product_grid.index');
+// Route::get('$VARIBALE_NAME$/flash-sale-products', 'FlashSaleProductController@index')->name('$VARIBALE_NAME$.flash_sale_products.index');
+// Route::get('$VARIBALE_NAME$/vertical-products/{columnNumber}', 'VerticalProductController@index')->name('$VARIBALE_NAME$.vertical_products.index');
+
+// Route::post('$VARIBALE_NAME$/newsletter-popup', 'NewsletterPopup@store')->name('$VARIBALE_NAME$.newsletter_popup.store');
+// Route::delete('$VARIBALE_NAME$/newsletter-popup', 'NewsletterPopup@destroy')->name('$VARIBALE_NAME$.newsletter_popup.destroy');
+
+// Route::delete('$VARIBALE_NAME$/cookie-bar', 'CookieBarController@destroy')->name('$VARIBALE_NAME$.cookie_bar.destroy');

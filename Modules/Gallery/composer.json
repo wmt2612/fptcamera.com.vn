@@ -1,0 +1,9 @@
+{
+    "name": "fleetcart/gallery",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Gallery\\": ""
+        }
+    }
+}
+

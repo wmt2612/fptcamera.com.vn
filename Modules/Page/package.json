@@ -1,0 +1,8 @@
+{
+    "name": "page-module",
+    "private": true,
+    "dependencies": {
+        "grapesjs": "^0.17.4",
+        "webpack": "^5.38.1"
+    }
+}

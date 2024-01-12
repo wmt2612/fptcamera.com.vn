@@ -1,0 +1,11 @@
+<?php
+
+namespace $NAMESPACE$;
+
+interface $CLASS$
+{
+    public function __construct()
+    {
+        
+    }
+}

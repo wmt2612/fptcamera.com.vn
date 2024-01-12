@@ -1,0 +1,13 @@
+{
+    "name": "CategoryService",
+    "alias": "categoryservice",
+    "description": "The FleetCart CategoryService Module.",
+    
+    "priority": 0,
+    "providers": [
+        "Modules\\CategoryService\\Providers\\CategoryServiceServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

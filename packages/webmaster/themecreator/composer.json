@@ -1,0 +1,23 @@
+{
+    "name": "webmaster/themecreator",
+    "description": "Laravel Theme Creator",
+    "authors": [
+        {
+            "name": "nguyencuong",
+            "email": "cuong2209s@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Webmaster\\ThemeCreator\\": "/src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webmaster\\ThemeCreator\\ThemeCreatorServiceProvider"
+            ]
+        }
+    }
+}

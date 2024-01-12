@@ -1,0 +1,9 @@
+{
+    "name": "Group",
+    "alias": "group",
+    "description": "The group module is responsible for managing groups.",
+    "order": 70,
+    "providers": [
+        "Modules\\Group\\Providers\\GroupServiceProvider"
+    ]
+}

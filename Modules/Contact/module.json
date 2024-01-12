@@ -1,0 +1,13 @@
+{
+    "name": "Contact",
+    "alias": "contact",
+    "description": "The FleetCart Contact Module.",
+    
+    "priority": 0,
+    "providers": [
+        "Modules\\Contact\\Providers\\ContactServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

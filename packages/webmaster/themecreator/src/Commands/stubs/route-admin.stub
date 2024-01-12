@@ -1,0 +1,13 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('$VARIBALE_NAME$', [
+    'as' => 'admin.$VARIBALE_NAME$.settings.edit',
+    'uses' => '$THEME_NAME$Controller@edit',
+]);
+
+Route::put('$VARIBALE_NAME$', [
+    'as' => 'admin.$VARIBALE_NAME$.settings.update',
+    'uses' => '$THEME_NAME$Controller@update',
+]);

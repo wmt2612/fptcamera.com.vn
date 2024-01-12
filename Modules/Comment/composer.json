@@ -1,0 +1,19 @@
+{
+    "name": "fleetcart/comment",
+    "description": "",
+    "authors": [
+        {
+            "name": "Mehedi Hasan",
+            "email": "mehedi5531@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Comment\\": ""
+        }
+    }
+}
+

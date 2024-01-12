@@ -1,0 +1,1 @@
+{{ Form::text('name', trans('review::review_questions.name'), $errors, $reviewQuestion ?? $review_question, ['labelCol' => 2, 'required' => true]) }}

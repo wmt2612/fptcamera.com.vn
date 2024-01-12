@@ -1,0 +1,13 @@
+{
+    "name": "Lecturer",
+    "alias": "lecturer",
+    "description": "The FleetCart Lecturer Module.",
+    
+    "priority": 0,
+    "providers": [
+        "Modules\\Lecturer\\Providers\\LecturerServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

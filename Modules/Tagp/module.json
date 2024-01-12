@@ -1,0 +1,13 @@
+{
+    "name": "Tagp",
+    "alias": "tagp",
+    "description": "The FleetCart Tagp Module.",
+    
+    "priority": 0,
+    "providers": [
+        "Modules\\Tagp\\Providers\\TagpServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

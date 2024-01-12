@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+Redirect 301 /chuong-cua-co-hinh-tot-nhat-2022/chuong-cua-co-hinh-tot-nhat
+Redirect 301 /chuong-cua-co-hinh-tot-nhat-2022 https://fptcamera.com.vn/chuong-cua-co-hinh-tot-nhat
+Redirect 301 /hang-camera-an-ninh-tot-nhat-the-gioi-2021 https://fptcamera.com.vn/hang-camera-an-ninh-tot-nhat-the-gioi

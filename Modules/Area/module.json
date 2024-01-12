@@ -1,0 +1,13 @@
+{
+    "name": "Area",
+    "alias": "area",
+    "description": "The FleetCart Area Module.",
+    
+    "priority": 0,
+    "providers": [
+        "Modules\\Area\\Providers\\AreaServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

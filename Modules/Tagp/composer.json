@@ -1,0 +1,10 @@
+{
+    "name": "fleetcart/tagp",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Tagp\\": ""
+        }
+    }
+}
+
+
