@@ -19,6 +19,66 @@
         font-weight: bold;
         cursor: pointer;
     }
+
+    .post-author {
+        background-color: #ddeaf3b0 !important;
+        margin-top: 2rem !important;
+        padding: 20px 15px;
+    }
+
+    .post-author-title {
+        font-size: 18px;
+        font-weight: 600;
+        text-decoration: underline;
+    }
+
+    .post-author-content {
+        display: flex;
+        column-gap: 25px;
+    }
+
+    .post-author .author-avatar-box {
+        display: flex;
+        justify-content: center;
+    }
+
+    .post-author .author-avatar {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .post-author .author-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .post-author .author-name {
+        font-size: 19px;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+
+    .post-author .author-description {
+        text-align: justify;
+    }
+
+    @media (max-width: 768px) {
+        .post-author-content {
+           flex-direction: column;
+        }
+
+        .post-author .author-name {
+           text-align: center;
+            margin-top: 12px;
+        }
+
+
+    }
 </style>
 @endpush
 @section('content')
@@ -37,13 +97,20 @@
 <div class="az-wp">
     <div class="container">
         <div class="row pb-30">
-
+            @php
+                $author = $post->author;
+            @endphp
             <div class="col-lg-9 content-blog">
                 <div class="row pb-15" style="background-color: #fff">
                     <div class="col-md-12">
                         <div class="title-post pb-10 pt-20">
                             <h1 class="single-post">{{ $post->name }}</h1>
-                            <p class="date-time">Đăng vào ngày: <span>{!! $post->date_format !!}</span></p>
+                            <p class="date-time">
+                                @if($author)
+                                    <span>{{ $author->full_name }} | </span>
+                                @endif
+                                Đăng vào ngày: <span>{!! $post->date_format !!}</span>
+                            </p>
                         </div>
                         <div id="post-toc">
 
@@ -51,8 +118,11 @@
                         <div class="content-post pt-15">
                             {!! $post->content !!}
                         </div>
+
                     </div>
                 </div>
+
+                @include('public.post.author')
             </div>
 
             @include('public.post.sidebar-right',['col'=>3])

@@ -40,7 +40,7 @@ class UserServiceProvider extends ServiceProvider
         View::composer('user::admin.auth.layout', AssetsComposer::class);
 
         $this->addAdminAssets('admin.(login|reset).*', ['admin.login.css', 'admin.login.js']);
-        $this->addAdminAssets('admin.(users|roles).(create|edit)', ['admin.user.css', 'admin.user.js']);
+        $this->addAdminAssets('admin.(users|roles).(create|edit)', ['admin.user.css', 'admin.user.js', 'admin.media.css', 'admin.media.js']);
 
         $this->registerSentinelGuard();
         $this->registerBladeDirectives();

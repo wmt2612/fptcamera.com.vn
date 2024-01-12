@@ -11,6 +11,8 @@ return [
         'email' => 'Email',
         'password' => 'Password',
         'password_confirmation' => 'Confirm Password',
+        'description' => 'Description',
+        'avatar' => 'Avatar',
         'captcha' => 'Captcha',
         'roles' => 'Roles',
         'activated' => 'Status',

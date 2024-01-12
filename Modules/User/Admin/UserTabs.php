@@ -2,8 +2,10 @@
 
 namespace Modules\User\Admin;
 
+use Illuminate\Support\Facades\Cache;
 use Modules\Admin\Ui\Tab;
 use Modules\Admin\Ui\Tabs;
+use Modules\Media\Entities\File;
 use Modules\User\Entities\Role;
 use Modules\User\Repositories\Permission;
 
@@ -14,6 +16,7 @@ class UserTabs extends Tabs
         $this->group('user_information', trans('user::users.tabs.group.user_information'))
             ->active()
             ->add($this->account())
+            ->add($this->info())
             ->add($this->permissions())
             ->add($this->newPassword());
     }
@@ -34,6 +37,20 @@ class UserTabs extends Tabs
 
             $tab->view('user::admin.users.tabs.account', [
                 'roles' => Role::list(),
+            ]);
+        });
+    }
+
+    private function info()
+    {
+        return tap(new Tab('info', trans('user::users.tabs.info')), function (Tab $tab) {
+            $tab->weight(12);
+
+            $tab->fields([
+                'description',
+            ]);
+
+            $tab->view('user::admin.users.tabs.info', [
             ]);
         });
     }
@@ -62,6 +79,13 @@ class UserTabs extends Tabs
             $tab->weight(30);
             $tab->fields(['password', 'password_confirmation']);
             $tab->view('user::admin.users.tabs.new_password');
+        });
+    }
+
+    private function getMedia($fileId)
+    {
+        return Cache::rememberForever(md5("files.{$fileId}"), function () use ($fileId) {
+            return File::findOrNew($fileId);
         });
     }
 }

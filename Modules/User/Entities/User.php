@@ -2,6 +2,8 @@
 
 namespace Modules\User\Entities;
 
+use Modules\Media\Eloquent\HasMedia;
+use Modules\Media\Entities\File;
 use Modules\Order\Entities\Order;
 use Modules\User\Admin\UserTable;
 use Modules\Review\Entities\Review;
@@ -17,7 +19,16 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
 class User extends EloquentUser implements AuthenticatableContract
 {
-    use Authenticatable;
+    use Authenticatable, HasMedia;
+
+    protected $fillable = [
+        'email',
+        'password',
+        'last_name',
+        'first_name',
+        'permissions',
+        'description'
+    ];
 
     protected $loginNames = ['email', 'first_name'];
 
@@ -182,7 +193,7 @@ class User extends EloquentUser implements AuthenticatableContract
      */
     public function getFullNameAttribute()
     {
-        return "{$this->first_name} {$this->last_name}";
+        return "{$this->last_name} {$this->first_name}";
     }
 
     /**
@@ -225,6 +236,11 @@ class User extends EloquentUser implements AuthenticatableContract
     public function wishlistHas($productId)
     {
         return self::wishlist()->where('product_id', $productId)->exists();
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->files->where('pivot.zone', 'avatar')->first() ?: new File;
     }
 
     /**

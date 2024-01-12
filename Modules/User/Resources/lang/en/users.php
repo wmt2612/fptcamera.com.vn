@@ -16,6 +16,7 @@ return [
             'profile_information' => 'Profile Information',
         ],
         'account' => 'Account',
+        'info' => 'Info',
         'permissions' => 'Permissions',
         'new_password' => 'New Password',
     ],
