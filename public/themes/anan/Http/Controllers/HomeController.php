@@ -41,7 +41,7 @@ class HomeController
         $data['latest'] = Product::limit(10)->orderBy('id','desc')->get();
 
         $lastblog = Group::where('slug', 'thong-tin-huu-ich')->first();
-        $data['latest_posts'] = $lastblog->posts()->limit(4)->get();
+        $data['latest_posts'] = $lastblog->posts()->limit(8)->get();
       
         if($request->get('s'))
         {
@@ -61,9 +61,48 @@ class HomeController
     	$data['slider'] = Slider::findWithSlides(3);
     	$data['sliderbanners'] = Slider::findWithSlides(8);
 
-        return view('public.home.' . setting('home_switcher'), $data );
+        return view('v2.home.index', $data );
     }
-  
+
+    public function homeV2(Product $model, ProductFilter $productFilter, Request $request)
+    {
+        SEO::setTitle(setting('meta_title_of_home'));
+        SEO::setDescription(setting('meta_description_of_home') ?? setting('store_name'));
+        SEOMeta::addKeyword(setting('meta_keyword_of_home') ?? setting('store_name'));
+        SEO::opengraph()->setUrl(url()->current());
+        SEO::twitter()->setSite('https://fptcamera.com.vn');
+        SEO::jsonLd()->addImage('https://fptcamera.com.vn/themes/anan/assets/images/2020/04/logo.jpg');
+
+    	$data['slider'] = Slider::findWithSlides(3);
+    	$data['sliderbanners'] = Slider::findWithSlides(8);
+        $data['deals'] = Product::whereNotNull('special_price')->limit(10)->orderBy('id','desc')->get();
+        $data['recommends'] = Product::whereNotNull('special_price')->limit(10)->orderBy('id','asc')->get();
+        $data['latest'] = Product::limit(10)->orderBy('id','desc')->get();
+
+        $lastblog = Group::where('slug', 'thong-tin-huu-ich')->first();
+        $data['latest_posts'] = $lastblog->posts()->limit(8)->get();
+
+        if($request->get('s'))
+        {
+            $request['sort'] = 'latest';
+            $products = $this->getSearchProducts($model, $productFilter);
+            $groups = Group::whereNull('parent_id')->limit(5)->get();
+            $newProducts = $model->orderByDesc('id')->limit(5)->get();
+            $data = [
+                'products' => $products,
+                'groups' => $groups,
+                'newProducts' => $newProducts
+            ];
+
+            return view('public.product.search_result', $data);
+        }
+
+    	$data['slider'] = Slider::findWithSlides(3);
+    	$data['sliderbanners'] = Slider::findWithSlides(8);
+
+        return view('v2.home.index', $data );
+    }
+
    public function generateSitemap()
     {
         $pages = Page::latest()->select('id', 'slug', 'updated_at')->get();

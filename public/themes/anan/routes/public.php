@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/product/{slug}', 'HomeController@index')->name('product.category'); 
+Route::get('/home-v2', 'HomeController@homeV2')->name('home.v2');
+Route::get('/product/{slug}', 'HomeController@index')->name('product.category');
 
 // Product
 // Route::get('/san-pham', 'ProductController@index')->name('product.index');
@@ -34,4 +35,5 @@ Route::post('/san-pham/danh-gia', 'ProductController@postComment')->name('produc
 // Blog
 Route::get('/blog', 'PostController@index')->name('blog.index'); 
 Route::get('/blog/{slug}', 'PostController@category')->name('post.category'); 
-Route::get('/blog/{slug}', 'PostController@single')->name('post.single'); 
+Route::get('/blog/{slug}', 'PostController@single')->name('post.single');
+

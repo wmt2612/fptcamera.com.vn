@@ -1,0 +1,106 @@
+.banner_main .banner .banner_slide ul li img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+header .box_header .flex_center .box_category .category ul li .sub-menu {
+    height: 500px;
+    overflow: auto;
+}
+
+header .box_header .flex_right ul.new-top-mobile-menu{
+    display: none;
+}
+
+.row.az-ft-link.ft-link-row-1 ul.list-social {
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: 0;
+}
+
+.row.az-ft-link.ft-link-row-1 ul.list-social li {
+    display: inline-block;
+}
+
+.row.az-ft-link.ft-link-row-1 .last-child-col .title {
+    padding-bottom: 30px;
+}
+
+.ft-link-row-2 .content ul li a {
+    color: #fff;
+    font-size: 13px;
+}
+
+.list-social li img {
+    width: auto !important;
+    height: auto !important;
+}
+
+ul.list-social li i {
+    width: 32px;
+    height: 32px;
+    color: #D11E26;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 32px;
+    transition: 0.2s all;
+    background-color: #fff;
+}
+
+ul.list-social li i.fa-facebook {
+    border-color: #3B5996;
+    color: #3B5996;
+}
+
+ul.list-social li i {
+    width: 32px;
+    height: 32px;
+    color: #D11E26;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 32px;
+    transition: 0.2s all;
+    background-color: #fff;
+}
+
+.list-social li span {
+    width: 32px;
+    height: 32px;
+    background: #fff;
+    display: inline-block;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 32px;
+}
+
+#load-data {
+    display: none;
+}
+
+@media  (max-width: 1024px) {
+    .menu_mobile .category_mb ul li {
+        height: auto;
+        padding: 10px 0;
+    }
+
+    header .box_header .flex_right ul.new-top-mobile-menu {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    header .box_header .flex_right ul.new-top-menu {
+        display: none;
+    }
+
+    header .box_header .flex_right ul li a img {
+        width: 35px;
+    }
+}
+
+@media (max-width: 500px) {
+    header .box_header .flex_right ul li a img {
+        width: 30px;
+    }
+}
+

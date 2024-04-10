@@ -329,7 +329,8 @@ jQuery(document).ready(function($) {
 
   /* pc */
   var timeout = null; 
-  $(".search-ajax").keyup(function(){ 
+  $(".search-ajax").keyup(function(){
+    console.log('test')
       clearTimeout(timeout); 
       timeout = setTimeout(function (){            
          call_ajax(); 
@@ -362,7 +363,8 @@ jQuery(document).ready(function($) {
   }
   /* end pc */
   /* mobile */
-  var timeoutmobile = null; 
+  var timeoutmobile = null;
+
   $(".search-ajax-mobile").keyup(function(){ 
     clearTimeout(timeoutmobile); 
     timeoutmobile = setTimeout(function (){            

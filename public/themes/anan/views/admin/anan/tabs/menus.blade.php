@@ -7,5 +7,6 @@
         {{ Form::select('anan_footer_menu_one', trans('anan::attributes.anan_footer_menu_one'), $errors, $menus, $settings) }}
         {{ Form::text('translatable[anan_footer_menu_two_title]', trans('anan::attributes.anan_footer_menu_two_title'), $errors, $settings) }}
         {{ Form::select('anan_footer_menu_two', trans('anan::attributes.anan_footer_menu_two'), $errors, $menus, $settings) }}
+        {{ Form::select('home_v2_top_menu', 'New Top Menu', $errors, $menus, $settings) }}
     </div>
 </div>

@@ -48,6 +48,7 @@ class LayoutComposer
             'primaryMenu' => $this->getPrimaryMenu(),
             'leftSideTopMenu' => $this->getLeftSideTopMenu(),
             'rightSideTopMenu' => $this->getRightSideTopMenu(),
+            'newTopMenu' => $this->getNewTopMenu()
         ]);
     }
     
@@ -102,6 +103,11 @@ class LayoutComposer
     private function getRightSideTopMenu()
     {
         return new MegaMenu(6);
+    }
+
+    private function getNewTopMenu()
+    {
+        return new MegaMenu(setting('home_v2_top_menu'));
     }
 
     private function getVerticalMenu()

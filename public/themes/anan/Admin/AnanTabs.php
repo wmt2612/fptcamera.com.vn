@@ -37,10 +37,12 @@ class AnanTabs extends Tabs
 
         $this->group('home_settings', trans('anan::anan.tabs.group.home_setting'))
             ->add($this->homeBanner())
+            ->add($this->homeFlashSale())
             ->add($this->dealSection())
             ->add($this->justForYouSection())
             ->add($this->newestProductSection())
-            ->add($this->customV1Section());
+            ->add($this->customV1Section())
+            ->add($this->homeDealBanners());
 
         $this->group('blog_settings', trans('anan::anan.tabs.group.blog_setting'))
             ->add($this->blogCategory());
@@ -67,6 +69,26 @@ class AnanTabs extends Tabs
             $tab->view('admin.anan.tabs.homebanner', [
                 'homebanner01' => $this->getMedia(setting('homebanner01')),
                 'homebanner02' => $this->getMedia(setting('homebanner02')),
+            ]);
+        });
+    }
+
+    private function homeFlashSale()
+    {
+        $sortTypes = [
+            'DESC' => 'Newest',
+            'ASC' => 'Oldest',
+        ];
+        $itemTypes = [
+            'GET_BY_CATEGORY' => 'Category',
+            'DEFAULT' => 'Default',
+        ];
+        return tap(new Tab('home_flash_sale_section', 'Flash Sale'), function (Tab $tab) use($sortTypes, $itemTypes){
+            $tab->weight(11);
+            $tab->view('admin.anan.tabs.home.flash_sale', [
+                'categories' => Category::treeList(),
+                'sortTypes' => $sortTypes,
+                'itemTypes' => $itemTypes,
             ]);
         });
     }
@@ -148,6 +170,16 @@ class AnanTabs extends Tabs
                 'categories' => Category::treeList(),
                 'sortTypes' => $sortTypes,
                 'itemTypes' => $itemTypes,
+            ]);
+        });
+    }
+
+    private function homeDealBanners()
+    {
+        return tap(new Tab('home_custom_deal_banners', 'Deal Banners'), function (Tab $tab) {
+            $tab->weight(12);
+            $tab->view('admin.anan.tabs.home.deal_banners', [
+                'sliders' => $this->getSliders(),
             ]);
         });
     }

@@ -28,9 +28,11 @@ class HomeComposer
             'homebanner02' => $this->getHomeBanner02(),
             'homebanner02_url' => $this->getHomeBanner02URL(),
             'dealSection' => $this->getDealBox(),
+            'flashSaleSection' => $this->getFlashSaleBox(),
             'j4uSection' => $this->getJustForYouSection(),
             'newestProductSection' => $this->getNewestProductSection(),
             'customV1Section' => $this->getCustomV1Section(),
+            'dealBanners' => Slider::findWithSlides(setting('home_deal_banners'))
         ]);
     }
 
@@ -207,6 +209,40 @@ class HomeComposer
             'view_more_title' => setting('home_custom_v1_view_more_title'),
             'products' => $products,
             'status' => setting('home_custom_v1_is_active')
+        ];
+    }
+
+    private function getFlashSaleBox()
+    {
+        $products = [];
+        $orderBy = setting('home_flash_sale_sort_type') == 'ASC' ? 'ASC' : 'DESC';
+        switch (setting('home_flash_sale_get_item_by')) {
+            case 'GET_BY_CATEGORY':
+                if (is_array(setting('home_flash_sale_category'))) {
+                    $products = Product::whereHas('categories', function ($query) {
+                        $query->whereIn('categories.id', setting('home_flash_sale_category'));
+                    })
+                        ->orderBy('created_at', $orderBy)
+                        ->limit(setting('home_flash_sale_item_limit'))
+                        ->get();
+                }
+                break;
+            case 'DEFAULT':
+                $products = Product::limit(setting('home_flash_sale_item_limit'))
+                    ->orderBy('created_at', $orderBy)
+                    ->get();
+                break;
+            default:
+                $products = Product::limit(10)->latest()->get();
+                break;
+        }
+        return (object)[
+            'title' => setting('home_flash_sale_title'),
+            'desc' => setting('home_flash_sale_desc'),
+            'view_more_link' => setting('home_flash_sale_view_more_link'),
+            'view_more_title' => setting('home_flash_sale_view_more_title'),
+            'products' => $products,
+            'status' => setting('home_flash_sale_is_active')
         ];
     }
 }
