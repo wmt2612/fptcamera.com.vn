@@ -13,16 +13,6 @@ header .box_header .flex_right ul.new-top-mobile-menu{
     display: none;
 }
 
-.row.az-ft-link.ft-link-row-1 ul.list-social {
-    padding-left: 0;
-    list-style: none;
-    margin-bottom: 0;
-}
-
-.row.az-ft-link.ft-link-row-1 ul.list-social li {
-    display: inline-block;
-}
-
 .row.az-ft-link.ft-link-row-1 .last-child-col .title {
     padding-bottom: 30px;
 }
@@ -32,20 +22,8 @@ header .box_header .flex_right ul.new-top-mobile-menu{
     font-size: 13px;
 }
 
-.list-social li img {
-    width: auto !important;
-    height: auto !important;
-}
-
-ul.list-social li i {
-    width: 32px;
-    height: 32px;
-    color: #D11E26;
-    border-radius: 100%;
-    text-align: center;
-    line-height: 32px;
-    transition: 0.2s all;
-    background-color: #fff;
+#load-data {
+    display: none;
 }
 
 ul.list-social li i.fa-facebook {
@@ -53,29 +31,9 @@ ul.list-social li i.fa-facebook {
     color: #3B5996;
 }
 
-ul.list-social li i {
-    width: 32px;
-    height: 32px;
-    color: #D11E26;
-    border-radius: 100%;
-    text-align: center;
-    line-height: 32px;
-    transition: 0.2s all;
-    background-color: #fff;
-}
-
-.list-social li span {
-    width: 32px;
-    height: 32px;
-    background: #fff;
-    display: inline-block;
-    border-radius: 100%;
-    text-align: center;
-    line-height: 32px;
-}
-
-#load-data {
-    display: none;
+footer .bg-ft-link .az-ft-link .list-social li i.fa-facebook {
+    border-color: #3B5996;
+    color: #3B5996;
 }
 
 @media  (max-width: 1024px) {

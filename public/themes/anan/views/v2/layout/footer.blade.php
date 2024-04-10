@@ -149,7 +149,7 @@
                 <li class="nav-item camera" role="presentation">
                     <button class="nav-link @if($key == 0) active @endif" id="{{ $item->slug() }}-tab" data-bs-toggle="tab" data-bs-target="#{{ $item->slug() }}" type="button" role="tab" aria-controls="{{ $item->slug() }}" aria-selected="true">
                         <div class="box">
-                            <img src="{{ v(Theme::url("assets/v2/images/icon-camera.webp")) }}" alt="">
+                            <img src="{{ $item->backgroundImage() ?? v(Theme::url("assets/v2/images/icon-camera.webp")) }}" alt="">
                             <p>{{ $item->name() }}</p>
                         </div>
                     </button>

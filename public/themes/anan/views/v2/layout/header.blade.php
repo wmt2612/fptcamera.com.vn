@@ -19,7 +19,7 @@
                                     <li class="category_item">
                                         <a href="{{ $item->url() }}" class="menu_drop">
                                             <div class="box">
-                                                <img src="{{ v(Theme::url('assets/v2/images/icon-camera.webp')) }}" alt="">
+                                                <img src="{{ $item->backgroundImage() ?? v(Theme::url('assets/v2/images/icon-camera.webp')) }}" alt="">
                                                 <p>{{ $item->name() }}</p>
                                             </div>
                                             <i class="fas fa-angle-right"></i>
