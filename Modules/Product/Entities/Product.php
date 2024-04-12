@@ -117,7 +117,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $translatedAttributes = ['name', 'short_name', 'description', 'short_description', 'specifications'];
+    protected $translatedAttributes = ['name', 'short_name', 'description', 'short_description', 'specifications', 'gift_note'];
 
     /**
      * The attribute that will be slugged.

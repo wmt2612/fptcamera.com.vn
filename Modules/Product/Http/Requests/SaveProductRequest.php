@@ -43,6 +43,7 @@ class SaveProductRequest extends Request
             'new_to' => 'nullable|date',
             'contact_for_price' => 'required|boolean',
             'created_at' => 'nullable|string',
+            'gift_note' => 'nullable|string',
         ];
     }
 
