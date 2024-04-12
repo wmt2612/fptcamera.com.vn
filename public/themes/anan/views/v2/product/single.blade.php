@@ -30,7 +30,7 @@
                 <i class="fa fa-star"></i>
             </div>
             <div class="flash-sale-process">
-                <div class="text">Vừa mở bán</div>
+                <div class="text">Đã bán {{ $product->viewed }}</div>
                 <div class="icon_hot">
                     <img
                             src="{{ v(Theme::url("assets/v2/images/flash-sale.png")) }}" alt="">

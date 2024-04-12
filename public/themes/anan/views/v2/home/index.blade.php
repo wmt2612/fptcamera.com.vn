@@ -108,7 +108,7 @@
                                                 <i class="fa fa-star"></i>
                                             </div>
                                             <div class="flash-sale-process">
-                                                <div class="text">Vừa mở bán</div>
+                                                <div class="text">Đã bán {{ $product->viewed }}</div>
                                                 <div class="icon_hot"><img
                                                             src="{{ v(Theme::url("assets/v2/images/flash-sale.png")) }}"
                                                             alt="">
@@ -118,7 +118,7 @@
                                         </div>
                                         <div class="product-attribute">
                                             <i class="fas fa-gift"></i>
-                                            <p>Quà tặng 1 Mũ bảo hiểm cao cấp hoặc 1 Áo mưa thời trang Smarttech247</p>
+                                            <p>Nhận quà tặng và ưu đãi hấp dẫn khi mua trực tuyến</p>
                                         </div>
                                     </div>
                                 </div>
