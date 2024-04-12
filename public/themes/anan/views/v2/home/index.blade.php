@@ -138,6 +138,11 @@
                     <h2>
                         <span class="title-main">{{ $dealSection->title }}</span>
                         <div class="sub_title">
+                            <div class="tab">
+                                @foreach($dealSection->categories as $category)
+                                    <a href="{{ route('product.category', ['slug' => $category->slug]) }}">{{ $category->name }}</a>
+                                @endforeach
+                            </div>
                             <div class="view_more">
                                 <a href="{{ $dealSection->view_more_link }}">{{ $dealSection->view_more_title }} <i
                                             class="fas fa-angle-right"></i></a>
@@ -161,6 +166,11 @@
                     <h2>
                         <span class="title-main">{{ $j4uSection->title }}</span>
                         <div class="sub_title">
+                            <div class="tab">
+                                @foreach($j4uSection->categories as $category)
+                                    <a href="{{ route('product.category', ['slug' => $category->slug]) }}">{{ $category->name }}</a>
+                                @endforeach
+                            </div>
                             <div class="view_more">
                                 <a href="{{ $j4uSection->view_more_link }}">{{ $j4uSection->view_more_title }} <i
                                             class="fas fa-angle-right"></i></a>
@@ -196,6 +206,11 @@
                     <h2>
                         <span class="title-main">{{ $newestProductSection->title }}</span>
                         <div class="sub_title">
+                           <div class="tab">
+                               @foreach($newestProductSection->categories as $category)
+                                   <a href="{{ route('product.category', ['slug' => $category->slug]) }}">{{ $category->name }}</a>
+                               @endforeach
+                           </div>
                             <div class="view_more">
                                 <a href="{{ $newestProductSection->view_more_link }}">{{ $newestProductSection->view_more_title }}</a>
                             </div>
@@ -218,6 +233,13 @@
                     <h2>
                         <span class="title-main">{{ $customV1Section->title }}</span>
                         <div class="sub_title">
+                            @if(count($customV1Section->categories) > 0)
+                                <div class="tab">
+                                    @foreach($customV1Section->categories as $category)
+                                        <a href="{{ route('product.category', ['slug' => $category->slug]) }}">{{ $category->name }}</a>
+                                    @endforeach
+                                </div>
+                            @endif
                             <div class="view_more">
                                 <a href="{{ $customV1Section->view_more_link }}">{{ $customV1Section->view_more_title }}
                                     <i class="fas fa-angle-right"></i></a>
