@@ -34,4 +34,5 @@ return [
     'contact_for_price' => 'Contact for price',
       'vat_notice' => 'VAT Notice',
     'created_at' => 'Created At',
+    'gift_note' => 'Gift Note',
 ];
