@@ -118,7 +118,7 @@
                                         </div>
                                         <div class="product-attribute">
                                             <i class="fas fa-gift"></i>
-                                            <p>Nhận quà tặng và ưu đãi hấp dẫn khi mua trực tuyến</p>
+                                            <p>{{ $product->gift_note ?? 'Nhận quà tặng và ưu đãi hấp dẫn khi mua trực tuyến' }} </p>
                                         </div>
                                     </div>
                                 </div>
