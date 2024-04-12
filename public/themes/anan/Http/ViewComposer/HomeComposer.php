@@ -80,6 +80,7 @@ class HomeComposer
     {
         $products = [];
         $orderBy = setting('home_deal_sort_type') == 'ASC' ? 'ASC' : 'DESC';
+        $categories = [];
         switch (setting('home_deal_get_item_by')) {
             case 'GET_BY_CATEGORY':
                 if (is_array(setting('home_deal_category'))) {
@@ -89,6 +90,8 @@ class HomeComposer
                         ->orderBy('created_at', $orderBy)
                         ->limit(setting('home_deal_item_limit'))
                         ->get();
+
+                    $categories = Category::whereIn('id', setting('home_deal_category'))->get();
                 }
                 break;
             case 'DEFAULT':
@@ -106,7 +109,8 @@ class HomeComposer
             'view_more_link' => setting('home_deal_view_more_link'),
             'view_more_title' => setting('home_deal_view_more_title'),
             'products' => $products,
-            'status' => setting('home_deal_is_active')
+            'status' => setting('home_deal_is_active'),
+            'categories' => $categories
         ];
     }
 
@@ -114,6 +118,7 @@ class HomeComposer
     {
         $products = [];
         $orderBy = setting('home_j4u_sort_type') == 'ASC' ? 'ASC' : 'DESC';
+        $categories = [];
         switch (setting('home_j4u_get_item_by')) {
             case 'GET_BY_CATEGORY':
                 if (is_array(setting('home_j4u_category'))) {
@@ -123,6 +128,8 @@ class HomeComposer
                         ->orderBy('created_at', $orderBy)
                         ->limit(setting('home_j4u_item_limit'))
                         ->get();
+
+                    $categories = Category::whereIn('id', setting('home_deal_category'))->get();
                 }
                 break;
             case 'DEFAULT':
@@ -140,7 +147,8 @@ class HomeComposer
             'view_more_link' => setting('home_j4u_view_more_link'),
             'view_more_title' => setting('home_j4u_view_more_title'),
             'products' => $products,
-            'status' => setting('home_j4u_is_active')
+            'status' => setting('home_j4u_is_active'),
+            'categories' => $categories
         ];
     }
 
@@ -148,6 +156,7 @@ class HomeComposer
     {
         $products = [];
         $orderBy = setting('home_newest_product_sort_type') == 'ASC' ? 'ASC' : 'DESC';
+        $categories = [];
         switch (setting('home_newest_product_get_item_by')) {
             case 'GET_BY_CATEGORY':
                 if (is_array(setting('home_newest_product_category'))) {
@@ -157,6 +166,8 @@ class HomeComposer
                         ->orderBy('created_at', $orderBy)
                         ->limit(setting('home_newest_product_item_limit'))
                         ->get();
+
+                    $categories = Category::whereIn('id', setting('home_deal_category'))->get();
                 }
                 break;
             case 'DEFAULT':
@@ -174,7 +185,8 @@ class HomeComposer
             'view_more_link' => setting('home_newest_product_view_more_link'),
             'view_more_title' => setting('home_newest_product_view_more_title'),
             'products' => $products,
-            'status' => setting('home_newest_product_is_active')
+            'status' => setting('home_newest_product_is_active'),
+            'categories' => $categories
         ];
     }
 
@@ -182,6 +194,7 @@ class HomeComposer
     {
         $products = [];
         $orderBy = setting('home_custom_v1_sort_type') == 'ASC' ? 'ASC' : 'DESC';
+        $categories = [];
         switch (setting('home_custom_v1_get_item_by')) {
             case 'GET_BY_CATEGORY':
                 if (is_array(setting('home_custom_v1_category'))) {
@@ -191,6 +204,8 @@ class HomeComposer
                         ->orderBy('created_at', $orderBy)
                         ->limit(setting('home_custom_v1_item_limit'))
                         ->get();
+
+                    $categories = Category::whereIn('id', setting('home_deal_category'))->get();
                 }
                 break;
             case 'DEFAULT':
@@ -208,7 +223,8 @@ class HomeComposer
             'view_more_link' => setting('home_custom_v1_view_more_link'),
             'view_more_title' => setting('home_custom_v1_view_more_title'),
             'products' => $products,
-            'status' => setting('home_custom_v1_is_active')
+            'status' => setting('home_custom_v1_is_active'),
+            'categories' => $categories
         ];
     }
 
