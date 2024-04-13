@@ -42,6 +42,10 @@ class AnanTabs extends Tabs
             ->add($this->justForYouSection())
             ->add($this->newestProductSection())
             ->add($this->customV1Section())
+            ->add($this->customV2Section())
+            ->add($this->customV3Section())
+            ->add($this->customV4Section())
+            ->add($this->customV5Section())
             ->add($this->homeDealBanners());
 
         $this->group('blog_settings', trans('anan::anan.tabs.group.blog_setting'))
@@ -174,10 +178,90 @@ class AnanTabs extends Tabs
         });
     }
 
+    private function customV2Section()
+    {
+        $sortTypes = [
+            'DESC' => 'Newest',
+            'ASC' => 'Oldest',
+        ];
+        $itemTypes = [
+            'GET_BY_CATEGORY' => 'Category',
+            'DEFAULT' => 'Default',
+        ];
+        return tap(new Tab('home_custom_v2_section', 'Custom V2 Section'), function (Tab $tab) use($sortTypes, $itemTypes){
+            $tab->weight(12);
+            $tab->view('admin.anan.tabs.home.custom_v2', [
+                'categories' => Category::treeList(),
+                'sortTypes' => $sortTypes,
+                'itemTypes' => $itemTypes,
+            ]);
+        });
+    }
+
+    private function customV3Section()
+    {
+        $sortTypes = [
+            'DESC' => 'Newest',
+            'ASC' => 'Oldest',
+        ];
+        $itemTypes = [
+            'GET_BY_CATEGORY' => 'Category',
+            'DEFAULT' => 'Default',
+        ];
+        return tap(new Tab('home_custom_v3_section', 'Custom V3 Section'), function (Tab $tab) use($sortTypes, $itemTypes){
+            $tab->weight(13);
+            $tab->view('admin.anan.tabs.home.custom_v3', [
+                'categories' => Category::treeList(),
+                'sortTypes' => $sortTypes,
+                'itemTypes' => $itemTypes,
+            ]);
+        });
+    }
+
+    private function customV4Section()
+    {
+        $sortTypes = [
+            'DESC' => 'Newest',
+            'ASC' => 'Oldest',
+        ];
+        $itemTypes = [
+            'GET_BY_CATEGORY' => 'Category',
+            'DEFAULT' => 'Default',
+        ];
+        return tap(new Tab('home_custom_v4_section', 'Custom V4 Section'), function (Tab $tab) use($sortTypes, $itemTypes){
+            $tab->weight(14);
+            $tab->view('admin.anan.tabs.home.custom_v4', [
+                'categories' => Category::treeList(),
+                'sortTypes' => $sortTypes,
+                'itemTypes' => $itemTypes,
+            ]);
+        });
+    }
+
+    private function customV5Section()
+    {
+        $sortTypes = [
+            'DESC' => 'Newest',
+            'ASC' => 'Oldest',
+        ];
+        $itemTypes = [
+            'GET_BY_CATEGORY' => 'Category',
+            'DEFAULT' => 'Default',
+        ];
+        return tap(new Tab('home_custom_v5_section', 'Custom V5 Section'), function (Tab $tab) use($sortTypes, $itemTypes){
+            $tab->weight(15);
+            $tab->view('admin.anan.tabs.home.custom_v5', [
+                'categories' => Category::treeList(),
+                'sortTypes' => $sortTypes,
+                'itemTypes' => $itemTypes,
+            ]);
+        });
+    }
+
     private function homeDealBanners()
     {
         return tap(new Tab('home_custom_deal_banners', 'Deal Banners'), function (Tab $tab) {
-            $tab->weight(12);
+            $tab->weight(16);
             $tab->view('admin.anan.tabs.home.deal_banners', [
                 'sliders' => $this->getSliders(),
             ]);

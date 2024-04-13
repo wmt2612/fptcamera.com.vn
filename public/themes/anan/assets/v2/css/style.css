@@ -431,6 +431,9 @@ header .box_header .flex_center .box_category .category ul {
   position: relative;
   background-color: #fff;
 }
+header .box_header .flex_center .box_category .category ul li {
+  line-height: 28.5px;
+}
 header .box_header .flex_center .box_category .category ul li a {
   display: -webkit-box;
   display: -ms-flexbox;

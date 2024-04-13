@@ -226,35 +226,39 @@
         </section>
     @endif
 
-    @if($customV1Section->status)
-        <section class="lock_smart custem_slider ">
-            <div class="container">
-                <div class="title home_title">
-                    <h2>
-                        <span class="title-main">{{ $customV1Section->title }}</span>
-                        <div class="sub_title">
-                            @if(count($customV1Section->categories) > 0)
-                                <div class="tab">
-                                    @foreach($customV1Section->categories as $category)
-                                        <a href="{{ route('product.category', ['slug' => $category->slug]) }}">{{ $category->name }}</a>
-                                    @endforeach
+    @foreach($customSections as $customSection)
+        @if($customSection->status)
+            <section class="lock_smart custem_slider ">
+                <div class="container">
+                    <div class="title home_title">
+                        <h2>
+                            <span class="title-main">{{ $customSection->title }}</span>
+                            <div class="sub_title">
+                                @if(count($customSection->categories) > 0)
+                                    <div class="tab">
+                                        @foreach($customSection->categories as $category)
+                                            <a href="{{ route('product.category', ['slug' => $category->slug]) }}">{{ $category->name }}</a>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                <div class="view_more">
+                                    <a href="{{ $customSection->view_more_link }}">{{ $customSection->view_more_title }}
+                                        <i class="fas fa-angle-right"></i></a>
                                 </div>
-                            @endif
-                            <div class="view_more">
-                                <a href="{{ $customV1Section->view_more_link }}">{{ $customV1Section->view_more_title }}
-                                    <i class="fas fa-angle-right"></i></a>
                             </div>
-                        </div>
-                    </h2>
+                        </h2>
+                    </div>
+                    <div class="row product_slider">
+                        @foreach($customSection->products as $product)
+                            @include('v2.product.single')
+                        @endforeach
+                    </div>
                 </div>
-                <div class="row product_slider">
-                    @foreach($customV1Section->products as $product)
-                        @include('v2.product.single')
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
+            </section>
+        @endif
+
+    @endforeach
+
 
     <section class="special_offer custem_slider">
         <div class="container">

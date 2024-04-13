@@ -31,6 +31,7 @@ class HomeComposer
             'flashSaleSection' => $this->getFlashSaleBox(),
             'j4uSection' => $this->getJustForYouSection(),
             'newestProductSection' => $this->getNewestProductSection(),
+            'customSections' => $this->getCustomSections(),
             'customV1Section' => $this->getCustomV1Section(),
             'dealBanners' => Slider::findWithSlides(setting('home_deal_banners'))
         ]);
@@ -226,6 +227,58 @@ class HomeComposer
             'status' => setting('home_custom_v1_is_active'),
             'categories' => $categories
         ];
+    }
+
+    private function getCustomSections()
+    {
+        $sectionKeys = [
+            'home_custom_v1',
+            'home_custom_v2',
+            'home_custom_v3',
+            'home_custom_v4',
+            'home_custom_v5',
+        ];
+        $sections = [];
+
+       foreach ($sectionKeys as $sectionKey) {
+           $uniqueKey = $sectionKey;
+           $products = [];
+           $orderBy = setting("{$uniqueKey}_sort_type") == 'ASC' ? 'ASC' : 'DESC';
+           $categories = [];
+           switch (setting("{$uniqueKey}_get_item_by")) {
+               case 'GET_BY_CATEGORY':
+                   if (is_array(setting("{$uniqueKey}_category"))) {
+                       $products = Product::whereHas('categories', function ($query) use($uniqueKey){
+                           $query->whereIn('categories.id', setting("{$uniqueKey}_category"));
+                       })
+                           ->orderBy('created_at', $orderBy)
+                           ->limit(setting("{$uniqueKey}_item_limit"))
+                           ->get();
+
+                       $categories = Category::whereIn('id', setting("{$uniqueKey}_category"))->get();
+                   }
+                   break;
+               case 'DEFAULT':
+                   $products = Product::limit(setting("{$uniqueKey}_item_limit"))
+                       ->orderBy('created_at', $orderBy)
+                       ->get();
+                   break;
+               default:
+                   $products = Product::limit(10)->latest()->get();
+                   break;
+           }
+           $sections[] = (object)[
+               'title' => setting("{$uniqueKey}_title"),
+               'desc' => setting("{$uniqueKey}_desc"),
+               'view_more_link' => setting("{$uniqueKey}_view_more_link"),
+               'view_more_title' => setting("{$uniqueKey}_view_more_title"),
+               'products' => $products,
+               'status' => setting("{$uniqueKey}_is_active"),
+               'categories' => $categories
+           ];
+       }
+
+       return $sections;
     }
 
     private function getFlashSaleBox()
