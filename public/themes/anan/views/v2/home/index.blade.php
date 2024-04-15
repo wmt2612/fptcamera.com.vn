@@ -1,5 +1,8 @@
 @extends('v2.layout.master')
 @section('content')
+    <div class="d-none">
+        <h1>{{ setting('store_name') }}</h1>
+    </div>
     <section class="banner_main">
         <div class="container">
             <div class="row banner">
@@ -10,7 +13,7 @@
                         @foreach ($slider->slides as $key => $slide)
                             <li>
                                 <a href="{!! $slide->call_to_action_url !!}">
-                                    <img src="{{ $slide->file->path }}" alt="{!! $slide->caption_1 !!}" loading="lazy">
+                                    <img  src="{{ $slide->file->path }}" alt="{!! $slide->caption_1 ?? 'banner slide' !!}" loading="lazy">
                                 </a>
                             </li>
                         @endforeach
@@ -21,7 +24,7 @@
                         @foreach ($sliderbanners->slides as $key => $slide)
                             <li>
                                 <a href="{{ $slide->call_to_action_url }}">
-                                    <img src="{{ $slide->file->path }}" alt="{{ $slide->caption_1 }}">
+                                    <img loading="lazy" src="{{ $slide->file->path }}" alt="{{ $slide->caption_1 ?? 'banner slide right' }}">
                                 </a>
                             </li>
                         @endforeach
@@ -42,8 +45,8 @@
                     <div class="col-lg-2 col-md-3 col-4">
                         <div class="box">
                             <div class="title"><a href="{{ $menu->url() }}">
-                                    <div class="img">
-                                        <img src="{{ $menu->backgroundImage() }}" alt="">
+                                    <div class="img bg_category">
+                                        <img loading="lazy" src="{{ $menu->backgroundImage() }}" alt="{{ $menu->name() }}">
                                     </div>
                                 </a></div>
                         </div>
@@ -58,7 +61,7 @@
             <div class="row">
                 <div class="banner_bottom">
                     <a href="{{ $homebanner01_url }}">
-                        <img src="{{ $homebanner01 }}" alt="banner1">
+                        <img loading="lazy" src="{{ $homebanner01 }}" alt="banner1">
                     </a>
                 </div>
             </div>
@@ -72,7 +75,7 @@
                     <div class="bg_linear">
                         <div class="flas_sale-top">
                             <div class="title">
-                                <h2>F<img src="{{ v(Theme::url("assets/v2/images/flas.svg")) }}" alt="">ash sale </h2>
+                                <h2>F<img loading="lazy" src="{{ v(Theme::url("assets/v2/images/flas.svg")) }}" alt="flash sale">ash sale </h2>
                             </div>
                         </div>
                         <div class="row bg_flas flas_slide product_slider">
@@ -80,7 +83,7 @@
                                 <div class="col-lg-3 col-md-6 col-12 box">
                                     <div class="box_product">
                                         <div class="img">
-                                            <a href="{{ $product->url() }}"><img src="{{ $product->thumbnail() }}"
+                                            <a href="{{ $product->url() }}"><img loading="lazy" src="{{ $product->thumbnail() }}"
                                                                                  alt="{{ $product->name }}"></a>
                                         </div>
                                         <div class="title">
@@ -111,7 +114,7 @@
                                                 <div class="text">Đã bán {{ $product->viewed }}</div>
                                                 <div class="icon_hot"><img
                                                             src="{{ v(Theme::url("assets/v2/images/flash-sale.png")) }}"
-                                                            alt="">
+                                                            alt="sold">
                                                 </div>
                                             </div>
 
@@ -192,7 +195,7 @@
             <div class="row">
                 <div class="banner_bottom">
                     <a href="{{ $homebanner02_url }}">
-                        <img src="{{ $homebanner02 }}" alt="banner2">
+                        <img loading="lazy" src="{{ $homebanner02 }}" alt="banner2">
                     </a>
                 </div>
             </div>
@@ -269,10 +272,10 @@
             </div>
             <div class="row">
                 @foreach ($sliderbanners->slides as $key => $slide)
-                    <div class="col-lg-4 col-md-4 col-12">
+                    <div class="col-lg-3 col-md-3 col-12">
                         <a href="{{ $slide->call_to_action_url }}">
                             <div class="img">
-                                <img src="{{ $slide->file->path }}" alt="{{ $slide->caption_1 }}">
+                                <img loading="lazy" src="{{ $slide->file->path }}" alt="{{ $slide->caption_1 ?? 'slide banner' }}">
                             </div>
                         </a>
                     </div>
@@ -298,7 +301,7 @@
                     <div class="col-lg-3 col-md-4 col-12">
                         <div class="box">
                             <div class="img">
-                                <img src="{{ $post->thumbnail() }}" alt="">
+                                <img loading="lazy" src="{{ $post->thumbnail() }}" alt="{{ $post->name }}">
                             </div>
                             <div class="content">
                                 <div class="title">

@@ -2,6 +2,7 @@
 
 namespace Themes\Anan\Http\ViewComposer;
 
+use Modules\Menu\MegaMenu\MegaMenu;
 use Themes\Anan\Banner;
 use Themes\Anan\Feature;
 use Modules\Brand\Entities\Brand;
@@ -33,7 +34,8 @@ class HomeComposer
             'newestProductSection' => $this->getNewestProductSection(),
             'customSections' => $this->getCustomSections(),
             'customV1Section' => $this->getCustomV1Section(),
-            'dealBanners' => Slider::findWithSlides(setting('home_deal_banners'))
+            'dealBanners' => Slider::findWithSlides(setting('home_deal_banners')),
+            'homecate' => $this->getHomeCate(),
         ]);
     }
 
@@ -242,6 +244,9 @@ class HomeComposer
 
        foreach ($sectionKeys as $sectionKey) {
            $uniqueKey = $sectionKey;
+           if(setting("{$uniqueKey}_is_active")) {
+                continue;
+           }
            $products = [];
            $orderBy = setting("{$uniqueKey}_sort_type") == 'ASC' ? 'ASC' : 'DESC';
            $categories = [];
@@ -314,4 +319,10 @@ class HomeComposer
             'status' => setting('home_flash_sale_is_active')
         ];
     }
+
+    private function getHomeCate()
+    {
+        return new MegaMenu(3);
+    }
+
 }

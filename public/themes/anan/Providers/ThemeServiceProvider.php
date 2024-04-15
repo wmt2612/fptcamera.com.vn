@@ -20,10 +20,10 @@ class ThemeServiceProvider extends ServiceProvider
     public function boot()
     {
 
-    	View::composer(['public.*', 'v2.*'], LayoutComposer::class);
+    	View::composer(['public.*', 'v2.layout.*'], LayoutComposer::class);
     	View::composer(['public.home.*', 'v2.home.*'], HomeComposer::class);
         View::composer('public.post.*', BlogComposer::class);
-        View::composer(['public.*', 'v2.*'], AnanViewComposer::class);
+        View::composer(['public.*', 'v2.layout.*'], AnanViewComposer::class);
 
         TabManager::register('anan', AnanTabs::class);
         $this->addAdminAssets('admin.anan.settings.edit', [

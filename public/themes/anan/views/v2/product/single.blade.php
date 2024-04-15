@@ -1,7 +1,7 @@
 <div class="col-lg-3 col-md-6 col-12 box">
     <div class="box_product">
         <div class="img">
-            <a href="{{ $product->url() }}"><img src="{{ $product->thumbnail() }}" alt=""></a>
+            <a href="{{ $product->url() }}"><img loading="lazy" src="{{ $product->thumbnail() }}" alt="{{ $product->name }}"></a>
             <div class=" temp sphot ">
                 <span>-{{ $product->price_percent_convert }}%</span>
             </div>
@@ -32,8 +32,8 @@
             <div class="flash-sale-process">
                 <div class="text">Đã bán {{ $product->viewed }}</div>
                 <div class="icon_hot">
-                    <img
-                            src="{{ v(Theme::url("assets/v2/images/flash-sale.png")) }}" alt="">
+                    <img loading="lazy"
+                            src="{{ v(Theme::url("assets/v2/images/flash-sale.png")) }}" alt="sold">
                 </div>
             </div>
 

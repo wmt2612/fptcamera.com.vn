@@ -253,7 +253,7 @@
             </div>
         </div>
         @endif
-      
+
         @if($customV1Section->status)
         <div class="row az-home-row-product az-section">
             <div class="col-md-12">
@@ -303,7 +303,7 @@
             </div>
         </div>
         @endif
-      
+
         <div class="row az-content-post">
             <div class="col-md-12">
                 <div class="title">

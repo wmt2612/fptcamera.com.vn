@@ -19,7 +19,7 @@
                                     <li class="category_item">
                                         <a href="{{ $item->url() }}" class="menu_drop">
                                             <div class="box">
-                                                <img src="{{ $item->backgroundImage() ?? v(Theme::url('assets/v2/images/icon-camera.webp')) }}" alt="">
+                                                <img src="{{ $item->backgroundImage() ?? v(Theme::url('assets/v2/images/icon-camera.webp')) }}" alt="{{ $item->name() }}">
                                                 <p>{{ $item->name() }}</p>
                                             </div>
                                             <i class="fas fa-angle-right"></i>
@@ -64,7 +64,7 @@
                         @foreach($newTopMenu->menus() as $ntmItem)
                             <li class="phone">
                                 <a href="{{ $ntmItem->url() }}">
-                                    <img src="{{ $ntmItem->backgroundImage() }}" alt="">
+                                    <img src="{{ $ntmItem->backgroundImage() }}" alt="{{ $ntmItem->name() }}">
                                     <p>{!! $ntmItem->name() !!}</p>
                                 </a>
                             </li>

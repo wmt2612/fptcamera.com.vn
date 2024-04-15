@@ -91,7 +91,7 @@
         <a href="{{ setting('contact_zalo') }}"><img src="{{ v(Theme::url("assets/v2/images/Icon_of_Zalo.svg.png")) }}" alt="zalo"></a>
     </div>
     <div class="bt_fb pulse-blue ">
-        <a href="{{ setting('contact_messenger') }}"><img src="{{ v(Theme::url("assets/v2/images/meessage.png")) }}" alt="zalo"></a>
+        <a href="{{ setting('contact_messenger') }}"><img src="{{ v(Theme::url("assets/v2/images/meessage.png")) }}" alt="messenger"></a>
     </div>
 </div>
 <div class="hotline-phone-ring-wrap">
@@ -149,7 +149,7 @@
                 <li class="nav-item camera" role="presentation">
                     <button class="nav-link @if($key == 0) active @endif" id="{{ $item->slug() }}-tab" data-bs-toggle="tab" data-bs-target="#{{ $item->slug() }}" type="button" role="tab" aria-controls="{{ $item->slug() }}" aria-selected="true">
                         <div class="box">
-                            <img src="{{ $item->backgroundImage() ?? v(Theme::url("assets/v2/images/icon-camera.webp")) }}" alt="">
+                            <img src="{{ $item->backgroundImage() ?? v(Theme::url("assets/v2/images/icon-camera.webp")) }}" alt="{{ $item->name() }}">
                             <p>{{ $item->name() }}</p>
                         </div>
                     </button>
