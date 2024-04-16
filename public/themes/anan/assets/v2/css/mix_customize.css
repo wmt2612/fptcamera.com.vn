@@ -1,0 +1,44 @@
+
+.button_scrool {
+    z-index: 100;
+}
+
+.menu_mobile .category_mb ul li button {
+    touch-action: none;
+}
+
+header .box_header .flex_right ul li a p {
+    color: white;
+}
+
+header .box_header .flex_center .search #load-data {
+    display: none;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 15px 5px;
+    max-height: 400px;
+    overflow-y: scroll;
+    left: 0;
+}
+
+@media (max-width: 1024px) {
+    header .box_header .flex_center .search {
+        width: 90%;
+    }
+
+    header .box_header .flex_right ul.new-top-mobile-menu {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .menu_mobile ul a {
+        color: white !important;
+    }
+
+    .menu_mobile .category_mb .tab-content ul li .box_item a {
+        color: black !important;
+    }
+}

@@ -85,31 +85,50 @@
     </div>
 
 </footer>
+
 <div class="button_scrool">
     <button id="scroll_bt"><i class="fas fa-angle-up"></i></button>
-    <div class="bt_zalo pulse-blue ">
-        <a href="{{ setting('contact_zalo') }}"><img src="{{ v(Theme::url("assets/v2/images/Icon_of_Zalo.svg.png")) }}" alt="zalo"></a>
-    </div>
-    <div class="bt_fb pulse-blue ">
-        <a href="{{ setting('contact_messenger') }}"><img src="{{ v(Theme::url("assets/v2/images/meessage.png")) }}" alt="messenger"></a>
-    </div>
+ @php
+    $contactZalo = setting('contact_zalo');
+    $contactMessenger = setting('contact_messenger');
+    $contactPhone = setting('contact_phone');
+ @endphp
+
+    @if($contactZalo)
+        <div class="bt_zalo pulse-blue ">
+            <a href="{{ $contactZalo }}"><img src="{{ v(Theme::url("assets/v2/images/Icon_of_Zalo.svg.png")) }}" alt="zalo"></a>
+        </div>
+    @endif
+
+    @if($contactMessenger)
+        <div class="bt_fb pulse-blue ">
+            <a href="{{ $contactMessenger }}"><img src="{{ v(Theme::url("assets/v2/images/meessage.png")) }}" alt="messenger"></a>
+        </div>
+    @endif
+
+
 </div>
-<div class="hotline-phone-ring-wrap">
-    <div class="hotline-phone-ring">
-        <div class="hotline-phone-ring-circle"></div>
-        <div class="hotline-phone-ring-circle-fill"></div>
-        <div class="hotline-phone-ring-img-circle">
-            <a href="tel:{{ setting('contact_phone') }}" class="pps-btn-img">
-                <img src="{{ v(Theme::url('assets/v2/images/icon-phone.png')) }}" alt="Gọi điện" width="20px" height="20px">
+
+@if($contactPhone)
+    <div class="hotline-phone-ring-wrap">
+        <div class="hotline-phone-ring">
+            <div class="hotline-phone-ring-circle"></div>
+            <div class="hotline-phone-ring-circle-fill"></div>
+            <div class="hotline-phone-ring-img-circle">
+                <a href="tel:{{ $contactPhone }}" class="pps-btn-img">
+                    <img src="{{ v(Theme::url('assets/v2/images/icon-phone.png')) }}" alt="Gọi điện" width="20px" height="20px">
+                </a>
+            </div>
+        </div>
+        <div class="hotline-bar">
+            <a href="tel:{{ $contactPhone }}">
+                <span class="text-hotline">{{ setting('contact_phone') }}</span>
             </a>
         </div>
     </div>
-    <div class="hotline-bar">
-        <a href="tel:0855116555">
-            <span class="text-hotline">{{ setting('contact_phone') }}</span>
-        </a>
-    </div>
-</div>
+@endif
+
+
 <div class="menu_mobile">
     <ul>
         <li>

@@ -329,12 +329,12 @@ jQuery(document).ready(function($) {
 
   /* pc */
   var timeout = null; 
-  $(".search-ajax").keyup(function(){ 
-      clearTimeout(timeout); 
-      timeout = setTimeout(function (){            
-         call_ajax(); 
-      }, 200);
-  });
+  // $(".search-ajax").keyup(function(){
+  //     clearTimeout(timeout);
+  //     timeout = setTimeout(function (){
+  //        call_ajax();
+  //     }, 200);
+  // });
   function call_ajax() { 
     var keyword = $('.search-ajax').val(); 
     if(keyword.length >= 2){
