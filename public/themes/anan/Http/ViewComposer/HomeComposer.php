@@ -244,7 +244,7 @@ class HomeComposer
 
        foreach ($sectionKeys as $sectionKey) {
            $uniqueKey = $sectionKey;
-           if(setting("{$uniqueKey}_is_active")) {
+           if(!setting("{$uniqueKey}_is_active")) {
                 continue;
            }
            $products = [];
