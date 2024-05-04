@@ -271,8 +271,8 @@
                 </h2>
             </div>
             <div class="row">
-                @foreach ($sliderbanners->slides as $key => $slide)
-                    <div class="col-lg-3 col-md-3 col-12">
+                @foreach ($dealBanners->slides as $key => $slide)
+                    <div class="col-lg-3 col-md-3 col-12 mb-4">
                         <a href="{{ $slide->call_to_action_url }}">
                             <div class="img">
                                 <img loading="lazy" src="{{ $slide->file->path }}" alt="{{ $slide->caption_1 ?? 'slide banner' }}">

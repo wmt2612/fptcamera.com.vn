@@ -335,7 +335,8 @@ jQuery(document).ready(function($) {
   //        call_ajax();
   //     }, 200);
   // });
-  function call_ajax() { 
+  function call_ajax()
+  {
     var keyword = $('.search-ajax').val(); 
     if(keyword.length >= 2){
       $.ajax({

@@ -22,6 +22,12 @@ header .box_header .flex_center .search #load-data {
     max-height: 400px;
     overflow-y: scroll;
     left: 0;
+    min-width: auto;
+}
+
+
+header .box_header .flex_center form button {
+    position: unset;
 }
 
 @media (max-width: 1024px) {
@@ -40,5 +46,11 @@ header .box_header .flex_center .search #load-data {
 
     .menu_mobile .category_mb .tab-content ul li .box_item a {
         color: black !important;
+    }
+}
+
+@media (max-width: 500px) {
+    header .box_header .flex_center .search .load-data {
+        padding: 15px 10px;
     }
 }
