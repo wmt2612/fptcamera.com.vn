@@ -61,9 +61,10 @@
     <link rel="stylesheet" href="{{ Theme::url('assets/css/css.css') }}">
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/header.css')) }}" rel="stylesheet" />
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/footer.css')) }}" rel="stylesheet" />
+    <link type="text/css" href="{{ v(Theme::url('assets/v2/css/main.css')) }}" rel="stylesheet" />
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/customize.css')) }}" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ Theme::url('assets/css/customize.css') }}">
-    <link rel="stylesheet" href="{{ Theme::url('assets/v2/css/mix_customize.css') }}">
+    <link rel="stylesheet" href="{{ v(Theme::url('assets/css/customize.css')) }}">
+    <link rel="stylesheet" href="{{ v(Theme::url('assets/v2/css/mix_customize.css')) }}">
     <link rel="shortcut icon" href="{{ $favicon ?? '' }}" type="image/x-icon">
 
     <style>

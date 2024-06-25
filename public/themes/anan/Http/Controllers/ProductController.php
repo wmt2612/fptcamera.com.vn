@@ -177,6 +177,136 @@ class ProductController
         return view('public.post.single', $data);
     }
 
+    public function categoryV2($slug, Product $model, ProductFilter $productFilter, Request $request)
+    {
+        $data = [];
+
+        //Blog Category Index
+        $blogCategory = Group::whereSlug($slug)->first();
+        if($blogCategory) {
+            $posts = $blogCategory->posts()->latest()->paginate(10);
+            return view('public.post.category', [
+                'category' => $blogCategory,
+                'posts' => $posts
+            ]);
+        }
+
+        //Page details
+        $page = Page::whereSlug($slug)->first();
+        if($page) {
+            SEO::setTitle($page->metaData->meta_title ?? $page->name);
+            SEO::setDescription($page->metaData->meta_description ?? $page->name);
+            SEOMeta::addKeyword($page->metaData->meta_keyword ?? $page->name);
+            SEO::opengraph()->setUrl(url()->current());
+            SEO::twitter()->setSite('https://fptcamera.com.vn');
+            SEO::jsonLd()->addImage('https://fptcamera.com.vn/themes/anan/assets/images/2020/04/logo.jpg');
+            return view('public.pages.show', compact('page'));
+        }
+        //Post details
+        $post = Post::whereSlug($slug)->first();
+        if (!$post) {
+            $category = Category::findBySlug($slug);
+            $category->load('children', 'slider');
+            $breadcrumb = $this->getCategoryBreadCrumbCat($category);
+            $featuredProducts = $category->products()->limit(5)->get();
+            if (!$request->get('sort')) {
+                $request['sort'] = 'bestsale';
+            }
+
+            $fromPrice = $request->fromPrice;
+            $toPrice = $request->toPrice;
+            // $products = $this->getSearchProducts($model, $productFilter);
+            $attributes = Attribute::all();
+            $brands = [];
+
+            foreach ($category->products()->with('brand')->get() as $product) {
+                if (count($brands) == 0) {
+                    $brands[] = $product->brand;
+                }
+                $checkUnique = true;
+                foreach ($brands as $brand) {
+                    if ($product->brand->id === $brand->id) {
+                        $checkUnique = false;
+                        break;
+                    }
+                }
+                if ($checkUnique && $product->brand_id !== null) $brands[] = $product->brand;
+            }
+
+            $products = $category->products()->filterBrand($request->brand)
+                ->filterCategory($request->category)
+                ->filterContactPrice($request->contactPrice)
+                ->sortBy($request->orderBy)
+                ->price($fromPrice, $toPrice);
+
+            foreach ($request->all() as $key => $req) {
+                foreach ($attributes as $attribute) {
+                    if ($attribute->slug == $key) {
+                        foreach ($attribute->values as $value) {
+                            if ($value->id == $req) {
+                                $productsId = [];
+                                foreach ($value->products()->get() as $attributeValue) {
+                                    $productsId[] = $attributeValue->product_id;
+                                }
+                                $products = $products->whereIn('id', $productsId);
+                            }
+                        }
+                    }
+                }
+            }
+
+            $posts = Post::latest()->limit(8)->get();
+
+            $products = $products->paginate(20);
+
+            $productsArr = $products->toArray();
+
+            $data = [
+                'category' => $category,
+                'products' => $products,
+                'productsArr' => $productsArr,
+                'brands' => $brands,
+                'breadcrumb' => $breadcrumb,
+                'featuredProducts' => $featuredProducts,
+                'attributes' => Attribute::all(),
+                'posts' => $posts
+            ];
+
+            SEO::setTitle($category->name);
+            SEO::setDescription($category->name);
+            SEOMeta::addKeyword($category->name);
+            SEO::opengraph()->setUrl(url()->current());
+            SEO::twitter()->setSite('https://fptcamera.com.vn');
+            SEO::jsonLd()->addImage('https://fptcamera.com.vn/themes/anan/assets/images/2020/04/logo.jpg');
+
+            return view('v2.product.category', $data);
+        }
+
+        $data['post'] = $post;
+        SEO::setTitle($post->name);
+        SEO::setDescription($post->name);
+        SEOMeta::addKeyword($post->name);
+        SEO::opengraph()->setUrl(url()->current());
+        SEO::twitter()->setSite('https://fptcamera.com.vn');
+        SEO::jsonLd()->addImage('https://fptcamera.com.vn/themes/anan/assets/images/2020/04/logo.jpg');
+        return view('public.post.single', $data);
+    }
+
+    public function ajaxCategory($slug, Request $request)
+    {
+        $category = Category::findBySlug($slug);
+
+        $products = $category->products()->filterBrand($request->brand)
+            ->filterCategory($request->category)
+            ->filterContactPrice($request->contactPrice)
+            ->sortBy($request->orderBy)
+            ->price($request->fromPrice, $request->toPrice)
+            ->paginate(20);
+
+        return $products;
+    }
+
+
     public function bestSale(Product $model, ProductFilter $productFilter, Request $request)
     {
         $request['sort'] = 'bestsale';

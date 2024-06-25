@@ -30,6 +30,12 @@ header .box_header .flex_center form button {
     position: unset;
 }
 
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1268px !important;
+    }
+}
+
 @media (max-width: 1024px) {
     header .box_header .flex_center .search {
         width: 90%;

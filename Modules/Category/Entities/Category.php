@@ -30,7 +30,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $fillable = ['slider_id', 'parent_id', 'slug', 'position', 'is_searchable', 'is_active'];
+    protected $fillable = ['slider_id', 'parent_id', 'slug', 'position', 'is_searchable', 'is_active', 'slider_2_id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -208,5 +208,8 @@ class Category extends Model
         return $this->belongsTo(Slider::class, 'slider_id');
     }
 
-
+    public function slider2()
+    {
+        return $this->belongsTo(Slider::class, 'slider_2_id');
+    }
 }

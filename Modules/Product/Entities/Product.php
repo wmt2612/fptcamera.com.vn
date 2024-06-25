@@ -23,6 +23,7 @@ use Modules\Support\Eloquent\Translatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Attribute\Entities\ProductAttribute;
 use Illuminate\Support\Facades\Storage;
+
 // use Modules\Order\Entities\OrderProduct;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +38,7 @@ class Product extends Model
         HasMedia,
         HasMetaData,
         SoftDeletes;
-  
+
     const CONTACT_FOR_PRICE_ACTIVE = 1;
     const CONTACT_FOR_PRICE_DEACTIVE = 0;
 
@@ -76,9 +77,9 @@ class Product extends Model
         'vat_notice',
         'created_at',
     ];
-     /*
-     * @var array
-     */
+    /*
+    * @var array
+    */
     protected $casts = [
         'manage_stock' => 'boolean',
         'in_stock' => 'boolean',
@@ -108,8 +109,9 @@ class Product extends Model
      * @var array
      */
     protected $appends = [
-        'base_image', 'additional_images', 'base_image_2','formatted_price', 'rating_percent', 'is_in_stock', 'is_out_of_stock',
-        'is_new', 'has_percentage_special_price', 'special_price_percent', 'price_format', 'special_price_format', 'price_percent_convert'
+        'base_image', 'additional_images', 'base_image_2', 'formatted_price', 'rating_percent', 'is_in_stock', 'is_out_of_stock',
+        'is_new', 'has_percentage_special_price', 'special_price_percent', 'price_format', 'special_price_format', 'price_percent_convert',
+        'url', 'has_special_price'
     ];
 
     /**
@@ -135,10 +137,10 @@ class Product extends Model
     protected static function booted()
     {
         static::saved(function ($product) {
-            if (! empty(request()->all())) {
+            if (!empty(request()->all())) {
                 $product->saveRelations(request()->all());
             }
-             $product->withoutEvents(function () use ($product) {
+            $product->withoutEvents(function () use ($product) {
                 $product->update([
                     'selling_price' => $product->getSellingPrice()->amount(),
                     'created_at' => $product->created_at ?? Carbon::now(),
@@ -162,7 +164,7 @@ class Product extends Model
         return static::select('id')
             ->withName()
             ->whereIn('id', $ids)
-            ->when(! empty($ids), function ($query) use ($ids) {
+            ->when(!empty($ids), function ($query) use ($ids) {
                 $idsString = collect($ids)->filter()->implode(',');
 
                 $query->orderByRaw("FIELD(id, {$idsString})");
@@ -204,14 +206,50 @@ class Product extends Model
         ]);
     }
 
-    public function scopeWithBrand($query, $brand) {
-        if($brand == "" || $brand == null) {
+    public function scopeWithBrand($query, $brand)
+    {
+        if ($brand == "" || $brand == null) {
             return $query;
         }
         return $query->where('brand_id', $brand);
     }
-  
-   public function scopeSortPrice($query, $sortType)
+
+    public function scopeFilterBrand($query, $brandSlug)
+    {
+        if (!$brandSlug) return $query;
+        return $query->whereHas('brand', function ($query) use ($brandSlug) {
+            $query->whereSlug($brandSlug);
+        });
+    }
+
+    public function scopeFilterCategory($query, $categorySlug)
+    {
+        if (!$categorySlug) return $query;
+        return $query->whereHas('categories', function ($query) use ($categorySlug) {
+            return $query->whereSlug($categorySlug);
+        });
+    }
+
+    public function scopeSortBy($query, $sortType)
+    {
+        if(!$sortType) return $sortType;
+        switch ($sortType) {
+            case 'price':
+                return $query->orderBy('price');
+            case 'price-desc':
+                return $query->orderByDesc('price');
+            case 'hot-sale':
+                return $query->orderByDesc('viewed');
+            case 'big-sale':
+                return $query->orderByDesc(DB::raw('price - special_price'));
+            case 'newest':
+                return $query->orderByDesc('created_at');
+            default:
+                return $query;
+        }
+    }
+
+    public function scopeSortPrice($query, $sortType)
     {
         if (!$sortType) return $query;
         switch ($sortType) {
@@ -227,18 +265,26 @@ class Product extends Model
         }
     }
 
-    public function scopePrice($query, $fromPrice, $toPrice) {
-        if($fromPrice !== null && $toPrice !== null && $fromPrice != 0 ) {
-            return $query->where('special_price', '>=', $fromPrice )->where('special_price', '<=', $toPrice);
-        } else if($fromPrice !== null && $toPrice ==  null ) {
-            return $query->where('special_price', '>=', $fromPrice);
-        } else if($fromPrice !== null && $toPrice !== null && $fromPrice == 0) {
-            return $query->where('special_price', '>=', $fromPrice )->where('special_price', '<', $toPrice);
-        }
-        return $query;
-        
+    public function scopeFilterContactPrice($query, $contactPrice)
+    {
+        if(!$contactPrice) return $query;
+        return $query->where('contact_for_price', $contactPrice);
     }
-    
+
+    public function scopePrice($query, $fromPrice, $toPrice)
+    {
+        if (!$fromPrice && !$toPrice) return $query;
+
+        if ($fromPrice && !$toPrice) {
+            return $query->where('selling_price', '>=', $fromPrice);
+        } elseif (!$fromPrice && $toPrice) {
+            return $query->where('selling_price', '<=', $toPrice);
+        }else {
+            return $query->where('selling_price', '>=', $fromPrice)
+                ->where('selling_price', '<=', $toPrice);
+        }
+    }
+
     public function scopeWithName($query)
     {
         $query->with('translations:id,product_id,locale,name,description,short_description,specifications');
@@ -292,8 +338,8 @@ class Product extends Model
             ->orderBy('position')
             ->withTrashed();
     }
-  
- 	public function sameVersionProducts()
+
+    public function sameVersionProducts()
     {
         return $this->belongsToMany(static::class, 'same_version_products', 'product_id', 'same_version_product_id');
     }
@@ -325,7 +371,7 @@ class Product extends Model
 
     public function getSpecialPriceAttribute($specialPrice)
     {
-        if (! is_null($specialPrice)) {
+        if (!is_null($specialPrice)) {
             return Money::inDefaultCurrency($specialPrice);
         }
     }
@@ -420,16 +466,20 @@ class Product extends Model
 
     public function thumbnail()
     {
-        if ( $this->base_image ) {
+        if ($this->base_image) {
             return $this->base_image->path;
         }
         return;
     }
 
+    public function getUrlAttribute()
+    {
+        return $this->url();
+    }
+
     public function url()
     {
-        if( \Route::has('product.single') )
-        {
+        if (\Route::has('product.single') && $this->slug) {
             return route('product.single', ['slug' => $this->slug]);
         }
         return '';
@@ -450,7 +500,7 @@ class Product extends Model
 
     public function isOutOfStock()
     {
-        return ! $this->isInStock();
+        return !$this->isInStock();
     }
 
     public function outOfStock()
@@ -507,6 +557,11 @@ class Product extends Model
         }
     }
 
+    public function getHasSpecialPriceAttribute()
+    {
+        return $this->hasSpecialPrice();
+    }
+
     public function hasSpecialPrice()
     {
         if (is_null($this->special_price)) {
@@ -530,12 +585,12 @@ class Product extends Model
 
     private function hasSpecialPriceStartDate()
     {
-        return ! is_null($this->special_price_start);
+        return !is_null($this->special_price_start);
     }
 
     private function hasSpecialPriceEndDate()
     {
-        return ! is_null($this->special_price_end);
+        return !is_null($this->special_price_end);
     }
 
     private function specialPriceStartDateIsValid()
@@ -572,12 +627,12 @@ class Product extends Model
 
     private function hasNewFromDate()
     {
-        return ! is_null($this->new_from);
+        return !is_null($this->new_from);
     }
 
     private function hasNewToDate()
     {
-        return ! is_null($this->new_to);
+        return !is_null($this->new_to);
     }
 
     private function newFromDateIsValid()
@@ -589,8 +644,8 @@ class Product extends Model
     {
         return today() <= $this->new_to;
     }
-  
-  	public function sameVersionProductList()
+
+    public function sameVersionProductList()
     {
         return $this->sameVersionProducts()
             ->withoutGlobalScope('active')
@@ -624,8 +679,8 @@ class Product extends Model
             'categories', 'tags', 'attributes.attribute.attributeSet',
             'options', 'files', 'relatedProducts', 'upSellProducts', 'sameVersionProducts'
         ])
-        ->where('slug', $slug)
-        ->firstOrFail();
+            ->where('slug', $slug)
+            ->firstOrFail();
     }
 
     public function clean()
@@ -679,10 +734,10 @@ class Product extends Model
     public function tableDinning($request)
     {
         $query = Category::where('slug', 'our-special-dinning')->first()->products()->withoutGlobalScope('active')
-        ->withName()
-        ->withBaseImage()
-        ->withPrice()
-        ->addSelect(['id', 'is_active', 'created_at']);
+            ->withName()
+            ->withBaseImage()
+            ->withPrice()
+            ->addSelect(['id', 'is_active', 'created_at']);
 
         return new ProductTable($query);
     }
@@ -690,10 +745,10 @@ class Product extends Model
     public function tableMenu($request)
     {
         $query = Category::where('slug', 'our-menu')->first()->products()->withoutGlobalScope('active')
-        ->withName()
-        ->withBaseImage()
-        ->withPrice()
-        ->addSelect(['id', 'is_active', 'created_at']);
+            ->withName()
+            ->withBaseImage()
+            ->withPrice()
+            ->addSelect(['id', 'is_active', 'created_at']);
 
         return new ProductTable($query);
     }
@@ -750,17 +805,19 @@ class Product extends Model
 
     public function getPriceFormatAttribute()
     {
-        return number_format($this->price->amount(),0,',','.');
+        return number_format($this->price->amount(), 0, ',', '.');
     }
-    public function formatPrice() {
+
+    public function formatPrice()
+    {
         $priceFormat = trim($this->price, '\0');
         return number_format($priceFormat, 0);
     }
 
     public function getSpecialPriceFormatAttribute()
     {
-        if (! is_null($this->special_price)) {
-            return number_format($this->special_price->amount(),0,',','.');
+        if (!is_null($this->special_price)) {
+            return number_format($this->special_price->amount(), 0, ',', '.');
         }
     }
 
@@ -768,13 +825,13 @@ class Product extends Model
     {
         $result = 0;
 
-        if($this->hasPercentageSpecialPrice()){
+        if ($this->hasPercentageSpecialPrice()) {
             $result = $this->special_price->amount();
         }
-        if($this->hasSpecialPrice() && $this->special_price_type === 'fixed'){
-           if($this->price->amount() != 0) {
-              $result = 100 - ($this->special_price->amount() / $this->price->amount() * 100 );
-           }  
+        if ($this->hasSpecialPrice() && $this->special_price_type === 'fixed') {
+            if ($this->price->amount() != 0) {
+                $result = 100 - ($this->special_price->amount() / $this->price->amount() * 100);
+            }
         }
 
         return round($result);
@@ -786,7 +843,7 @@ class Product extends Model
         // dd(ReviewQuestion::whereIn('id', json_decode($this->review_questions_id, true))
         // ->get());
         return ReviewQuestion::whereIn('id', json_decode($this->review_questions_id, true) ?? [''])
-        ->get();
+            ->get();
     }
 
     public function getReviews()
@@ -800,14 +857,14 @@ class Product extends Model
     public function getAvgReviews()
     {
         return $this->getReviews()
-                ->avg('rating') ?? 0;
+            ->avg('rating') ?? 0;
     }
 
     public function getAllImageReviews()
     {
         return $this->getReviews()
-                ->pluck('image')
-                ->toArray();
+            ->pluck('image')
+            ->toArray();
     }
 
     public function getSumOneStar(int $number)
@@ -825,7 +882,7 @@ class Product extends Model
 
     public function checkCalculateZero(int $number)
     {
-        if ($this->getSumOneStar($number) == 0 &&  $this->getReviews()->count() == 0) {
+        if ($this->getSumOneStar($number) == 0 && $this->getReviews()->count() == 0) {
             return true;
         } else {
             return false;
@@ -843,20 +900,19 @@ class Product extends Model
     public function getRelatedProduct()
     {
         return $this->whereNotIn('id', [$this->id])
-        ->orderBy('id', 'desc');
+            ->orderBy('id', 'desc');
     }
 
     public function getRelatedProductCat($cats, $limit = 10)
     {
-        if( !is_array($cats) )
-        {
+        if (!is_array($cats)) {
             return Category::findOrFail($cats)->products()
-            ->where('id', '!=', $this->id)
-            ->limit($limit)
-            ->get();
+                ->where('id', '!=', $this->id)
+                ->limit($limit)
+                ->get();
         }
 
-        return Product::with('categories')->whereHas('categories', function($category) use($cats) {
+        return Product::with('categories')->whereHas('categories', function ($category) use ($cats) {
             return $category->whereIn('id', $cats);
         })->where('id', '!=', $this->id)->limit($limit)->get();
     }

@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'HomeController@index')->name('home');
-Route::get('/home-v2', 'HomeController@homeV2')->name('home.v2');
+Route::get('/', 'HomeController@homeV2')->name('home');
+//Route::get('/home-v2', 'HomeController@homeV2')->name('home.v2');
 Route::get('/product/{slug}', 'HomeController@index')->name('product.category');
 
 // Product
@@ -24,7 +24,8 @@ Route::get('/prods/search-ajax', 'ProductController@searchAjax')->name('product.
 
 Route::get('/sitemap.xml', 'HomeController@generateSitemap')->name('sitemap.xml');
 
-Route::get('/{slug}', 'ProductController@category')->name('product.category');
+Route::get('/ajax/categories/{slug}', 'ProductController@ajaxCategory')->name('product.ajaxCategory');
+Route::get('/{slug}', 'ProductController@categoryV2')->name('product.category');
 
 Route::post('/san-pham/danh-gia', 'ProductController@postComment')->name('product.postComment');
 
@@ -34,6 +35,6 @@ Route::post('/san-pham/danh-gia', 'ProductController@postComment')->name('produc
 
 // Blog
 Route::get('/blog', 'PostController@index')->name('blog.index'); 
-Route::get('/blog/{slug}', 'PostController@category')->name('post.category'); 
-Route::get('/blog/{slug}', 'PostController@single')->name('post.single');
+//Route::get('/blog/{slug}', 'PostController@category')->name('post.category');
+//Route::get('/blog/{slug}', 'PostController@single')->name('post.single');
 

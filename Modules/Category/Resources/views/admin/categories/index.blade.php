@@ -132,6 +132,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="slider_2_id" class="col-md-3 control-label text-left">{{ trans('category::attributes.slider') }} 2</label>
+                                        <div class="col-md-9">
+                                            <select name="slider_2_id"
+                                                    class="form-control custom-select-black " id="slider_2_id">
+                                                <option value="">-- Select Slider 2 --</option>
+                                                @foreach ($sliders as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

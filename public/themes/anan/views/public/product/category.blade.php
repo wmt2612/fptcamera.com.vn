@@ -144,18 +144,18 @@ woocommerce-page woocommerce-no-js')
                                 <div method="GET" class="az-content">
                                     <ul class=" az-filter">
                                         @foreach($brands as $brand)
-                                        @if($brand->translation)
-                                        <li>
-                                            <label class="filter-checkbox-label">
-                                                <input onchange="return updateValue(this)" class="filter-checkbox"
-                                                    name="brand" value="{{$brand->id}}" data-name="price"
-                                                    type="checkbox"
-                                                    {{ request()->get('brand') == $brand->id ? 'checked' : '' }}>
-                                                {{$brand->translation->name}}
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </li>
-                                        @endif
+                                            @if($brand->translation)
+                                            <li>
+                                                <label class="filter-checkbox-label">
+                                                    <input onchange="return updateValue(this)" class="filter-checkbox"
+                                                        name="brand" value="{{$brand->id}}" data-name="price"
+                                                        type="checkbox"
+                                                        {{ request()->get('brand') == $brand->id ? 'checked' : '' }}>
+                                                    {{$brand->translation->name}}
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </li>
+                                            @endif
                                         @endforeach
                                     </ul>
                                 </div>
