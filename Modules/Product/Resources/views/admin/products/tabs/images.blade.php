@@ -5,6 +5,12 @@
     'file' => $product->base_image,
 ])
 
+@include('media::admin.image_picker.single', [
+    'title' => trans('product::products.form.banner_image'),
+    'inputName' => 'files[banner_image]',
+    'file' => $product->banner_image,
+])
+
 {{-- <div class="media-picker-divider"></div>
 
 @include('media::admin.image_picker.single', [

@@ -44,6 +44,8 @@ class SaveProductRequest extends Request
             'contact_for_price' => 'required|boolean',
             'created_at' => 'nullable|string',
             'gift_note' => 'nullable|string',
+            'info_1' => 'nullable|string',
+            'info_2' => 'nullable|string',
         ];
     }
 

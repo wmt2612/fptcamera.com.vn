@@ -2,6 +2,7 @@
 
 namespace Modules\Cart\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Modules\Cart\Facades\Cart;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Routing\Controller;
@@ -45,6 +46,16 @@ class CartItemController extends Controller
         Cart::store($request->product_id, $request->qty, $request->options ?? []);
         return redirect()->route('cart.index');
         // return Cart::instance();
+    }
+
+    /**
+     * @param StoreCartItemRequest $request
+     * @return JsonResponse
+     */
+    public function ajaxStore(StoreCartItemRequest $request)
+    {
+        Cart::store($request->product_id, $request->qty, $request->options ?? []);
+        return response()->json(true);
     }
 
     /**

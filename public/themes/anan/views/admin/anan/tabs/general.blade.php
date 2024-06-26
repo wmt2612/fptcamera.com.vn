@@ -8,13 +8,20 @@
         {{ Form::text('contact_phone', 'Phone Number', $errors, $settings) }}
         {{ Form::text('contact_zalo', 'Zalo', $errors, $settings) }}
         {{ Form::text('contact_messenger', 'Messenger', $errors, $settings) }}
+        {{ Form::text('product_hotlines', 'Product Hotlines', $errors, $settings) }}
+        <div class="row" style="margin-bottom: 10px">
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+                <p class="text-danger font-italic" style="font-style: italic;">Note: Các số hotline cách nhau bằng dấu phẩy</p>
+            </div>
+        </div>
 
          <div>
             {{ Form::textarea('translatable[support_hotline]', trans('anan::attributes.support_hotline'), $errors,
             $settings) }}
             <div class="row" style="margin-bottom: 10px">
                 <div class="col-md-3"></div>
-                <div class="col-md-6">
+                <div class="col-md-9">
                     <p class="text-danger font-italic" style="font-style: italic;">Note: Mỗi dòng đều phải có dấu phẩy ở cuối dòng</p>
                 </div>
             </div>

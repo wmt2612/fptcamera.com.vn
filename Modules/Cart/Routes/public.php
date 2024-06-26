@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('cart', 'CartController@index')->name('cart.index');
 Route::any('cart/items', 'CartItemController@store')->name('cart.items.store');
+Route::post('cart/jax/items', 'CartItemController@ajaxStore')->name('cart.items.store.ajax');
 Route::put('cart/items/{cartItemId}', 'CartItemController@update')->name('cart.items.update');
 Route::put('cart/items/add-service/{cartItemId}', 'CartItemController@addService')->name('cart.items.addService');
 Route::put('cart/items/remove-service/{cartItemId}', 'CartItemController@removeService')->name('cart.items.removeService');

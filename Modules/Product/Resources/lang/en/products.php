@@ -42,6 +42,7 @@ return [
         'base_image' => 'Base Image',
         'additional_images' => 'Additional Images',
         'enable_contact_for_price' => 'Enable',
+        'banner_image' => 'Banner Image'
     ],
      'default_vat_notice' => 'Giá đã bao gồm VAT',
 ];

@@ -128,6 +128,8 @@
             overflow-y: scroll;
         }
 
+
+
     </style>
     @stack('styles')
 
@@ -185,7 +187,7 @@
     var wc_single_product_params = {"i18n_required_rating_text":"Vui l\u00f2ng ch\u1ecdn m\u1ed9t m\u1ee9c \u0111\u00e1nh gi\u00e1","review_rating_required":"yes","flexslider":{"rtl":false,"animation":"slide","smoothHeight":true,"directionNav":false,"controlNav":"thumbnails","slideshow":false,"animationSpeed":500,"animationLoop":false,"allowOneSlide":false},"zoom_enabled":"","zoom_options":[],"photoswipe_enabled":"1","photoswipe_options":{"shareEl":false,"closeOnScroll":false,"history":false,"hideAnimationDuration":0,"showAnimationDuration":0},"flexslider_enabled":"1"};
     /* ]]> */
 </script>
-<script type='text/javascript' src='{{ Theme::url("assets/js/single-product.min.js") }}' id='wc-single-product-js'
+<script type='text/javascript' src='{{ v(Theme::url("assets/js/single-product.min.js")) }}' id='wc-single-product-js'
         defer></script>
 <script type="text/javascript" src="{{ v(Theme::url('assets/v2/js/bootstrap.bundle.min.js')) }}"></script>
 

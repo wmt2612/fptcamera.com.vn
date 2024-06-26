@@ -72,6 +72,36 @@ class ProductController
         return view('public.product.single', $data);
     }
 
+    public function singleV2($slug, RecentlyViewed $recentlyViewed)
+    {
+        $product = Product::findBySlug($slug);
+        $product->load('crossSellProducts', 'upSellProducts', 'relatedProducts', 'reviews');
+        $productsRecentlyViewed = $recentlyViewed->products();
+        $relatedProducts = $product->getRelatedProductCat($product->categories->pluck('id')->toArray());
+        $sameVersionProducts = $product->sameVersionProducts()->get();
+
+        event(new ProductViewed($product));
+
+        $breadcrumb = $this->getCategoryBreadCrumb($product->categories->nest());
+
+        $data = [
+            'product' => $product,
+            'breadcrumb' => $breadcrumb,
+            'productsRecentlyViewed' => $productsRecentlyViewed,
+            'relatedProducts' => $relatedProducts,
+            'sameVersionProducts' => $sameVersionProducts->toArray(),
+        ];
+
+        SEO::setTitle($product->translation->name);
+        SEO::setDescription($product->translation->name);
+        SEOMeta::addKeyword($product->translation->name);
+        SEO::opengraph()->setUrl(url()->current());
+        SEO::twitter()->setSite('https://fptcamera.com.vn');
+        SEO::jsonLd()->addImage('https://fptcamera.com.vn/themes/anan/assets/images/2020/04/logo.jpg');
+
+        return view('v2.product.show', $data);
+    }
+
     public function category($slug, Product $model, ProductFilter $productFilter, Request $request)
     {
        $data = [];

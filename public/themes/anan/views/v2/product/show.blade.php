@@ -1,0 +1,624 @@
+@extends('v2.layout.mix_layout')
+@push('styles')
+    <link rel="stylesheet" href="{{ v(Theme::url('assets/v2/slick-1.8.1/slick/slick-theme.css')) }}"/>
+    <link rel="stylesheet" href="{{ v(Theme::url('assets/v2/slick-1.8.1/slick/slick.css')) }}"/>
+    <link type="text/css" href="{{ v(Theme::url('assets/v2/css/main.css')) }}" rel="stylesheet"/>
+    <link type="text/css" href="{{ v(Theme::url('assets/v2/css/popup-lightbox.min.css')) }}" rel="stylesheet"/>
+    <link type="text/css" href="{{ v(Theme::url('assets/v2/css/product.css')) }}" rel="stylesheet"/>
+    <style>
+        .row-v2 {
+            --bs-gutter-x: 1.5rem;
+            --bs-gutter-y: 0;
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: calc(-1 * var(--bs-gutter-y));
+            margin-right: calc(-.5 * var(--bs-gutter-x));
+            margin-left: calc(-.5 * var(--bs-gutter-x));
+        }
+
+        .row-v2 > * {
+            flex-shrink: 0;
+            width: 100%;
+            max-width: 100%;
+            padding-right: calc(var(--bs-gutter-x) * .5);
+            padding-left: calc(var(--bs-gutter-x) * .5);
+            margin-top: var(--bs-gutter-y);
+        }
+
+        .box_product .img {
+            max-height: fit-content;
+            min-height: fit-content;
+        }
+
+        .product_detail .main_info .box_speci tr {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            color: #666;
+            font-size: 14px;
+            line-height: 18px;
+            font-weight: 400;
+        }
+
+        .box_speci tr:nth-child(odd) {
+            background: #e6e6e8;
+        }
+
+        .box_speci tr td:nth-child(1) {
+            padding: 6px 10px;
+            min-width: 98px;
+            width: 40%;
+        }
+
+        .box_speci tr td:nth-child(2) {
+            padding: 6px 10px;
+        }
+
+        .speci_content table {
+            width: 100%;
+        }
+
+        .box_speci .box_popup .speci_content {
+            overflow-y: auto;
+        }
+
+        .product_detail .product_variations .custom_content .box_btn-cart button {
+            width: 100% !important;
+        }
+
+        .product_detail .product_variations .custom_content .box_btn-cart .add_cart {
+            width: 70px;
+        }
+
+        .product_detail .main_info .box_info-content {
+            max-height: 600px;
+            z-index: 0;
+        }
+
+        .speci_content.hidden_element {
+            max-height: 500px;
+            overflow-y: hidden;
+        }
+
+        .product_detail .main_info .box_speci {
+            position: sticky;
+            top: 5rem;
+        }
+
+        .custom_modal.show {
+            z-index: 9999999999;
+            opacity: 1 !important;
+            background-color: #0000007d;
+        }
+
+        .modal-backdrop {
+            z-index: 99;
+        }
+
+        .product_detail .product_variations .box_btn {
+            gap: 5px;
+        }
+
+        .product_detail .product_variations .nav-tabs {
+            row-gap: 5px;
+        }
+
+        .box_speci .modal.show .modal-dialog {
+            min-width: 500px;
+        }
+
+        .btn-close-spec-modal {
+            border: none;
+            background: none;
+            font-size: 18px;
+        }
+
+        .slider_nav .box_bottom {
+            height: 120px;
+        }
+
+        .slider_nav .box_bottom img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .product_detail .product_img .box_img .box {
+            overflow: hidden;
+        }
+
+        .product_detail .product_img .box_img .box img {
+
+        }
+
+        .custem_slider .slick-next {
+            z-index: 99;
+        }
+
+        @media (max-width: 786px) {
+            .product_detail .product_title h1 {
+                line-height: 1;
+                margin-bottom: 10px;
+            }
+
+            .product_detail .box_infor .infor_left {
+                padding-right: 15px;
+            }
+
+            .product_detail .box_infor .infor_right {
+                padding-left: 15px;
+            }
+
+            #myTabContent .product_title {
+                margin-top: 1rem;
+            }
+
+            .product_detail .produtc_similar .custom_pdd {
+                display: flex;
+                row-gap: 12px
+            }
+
+            .slider_nav .box_bottom {
+                height: 60px;
+            }
+        }
+
+
+    </style>
+@endpush
+@section('content')
+    <section class="product_detail">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12 col">
+                    <div class="breadcrumbs">
+                        <a href="{{ route('home') }}"><i class="fas fa-home"></i> Trang chủ</a>
+                        <span class="divider">❯</span>
+                        <a href="{{ route('product.index') }}">Sản phẩm</a>
+                        {!! str_replace("»", '<span class="divider">❯</span>', $breadcrumb) !!}
+                        <span class="divider">❯</span>
+                        <a href="{{ route('product.single', ['slug' => $product->slug]) }}">{{ $product->name }}</a>
+                    </div>
+                    <div class="product_title">
+                        <h1>{{ $product->name }}</h1>
+                        <div class="star-rating">
+                            <div class="box_star">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="box_text">
+                                <span>{{ $product->reviews->count() }}</span>
+                                đánh giá
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-7 col-md-7 col-12 col product_img">
+                    <div class="box_img ">
+                        <div class="slider_for custem_slider">
+                            <div class="box">
+                                <img src="{{ $product->base_image->path }}" alt="{{ $product->name }}">
+                            </div>
+                            @foreach($product->additional_images as $image)
+                                <div class="box">
+                                    <img src="{{ $image->path }}" alt="{{ $product->name }}">
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="slider_nav custem_slider">
+                            <div class="box_bottom">
+                                <img src="{{ $product->base_image->path }}" alt="{{ $product->name }}">
+                            </div>
+                            @foreach($product->additional_images as $image)
+                                <div class="box_bottom">
+                                    <img src="{{ $image->path }}" alt="{{ $product->name }}">
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    @if($product->info_1 && $product->info_2)
+                        <div class="row box_infor">
+                            @if($product->info_1)
+                                <div class="col-lg-6 col-md-6 col-6 col infor_left">
+                                    <div class="box_item">
+                                        {!! $product->info_1 !!}
+                                    </div>
+                                </div>
+                            @endif
+                            @if($product->info_2)
+                                <div class="col-lg-6 col-md-6 col-6 col infor_right">
+                                    <div class="box_item">
+                                        {!! $product->info_2 !!}
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+                <div class="col-lg-5 col-md-5 col-12 col product_variations">
+                    <div class="custom_tab">
+                        @if(count($sameVersionProducts) > 0)
+                            <div class="hinhthuc" id="hinhthuc">
+                                <h4>Xem thêm các phiên bản khác tại đây:</h4>
+                            </div>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <button class="nav-link btn_tai-nha custom_tab-item active btn-sv-product"
+                                        data-json="{{ json_encode($product->toArray()) }}">
+                                    <div class="box_btn">
+                                        <div class="img">
+                                            <img src="{{ $product->base_image->path }}"
+                                                 alt="{{ $product->short_name }}">
+                                        </div>
+                                        <div class="text">
+                                            <p class="font-weight-bold"
+                                               style="margin-bottom: 5px;">{{ $product->short_name }}</p>
+                                            @if($product->contact_for_price)
+                                                <div class="price">Giá liên hệ</div>
+                                            @else
+                                                <div class="price">{{ $product->selling_price->format() }}</div>
+                                            @endif
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                    </div>
+                                </button>
+                                @foreach($sameVersionProducts as $svProduct)
+                                    <button class="nav-link  custom_tab-item btn-sv-product"
+                                            data-json="{{ json_encode($svProduct) }}">
+                                        <div class="box_btn">
+                                            <div class="img">
+                                                <img src="{{ $svProduct['base_image']['path'] }}"
+                                                     alt="{{ $svProduct['short_name'] }}">
+                                            </div>
+                                            <div class="text">
+                                                <p class="font-weight-bold"
+                                                   style="margin-bottom: 5px;">{{ $svProduct['short_name'] }}</p>
+                                                @if($svProduct['contact_for_price'])
+                                                    <div class="price">Giá liên hệ</div>
+                                                @else
+                                                    <div class="price">{{ $svProduct['selling_price']->format() }}</div>
+                                                @endif
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                        </div>
+                                    </button>
+                                @endforeach
+                            </ul>
+                        @endif
+
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane custom_content fade show active">
+                                @if($product->banner_image->path)
+                                    <div class="img" id="product-banner">
+                                        <img src="{{ $product->banner_image->path }}" alt="banner">
+                                    </div>
+                                @endif
+
+
+                                @if($product->short_description)
+                                    <div class="tab_content_item">
+                                        <div class="title">
+                                            <i class="fas fa-gift"></i>
+                                            <h4>Khuyến mãi</h4>
+                                        </div>
+                                        <div id="short-description">
+                                            {!! $product->short_description !!}
+                                        </div>
+                                    </div>
+                                @endif
+
+                                <div class="price" id="product-price">
+                                    @if($product->contact_for_price)
+                                        <span>Giá liên hệ</span>
+                                    @elseif($product->hasSpecialPrice())
+                                        <span class="price_sale">{{ $product->price->format() }}</span>
+                                        <span>{{ $product->selling_price->format() }}</span>
+                                    @else
+                                        <span>{{ $product->selling_price->format() }}</span>
+                                    @endif
+                                </div>
+                                <div class="box_btn-cart flex justify-content-between" style="gap: 10px">
+                                    <form action="{{ route('cart.items.store') }}" method="POST" style="width: 100%">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}"/>
+                                        <input type="hidden" name="qty" value="1"/>
+                                        <button type="submit">
+                                            <span>Mua ngay</span>
+                                            <p class="text-white">Giao tận nơi, nhận tại cửa hàng</p>
+                                        </button>
+                                    </form>
+                                    <a href="#" class="add_cart">
+                                        <img src="{{ v(Theme::url('assets/v2/images/add-to-cart-icon.png')) }}" alt="">
+                                        <span>Thêm vào giỏ</span>
+                                    </a>
+                                    <div class="spinner-border text-primary" style="display: none" role="status"
+                                         id="loadingAddToCart">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                                <div class="btn_call">
+                                    @php
+                                        $hotlines = explode(',', setting('product_hotlines'));
+                                    @endphp
+                                    @foreach($hotlines as $hotline)
+                                        <a href="tel:{{ $hotline }}">
+                                            <span>{{ $hotline }}</span>
+                                            <small>Tư vấn trực tuyến 24/7</small>
+                                        </a>
+                                    @endforeach
+
+                                    {{--                                    <a class="hidden_destop devvn_tragop" href="">--}}
+                                    {{--                                        <span>Mua trả góp</span>--}}
+                                    {{--                                        <small>Duyệt online trong 4 giờ</small>--}}
+                                    {{--                                    </a>--}}
+                                    {{--                                    <a class="hidden_destop devvn_tragop-the" href="">--}}
+                                    {{--                                        <span>Trả góp qua thẻ</span>--}}
+                                    {{--                                        <small>Không cần xét duyệt</small>--}}
+                                    {{--                                    </a>--}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if($product->info_1 && $product->info_2)
+                    <div class="col-lg-12 col-md-12 col-12 hidden_destop ">
+                        <div class="row box_infor">
+                            @if($product->info_1)
+                                <div class="col-12 col infor_left">
+                                    <div class="box_item">
+                                        {!! $product->info_1 !!}
+                                    </div>
+                                </div>
+                            @endif
+                            @if($product->info_2)
+                                <div class="col-12 col infor_right">
+                                    <div class="box_item">
+                                        {!! $product->info_2 !!}
+                                    </div>
+                                </div>
+                            @endif
+
+                        </div>
+                    </div>
+                @endif
+
+            </div>
+            <div class="row-v2 produtc_similar">
+                <ul class="nav nav-tabs custom_pdd" id="myTab" role="tablist">
+                    <li class="nav-item tab-prods" data-tab="related">
+                        <button class="nav-link active" id="sp_lienquan" data-bs-toggle="tab"
+                                data-bs-target="#sp_lienquan-pane" type="button" role="tab"
+                                aria-controls="sp_lienquan-pane"
+                                aria-selected="true">Sản phẩm liên quan
+                        </button>
+                    </li>
+                    <li class="nav-item tab-prods" data-tab="bundled">
+                        <button class="nav-link" id="phukien-tab" data-bs-toggle="tab"
+                                data-bs-target="#phukien-tab-pane" type="button" role="tab"
+                                aria-controls="phukien-tab-pane"
+                                aria-selected="false">Sản phẩm mua kèm
+                        </button>
+                    </li>
+                    <li class="nav-item tab-prods" data-tab="viewed">
+                        <button class="nav-link" id="viewed-tab" data-bs-toggle="tab"
+                                data-bs-target="#viewed-tab-pane" type="button" role="tab"
+                                aria-controls="viewed-tab-pane"
+                                aria-selected="false">Sản phẩm đã xem
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="sp_lienquan-pane" role="tabpanel"
+                         aria-labelledby="sp_lienquan" tabindex="0">
+                        <div id="relatedProducts">
+                            <div class="product_title">
+                                <h3>Sản phẩm liên quan</h3>
+                            </div>
+                            <div class="product_slider custem_slider">
+                                @foreach($relatedProducts as $product)
+                                    <div style="width: 100%; ">
+                                        @include('v2.product.single_v2')
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="phukien-tab-pane" role="tabpanel" aria-labelledby="phukien-tab"
+                         tabindex="0">
+                        <div id="bundledProducts">
+                            <div class="product_title">
+                                <h3>Sản phẩm mua kèm</h3>
+                            </div>
+                            <div class="product_slider custem_slider">
+                                @foreach($product->crossSellProducts as $product)
+                                    <div style="width: 100%; ">
+                                        @include('v2.product.single_v2')
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="viewed-tab-pane" role="tabpanel" aria-labelledby="viewed-tab"
+                         tabindex="0">
+                        <div id="viewedProducts">
+                            <div class="product_title">
+                                <h3>Sản phẩm đã xem</h3>
+                            </div>
+                            <div class="product_slider custem_slider">
+                                @foreach($productsRecentlyViewed as $product)
+                                    <div style="width: 100%; ">
+                                        @include('v2.product.single_v2')
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row main_info">
+                <div class="col-lg-8 col-md-12 col-12">
+                    <div class="box_info-content">
+                        <div class="box_content-item" id="product-description">
+                            {!! $product->description !!}
+                        </div>
+                        <div class="temner_readmore_des">
+                            <button class="btn_readmore-info" title="Xem thêm">Đọc thêm <i
+                                        class="fas fa-angle-down"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-4 col-md-12 col-12 product_speci">
+                    <div class="box_speci ">
+                        <h2 class="card-title">Thông số kỹ thuật</h2>
+                        <div class="speci_content hidden_element product-specifications">
+                            {!! $product->specifications !!}
+                        </div>
+                        <button class=" show_mobile hidden_destop btn_see-speci">
+                            Xem thêm cấu hình chi tiết <i class="fas fa-angle-down"></i>
+                        </button>
+                        <button type="button" class="btn hidden_mobile btn-primary btn_see-speci" data-bs-toggle="modal"
+                                data-bs-target="#specificationsModal">
+                            Xem thêm cấu hình chi tiết <i class="fas fa-angle-down"></i>
+                        </button>
+                        <!-- Modal -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  <div class="box_speci">
+      <div class="modal custom_modal fade" id="specificationsModal" tabindex="-1"
+           aria-labelledby="specificationsModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="btn-close btn-close-spec-modal" data-bs-dismiss="modal"
+                              aria-label="Close" ><i class="fas fa-times"></i></button>
+                  </div>
+                  <div class="modal-body box_popup">
+                      <h2 class="card-title">Thông số kỹ thuật</h2>
+                      <div class="speci_content product-specifications">
+                          {!! $product->specifications !!}
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+@endsection
+@push('scripts')
+    <script type="text/javascript" src="{{ v(Theme::url('assets/v2/slick-1.8.1/slick/slick.min.js')) }}"></script>
+    <script type="text/javascript" src="{{ v(Theme::url('assets/v2/js/jquery.popup.lightbox.min.js')) }}"></script>
+    <script type="text/javascript" src="{{ v(Theme::url('assets/v2/js/product.js')) }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        let productId = {{ $product->id }}
+
+        $(document).ready(function () {
+
+            $('.tab-prods').click(function () {
+                const tab = $(this).data('tab')
+                $('.product_slider').slick('refresh')
+            })
+
+            $('.add_cart').click(function (e) {
+                e.preventDefault()
+                $(this).hide()
+                $('#loadingAddToCart').show()
+                $.ajax({
+                    url: "{{ route('cart.items.store.ajax') }}",
+                    type: 'POST',
+                    data: {
+                        _token: "{{csrf_token()}}",
+                        product_id: productId,
+                        qty: 1,
+                    },
+                    success: function (res) {
+                        Swal.fire({
+                            title: 'Success',
+                            text: 'Thêm sản phẩm vào giỏ hàng thành công!',
+                            icon: 'success',
+                            showCancelButton: true,
+                            cancelButtonText: 'Tiếp tục mua',
+                            showConfirmButton: true,
+                            confirmButtonText: 'Đến trang giỏ hàng',
+                            preConfirm: function() {
+                                window.location.replace("{{ route('cart.index') }}")
+                            }
+                        });
+
+                        $('.add_cart').show()
+                        $('#loadingAddToCart').hide()
+                    },
+                    error: function (err) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Thêm sản phẩm vào giỏ hàng thất bại, vui lòng thử lại sau!',
+                            icon: 'error'
+                        });
+
+                        $('.add_cart').show()
+                        $('#loadingAddToCart').hide()
+                    }
+                })
+            })
+
+            $('.speci_content.hidden_element tr:nth-child(n + 9)').hide()
+
+            $('.btn-sv-product').click(function () {
+                const product = $(this).data('json')
+                console.log(product)
+                $('.box_img .slider_for .slick-list .slick-slide:first-child img').attr('src', product.base_image.path)
+                $('.box_img .slider_nav .slick-list .slick-slide:first-child img').attr('src', product.base_image.path)
+                for (const [key, value] of Object.entries(product.additional_images)) {
+                    const newKey = Number.parseInt(key) + 1
+                    $(`.box_img .slider_for .slick-list .slick-slide:nth-child(${newKey}) img`).attr('src', value.path)
+                    $(`.box_img .slider_nav .slick-list .slick-slide:nth-child(${newKey}) img`).attr('src', value.path)
+                }
+
+                $('#short-description').html(product.short_description);
+
+                let priceHtml = '';
+                if (product.contact_for_price) {
+                    priceHtml = "<span>Giá liên hệ<span>"
+                } else if (product.has_special_price) {
+                    priceHtml = `
+                        <span class="price_sale">${product.price.formatted}</span>
+                        <span>${product.selling_price.formatted}</span>
+                    `
+                } else {
+                    priceHtml = `
+                        <span>${product.selling_price.formatted}</span>
+                    `
+                }
+                $('#product-price').html(priceHtml)
+
+                $('#product-description').html(product.description)
+                $('.product-specifications').html(product.specifications)
+
+                if (product.banner_image.path)
+                    $('#product-banner img').attr('src', product.banner_image.path)
+
+                $('input[name=product_id]').val(product.id)
+                productId = product.id
+
+            })
+        })
+    </script>
+@endpush

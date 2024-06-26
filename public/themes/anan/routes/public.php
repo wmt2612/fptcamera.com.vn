@@ -3,13 +3,12 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@homeV2')->name('home');
-//Route::get('/home-v2', 'HomeController@homeV2')->name('home.v2');
 Route::get('/product/{slug}', 'HomeController@index')->name('product.category');
 
 // Product
 // Route::get('/san-pham', 'ProductController@index')->name('product.index');
 Route::get('/san-pham-mua-nhieu', 'ProductController@bestSale')->name('product.index');
-Route::get('/san-pham/{slug}', 'ProductController@single')->name('product.single');
+Route::get('/san-pham/{slug}', 'ProductController@singleV2')->name('product.single');
 Route::get('/thuong-hieu/{slug}', 'ProductController@brand')->name('product.brand');
 
 Route::group(['prefix' => 'gio-hang', 'as' => 'cart.'], function(){

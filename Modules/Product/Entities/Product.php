@@ -111,7 +111,7 @@ class Product extends Model
     protected $appends = [
         'base_image', 'additional_images', 'base_image_2', 'formatted_price', 'rating_percent', 'is_in_stock', 'is_out_of_stock',
         'is_new', 'has_percentage_special_price', 'special_price_percent', 'price_format', 'special_price_format', 'price_percent_convert',
-        'url', 'has_special_price'
+        'url', 'has_special_price', 'banner_image'
     ];
 
     /**
@@ -119,7 +119,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $translatedAttributes = ['name', 'short_name', 'description', 'short_description', 'specifications', 'gift_note'];
+    protected $translatedAttributes = ['name', 'short_name', 'description', 'short_description', 'specifications', 'gift_note', 'info_1', 'info_2'];
 
     /**
      * The attribute that will be slugged.
@@ -398,6 +398,16 @@ class Product extends Model
     public function getBaseImageAttribute()
     {
         return $this->files->where('pivot.zone', 'base_image')->first() ?: new File;
+    }
+
+    /**
+     * Get the product's banner image.
+     *
+     * @return \Modules\Media\Entities\File
+     */
+    public function getBannerImageAttribute()
+    {
+        return $this->files->where('pivot.zone', 'banner_image')->first() ?: new File;
     }
 
     /**

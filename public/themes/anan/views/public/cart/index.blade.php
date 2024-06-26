@@ -130,7 +130,7 @@
                                                             @foreach ($cartItems->items() as $cart)
                                                             <tr class="woocommerce-cart-form__cart-item cart_item">
                                                                 <td class="product-remove">
-                                                                    <a href="#" class="remove btn-remove-item" data-cartid="{{ $cart }}">&times;</a>
+                                                                    <a href="#" class="remove btn-remove-item" data-id="{{ $cart->id }}">&times;</a>
                                                                 </td>
                                                                 <td class="product-thumbnail">
                                                                     <a href="{{ route('product.single', ['slug' => $cart->product->slug]) }}">

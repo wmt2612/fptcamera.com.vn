@@ -35,4 +35,6 @@ return [
       'vat_notice' => 'VAT Notice',
     'created_at' => 'Created At',
     'gift_note' => 'Gift Note',
+    'info_1' => 'Additional Information 1',
+    'info_2' => 'Additional Information 2',
 ];
