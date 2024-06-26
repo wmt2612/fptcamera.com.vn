@@ -122,9 +122,9 @@ class Post extends Model
 
     public function url()
     {
-        if( \Route::has('post.single') )
+        if( \Route::has('product.category') )
         {
-            return route('post.single', ['slug' => $this->slug]);
+            return route('product.category', ['slug' => $this->slug]);
         }
         return '';
     }
