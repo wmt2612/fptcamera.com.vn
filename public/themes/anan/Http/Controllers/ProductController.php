@@ -336,6 +336,18 @@ class ProductController
         return $products;
     }
 
+    public function ajaxAllCategory(Request $request)
+    {
+        $products = Product::filterBrand($request->brand)
+            ->filterCategory($request->category)
+            ->filterContactPrice($request->contactPrice)
+            ->sortBy($request->orderBy ?? 'hot-sale')
+            ->price($request->fromPrice, $request->toPrice)
+            ->paginate(20);
+
+        return $products;
+    }
+
 
     public function bestSale(Product $model, ProductFilter $productFilter, Request $request)
     {
@@ -347,6 +359,74 @@ class ProductController
         ];
 
         return view('public.product.best_sale', $data);
+    }
+
+    public function bestSaleV2(Request $request)
+    {
+        $category = Category::findBySlug('san-pham-mua-nhieu');
+        $category->load('children', 'slider');
+
+        $attributes = Attribute::all();
+        $brands = Brand::all();
+
+        $searchCategories = [];
+        $categories = Category::whereNotIn('id', [$category->id])
+            ->with(['children'])
+            ->whereIn('id', [12, 7, 18, 163, 159, 14, 15, 16])
+            ->get();
+
+        foreach ($categories as $cate) {
+            foreach($cate->children as $childCate) {
+                $searchCategories[] = $childCate;
+            }
+        }
+
+        $products = Product::filterBrand($request->brand)
+            ->filterCategory($request->category)
+            ->filterContactPrice($request->contactPrice)
+            ->sortBy($request->orderBy ?? 'hot-sale')
+            ->price($request->fromPrice, $request->toPrice);
+
+        foreach ($request->all() as $key => $req) {
+            foreach ($attributes as $attribute) {
+                if ($attribute->slug == $key) {
+                    foreach ($attribute->values as $value) {
+                        if ($value->id == $req) {
+                            $productsId = [];
+                            foreach ($value->products()->get() as $attributeValue) {
+                                $productsId[] = $attributeValue->product_id;
+                            }
+                            $products = $products->whereIn('id', $productsId);
+                        }
+                    }
+                }
+            }
+        }
+
+        $posts = Post::latest()->limit(8)->get();
+
+        $products = $products->paginate(20);
+
+        $productsArr = $products->toArray();
+
+        $data = [
+            'category' => $category,
+            'categories' => $searchCategories,
+            'products' => $products,
+            'productsArr' => $productsArr,
+            'brands' => $brands,
+            'attributes' => Attribute::all(),
+            'posts' => $posts
+        ];
+
+        SEO::setTitle('Trang sản phẩm');
+        SEO::setDescription($category->meta->meta_description);
+        SEOMeta::addKeyword($category->meta->meta_keyword);
+        SEO::opengraph()->setUrl(url()->current());
+        SEO::twitter()->setSite('https://fptcamera.com.vn');
+        SEO::jsonLd()->addImage('https://fptcamera.com.vn/themes/anan/assets/images/2020/04/logo.jpg');
+
+        return view('v2.product.all_category', $data);
     }
 
     public function brand($slug)

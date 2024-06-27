@@ -7,7 +7,7 @@ Route::get('/product/{slug}', 'HomeController@index')->name('product.category');
 
 // Product
 // Route::get('/san-pham', 'ProductController@index')->name('product.index');
-Route::get('/san-pham-mua-nhieu', 'ProductController@bestSale')->name('product.index');
+Route::get('/san-pham-mua-nhieu', 'ProductController@bestSaleV2')->name('product.index');
 Route::get('/san-pham/{slug}', 'ProductController@singleV2')->name('product.single');
 Route::get('/thuong-hieu/{slug}', 'ProductController@brand')->name('product.brand');
 
@@ -24,6 +24,7 @@ Route::get('/prods/search-ajax', 'ProductController@searchAjax')->name('product.
 Route::get('/sitemap.xml', 'HomeController@generateSitemap')->name('sitemap.xml');
 
 Route::get('/ajax/categories/{slug}', 'ProductController@ajaxCategory')->name('product.ajaxCategory');
+Route::get('/ajax/categories', 'ProductController@ajaxAllCategory')->name('product.ajax.categories');
 Route::get('/{slug}', 'ProductController@categoryV2')->name('product.category');
 
 Route::post('/san-pham/danh-gia', 'ProductController@postComment')->name('product.postComment');

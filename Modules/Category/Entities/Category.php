@@ -63,6 +63,10 @@ class Category extends Model
      */
     protected $slugAttribute = 'name';
 
+    protected $appends = [
+        'logo', 'banner'
+    ];
+
     /**
      * Perform any actions required after the model boots.
      *

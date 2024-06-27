@@ -233,6 +233,7 @@ class Product extends Model
     public function scopeSortBy($query, $sortType)
     {
         if(!$sortType) return $sortType;
+
         switch ($sortType) {
             case 'price':
                 return $query->orderBy('price');
