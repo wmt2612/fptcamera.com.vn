@@ -1,5 +1,6 @@
 @extends('v2.layout.mix_layout')
 @push('styles')
+    <link rel="stylesheet" href="https://pc.baokim.vn/css/bk.css">
     <link rel="stylesheet" href="{{ v(Theme::url('assets/v2/slick-1.8.1/slick/slick-theme.css')) }}"/>
     <link rel="stylesheet" href="{{ v(Theme::url('assets/v2/slick-1.8.1/slick/slick.css')) }}"/>
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/main.css')) }}" rel="stylesheet"/>
@@ -55,6 +56,11 @@
 
         .box_speci tr td:nth-child(2) {
             padding: 6px 10px;
+            width: 60%;
+        }
+
+        .box_speci tr td:nth-child(2) * {
+            width: 100%;
         }
 
         .speci_content table {
@@ -67,6 +73,25 @@
 
         .product_detail .product_variations .custom_content .box_btn-cart button {
             width: 100% !important;
+
+        }
+
+        .product_detail .product_variations .custom_content .box_btn-cart .bk-btn {
+            width: 100% !important;
+        }
+
+        .product_detail .product_variations .custom_content .box_btn-cart .bk-btn .bk-btn-box{
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .product_detail .product_variations .custom_content .box_btn-cart button span {
+            text-transform: none;
+            font-size: 14px;
+            font-weight: 400;
+            display: block;
+            margin-top: 5px;
         }
 
         .product_detail .product_variations .custom_content .box_btn-cart .add_cart {
@@ -139,6 +164,10 @@
             z-index: 99;
         }
 
+        .box_product .title h3 a {
+            -webkit-line-clamp: 2;
+        }
+
         @media (max-width: 786px) {
             .product_detail .product_title h1 {
                 line-height: 1;
@@ -184,7 +213,7 @@
                         <a href="{{ route('product.single', ['slug' => $product->slug]) }}">{{ $product->name }}</a>
                     </div>
                     <div class="product_title">
-                        <h1>{{ $product->name }}</h1>
+                        <h1 class="bk-product-name" id="product-name">{{ $product->name }}</h1>
                         <div class="star-rating">
                             <div class="box_star">
                                 <i class="fas fa-star"></i>
@@ -207,7 +236,7 @@
                     <div class="box_img ">
                         <div class="slider_for custem_slider">
                             <div class="box">
-                                <img src="{{ $product->base_image->path }}" alt="{{ $product->name }}">
+                                <img src="{{ $product->base_image->path }}" alt="{{ $product->name }}" class="bk-product-image">
                             </div>
                             @foreach($product->additional_images as $image)
                                 <div class="box">
@@ -232,6 +261,7 @@
                             @if($product->info_1)
                                 <div class="col-lg-6 col-md-6 col-6 col infor_left">
                                     <div class="box_item">
+                                        <div class="title">Thông tin sản phẩm</div>
                                         {!! $product->info_1 !!}
                                     </div>
                                 </div>
@@ -261,7 +291,7 @@
                                                  alt="{{ $product->short_name }}">
                                         </div>
                                         <div class="text">
-                                            <p class="font-weight-bold"
+                                            <p class="font-weight-bold bk-product-property"
                                                style="margin-bottom: 5px;">{{ $product->short_name }}</p>
                                             @if($product->contact_for_price)
                                                 <div class="price">Giá liên hệ</div>
@@ -281,7 +311,7 @@
                                                      alt="{{ $svProduct['short_name'] }}">
                                             </div>
                                             <div class="text">
-                                                <p class="font-weight-bold"
+                                                <p class="font-weight-bold bk-product-property"
                                                    style="margin-bottom: 5px;">{{ $svProduct['short_name'] }}</p>
                                                 @if($svProduct['contact_for_price'])
                                                     <div class="price">Giá liên hệ</div>
@@ -319,24 +349,26 @@
 
                                 <div class="price" id="product-price">
                                     @if($product->contact_for_price)
-                                        <span>Giá liên hệ</span>
+                                        <span class="bk-check-out-of-stock">Giá liên hệ</span>
                                     @elseif($product->hasSpecialPrice())
                                         <span class="price_sale">{{ $product->price->format() }}</span>
-                                        <span>{{ $product->selling_price->format() }}</span>
+                                        <span class="bk-product-price">{{ $product->selling_price->format() }}</span>
                                     @else
-                                        <span>{{ $product->selling_price->format() }}</span>
+                                        <span class="bk-product-price">{{ $product->selling_price->format() }}</span>
                                     @endif
                                 </div>
                                 <div class="box_btn-cart flex justify-content-between" style="gap: 10px">
-                                    <form action="{{ route('cart.items.store') }}" method="POST" style="width: 100%">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $product->id }}"/>
-                                        <input type="hidden" name="qty" value="1"/>
-                                        <button type="submit">
-                                            <span>Mua ngay</span>
-                                            <p class="text-white">Giao tận nơi, nhận tại cửa hàng</p>
-                                        </button>
-                                    </form>
+{{--                                    <form action="{{ route('cart.items.store') }}" method="POST" style="width: 100%">--}}
+{{--                                        @csrf--}}
+{{--                                        <input type="hidden" name="product_id" value="{{ $product->id }}"/>--}}
+{{--                                        <input type="hidden" name="qty" value="1" class="bk-product-qty"/>--}}
+{{--                                        <button type="submit">--}}
+{{--                                            <span>Mua ngay</span>--}}
+{{--                                            <p class="text-white">Giao tận nơi, nhận tại cửa hàng</p>--}}
+{{--                                        </button>--}}
+{{--                                    </form>--}}
+                                    <div class='bk-btn'></div>
+
                                     <a href="#" class="add_cart">
                                         <img src="{{ v(Theme::url('assets/v2/images/add-to-cart-icon.png')) }}" alt="">
                                         <span>Thêm vào giỏ</span>
@@ -376,6 +408,7 @@
                             @if($product->info_1)
                                 <div class="col-12 col infor_left">
                                     <div class="box_item">
+                                        <div class="title">Thông tin sản phẩm</div>
                                         {!! $product->info_1 !!}
                                     </div>
                                 </div>
@@ -425,10 +458,10 @@
                             <div class="product_title">
                                 <h3>Sản phẩm liên quan</h3>
                             </div>
-                            <div class="product_slider custem_slider">
-                                @foreach($relatedProducts as $product)
-                                    <div style="width: 100%; ">
-                                        @include('v2.product.single_v2')
+                            <div class="row product_slider custem_slider">
+                                @foreach($relatedProducts as $rProduct)
+                                    <div class="" style="width: 100%; ">
+                                        @include('v2.product.single_v2', ['product' => $rProduct])
                                     </div>
                                 @endforeach
                             </div>
@@ -441,9 +474,9 @@
                                 <h3>Sản phẩm mua kèm</h3>
                             </div>
                             <div class="product_slider custem_slider">
-                                @foreach($product->crossSellProducts as $product)
+                                @foreach($product->crossSellProducts as $crossProduct)
                                     <div style="width: 100%; ">
-                                        @include('v2.product.single_v2')
+                                        @include('v2.product.single_v2', ['product' => $crossProduct])
                                     </div>
                                 @endforeach
                             </div>
@@ -456,9 +489,9 @@
                                 <h3>Sản phẩm đã xem</h3>
                             </div>
                             <div class="product_slider custem_slider">
-                                @foreach($productsRecentlyViewed as $product)
+                                @foreach($productsRecentlyViewed as $rvProduct)
                                     <div style="width: 100%; ">
-                                        @include('v2.product.single_v2')
+                                        @include('v2.product.single_v2', ['product' => $rvProduct])
                                     </div>
                                 @endforeach
                             </div>
@@ -521,12 +554,14 @@
           </div>
       </div>
   </div>
+    <div id='bk-modal'></div>
 @endsection
 @push('scripts')
     <script type="text/javascript" src="{{ v(Theme::url('assets/v2/slick-1.8.1/slick/slick.min.js')) }}"></script>
     <script type="text/javascript" src="{{ v(Theme::url('assets/v2/js/jquery.popup.lightbox.min.js')) }}"></script>
     <script type="text/javascript" src="{{ v(Theme::url('assets/v2/js/product.js')) }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://pc.baokim.vn/js/bk_plus_v2.popup.js"></script>
     <script>
         let productId = {{ $product->id }}
 
@@ -592,19 +627,21 @@
                     $(`.box_img .slider_nav .slick-list .slick-slide:nth-child(${newKey}) img`).attr('src', value.path)
                 }
 
+                $('#product-name').text(product.name)
+
                 $('#short-description').html(product.short_description);
 
                 let priceHtml = '';
                 if (product.contact_for_price) {
-                    priceHtml = "<span>Giá liên hệ<span>"
+                    priceHtml = "<span class='bk-check-out-of-stock'>Giá liên hệ<span>"
                 } else if (product.has_special_price) {
                     priceHtml = `
                         <span class="price_sale">${product.price.formatted}</span>
-                        <span>${product.selling_price.formatted}</span>
+                        <span class="bk-product-price">${product.selling_price.formatted}</span>
                     `
                 } else {
                     priceHtml = `
-                        <span>${product.selling_price.formatted}</span>
+                        <span class="bk-product-price">${product.selling_price.formatted}</span>
                     `
                 }
                 $('#product-price').html(priceHtml)
