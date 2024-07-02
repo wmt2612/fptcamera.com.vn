@@ -27,6 +27,7 @@ class SavePageRequest extends Request
             'name' => 'required',
             'body' => 'required',
             'is_active' => 'required|boolean',
+            'is_display_category' => 'required|boolean',
         ];
     }
 

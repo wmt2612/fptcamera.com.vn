@@ -4,6 +4,7 @@ namespace Modules\Page\Admin;
 
 use Modules\Admin\Ui\Tab;
 use Modules\Admin\Ui\Tabs;
+use Modules\Category\Entities\Category;
 
 class PageTabs extends Tabs
 {
@@ -12,6 +13,7 @@ class PageTabs extends Tabs
         $this->group('page_information', trans('page::pages.tabs.group.page_information'))
             ->active()
             ->add($this->general())
+            ->add($this->category())
             ->add($this->seo());
     }
 
@@ -22,6 +24,16 @@ class PageTabs extends Tabs
             $tab->weight(5);
             $tab->fields(['title', 'body', 'is_active', 'slug']);
             $tab->view('page::admin.pages.tabs.general');
+        });
+    }
+
+    private function category()
+    {
+        return tap(new Tab('category', trans('page::pages.tabs.category')), function (Tab $tab) {
+            $tab->weight(6);
+            $tab->view('page::admin.pages.tabs.category', [
+                'categories' => Category::treeList(),
+            ]);
         });
     }
 

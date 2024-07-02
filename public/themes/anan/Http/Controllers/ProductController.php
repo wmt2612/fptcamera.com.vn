@@ -230,6 +230,9 @@ class ProductController
             SEO::opengraph()->setUrl(url()->current());
             SEO::twitter()->setSite('https://fptcamera.com.vn');
             SEO::jsonLd()->addImage('https://fptcamera.com.vn/themes/anan/assets/images/2020/04/logo.jpg');
+            if($page->is_display_category) {
+                return $this->pageWithDisplayCategoryTheme($page);
+            }
             return view('public.pages.show', compact('page'));
         }
         //Post details
@@ -322,6 +325,62 @@ class ProductController
         return view('public.post.single', $data);
     }
 
+    public function pageWithDisplayCategoryTheme($page)
+    {
+        $category = $page->categories()->firstOrFail();
+        $request = request();
+
+        $category->load('children', 'slider');
+
+        $attributes = Attribute::all();
+        $brands = Brand::all();
+
+        $categories = Category::whereIn('id', $page->categories()->pluck('id'))
+            ->get();
+
+        $products = $category->products()
+            ->filterBrand($request->brand)
+            ->filterCategory($request->category)
+            ->filterContactPrice($request->contactPrice)
+            ->sortBy($request->orderBy)
+            ->price($request->fromPrice, $request->toPrice);
+
+        foreach ($request->all() as $key => $req) {
+            foreach ($attributes as $attribute) {
+                if ($attribute->slug == $key) {
+                    foreach ($attribute->values as $value) {
+                        if ($value->id == $req) {
+                            $productsId = [];
+                            foreach ($value->products()->get() as $attributeValue) {
+                                $productsId[] = $attributeValue->product_id;
+                            }
+                            $products = $products->whereIn('id', $productsId);
+                        }
+                    }
+                }
+            }
+        }
+
+        $posts = Post::latest()->limit(8)->get();
+
+        $products = $products->paginate(20);
+
+        $productsArr = $products->toArray();
+
+        $data = [
+            'category' => $category,
+            'categories' => $categories,
+            'products' => $products,
+            'productsArr' => $productsArr,
+            'brands' => $brands,
+            'attributes' => Attribute::all(),
+            'posts' => $posts,
+            'page' => $page
+        ];
+
+        return view('v2.product.page_category', $data);
+    }
+
     public function ajaxCategory($slug, Request $request)
     {
         $category = Category::findBySlug($slug);
@@ -330,10 +389,27 @@ class ProductController
             ->filterCategory($request->category)
             ->filterContactPrice($request->contactPrice)
             ->sortBy($request->orderBy)
-            ->price($request->fromPrice, $request->toPrice)
-            ->paginate(20);
+            ->price($request->fromPrice, $request->toPrice);
 
-        return $products;
+        $attributes = Attribute::all();
+
+        foreach ($request->all() as $key => $req) {
+            foreach ($attributes as $attribute) {
+                if ($attribute->slug == $key) {
+                    foreach ($attribute->values as $value) {
+                        if ($value->id == $req) {
+                            $productsId = [];
+                            foreach ($value->products()->get() as $attributeValue) {
+                                $productsId[] = $attributeValue->product_id;
+                            }
+                            $products = $products->whereIn('id', $productsId);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $products->paginate(20);
     }
 
     public function ajaxAllCategory(Request $request)
@@ -342,10 +418,61 @@ class ProductController
             ->filterCategory($request->category)
             ->filterContactPrice($request->contactPrice)
             ->sortBy($request->orderBy ?? 'hot-sale')
-            ->price($request->fromPrice, $request->toPrice)
-            ->paginate(20);
+            ->price($request->fromPrice, $request->toPrice);
 
-        return $products;
+        $attributes = Attribute::all();
+
+        foreach ($request->all() as $key => $req) {
+            foreach ($attributes as $attribute) {
+                if ($attribute->slug == $key) {
+                    foreach ($attribute->values as $value) {
+                        if ($value->id == $req) {
+                            $productsId = [];
+                            foreach ($value->products()->get() as $attributeValue) {
+                                $productsId[] = $attributeValue->product_id;
+                            }
+                            $products = $products->whereIn('id', $productsId);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $products->paginate(20);
+    }
+
+    public function ajaxPageCategory($slug, Request $request)
+    {
+        $page = Page::whereSlug($slug)->firstOrFail();
+
+        $category = $page->categories()->firstOrFail();
+
+        $products = $category->products()
+            ->filterBrand($request->brand)
+            ->filterCategory($request->category)
+            ->filterContactPrice($request->contactPrice)
+            ->sortBy($request->orderBy ?? 'hot-sale')
+            ->price($request->fromPrice, $request->toPrice);
+
+        $attributes = Attribute::all();
+
+        foreach ($request->all() as $key => $req) {
+            foreach ($attributes as $attribute) {
+                if ($attribute->slug == $key) {
+                    foreach ($attribute->values as $value) {
+                        if ($value->id == $req) {
+                            $productsId = [];
+                            foreach ($value->products()->get() as $attributeValue) {
+                                $productsId[] = $attributeValue->product_id;
+                            }
+                            $products = $products->whereIn('id', $productsId);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $products->paginate(20);
     }
 
 

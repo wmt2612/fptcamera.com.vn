@@ -1,9 +1,16 @@
 <div class="box_product">
     <div class="img">
-        <a href="{{ $product->url() }}"><img loading="lazy" src="{{ $product->thumbnail() }}" alt="{{ $product->name }}"></a>
+        <a href="{{ $product->url() }}">
+            <img loading="lazy" src="{{ $product->thumbnail() }}" alt="{{ $product->name }}">
+        </a>
         <div class=" temp sphot ">
             <span>-{{ $product->price_percent_convert }}%</span>
         </div>
+        @if($product->frame_image->path)
+            <div class="product-img-frame">
+                <img loading="lazy" src="{{ $product->frame_image->path }}" />
+            </div>
+        @endif
     </div>
     <div class="title">
         <h3>

@@ -111,7 +111,7 @@ class Product extends Model
     protected $appends = [
         'base_image', 'additional_images', 'base_image_2', 'formatted_price', 'rating_percent', 'is_in_stock', 'is_out_of_stock',
         'is_new', 'has_percentage_special_price', 'special_price_percent', 'price_format', 'special_price_format', 'price_percent_convert',
-        'url', 'has_special_price', 'banner_image'
+        'url', 'has_special_price', 'banner_image', 'frame_image'
     ];
 
     /**
@@ -409,6 +409,16 @@ class Product extends Model
     public function getBannerImageAttribute()
     {
         return $this->files->where('pivot.zone', 'banner_image')->first() ?: new File;
+    }
+
+    /**
+     * Get the product's frame image.
+     *
+     * @return \Modules\Media\Entities\File
+     */
+    public function getFrameImageAttribute()
+    {
+        return $this->files->where('pivot.zone', 'frame_image')->first() ?: new File;
     }
 
     /**

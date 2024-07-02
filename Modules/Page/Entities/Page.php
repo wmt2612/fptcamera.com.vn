@@ -3,6 +3,7 @@
 namespace Modules\Page\Entities;
 
 use Modules\Admin\Ui\AdminTable;
+use Modules\Category\Entities\Category;
 use Modules\Support\Eloquent\Model;
 use Modules\Meta\Eloquent\HasMetaData;
 use Modules\Support\Eloquent\Sluggable;
@@ -25,7 +26,7 @@ class Page extends Model
      *
      * @var array
      */
-    protected $fillable = ['slug', 'is_active'];
+    protected $fillable = ['slug', 'is_active', 'is_display_category'];
 
     /**
      * The attributes that should be cast to native types.
@@ -58,6 +59,17 @@ class Page extends Model
     protected static function booted()
     {
         static::addActiveGlobalScope();
+
+        self::saved(function($category) {
+            if(!empty(request()->all())) {
+                $category->saveRelations(request()->all());
+            }
+        });
+    }
+
+    protected function saveRelations($attributes)
+    {
+        $this->categories()->sync(array_get($attributes, 'categories', []));
     }
 
     public static function urlForPage($id)
@@ -83,14 +95,24 @@ class Page extends Model
     {
         return new AdminTable($this->newQuery()->withoutGlobalScope('active'));
     }
-  
-     public function getDateFormatAttribute()
+
+    public function getDateFormatAttribute()
     {
         return $this->created_at->format('d/m/Y');
     }
-  
+
     public function metaData()
     {
         return $this->hasOne(MetaData::class, 'entity_id', 'id')->where('entity_type', Page::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(
+            Category::class,
+            PageCategory::class,
+            'page_id',
+            'category_id'
+        );
     }
 }

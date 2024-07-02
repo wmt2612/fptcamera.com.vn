@@ -7,9 +7,18 @@ use Modules\Core\ViewComposers\ShortcodeViewComposer;
 
 use Auth;
 
-class ShortcodeComposerServiceProvider extends ServiceProvider {
+class ShortcodeComposerServiceProvider extends ServiceProvider
+{
 
-    public function boot() {
-        view()->composer("public.*", ShortcodeViewComposer::class);
+    public function boot()
+    {
+        view()->composer([
+            "public.*",
+            "v2.product.category",
+            "v2.product.page_category",
+            "v2.product.all_category"
+        ],
+            ShortcodeViewComposer::class
+        );
     }
 }

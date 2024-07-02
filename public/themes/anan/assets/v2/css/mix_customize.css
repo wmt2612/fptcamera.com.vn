@@ -30,6 +30,19 @@ header .box_header .flex_center form button {
     position: unset;
 }
 
+.box_product .img .product-img-frame{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.box_product .img .product-img-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
 @media (min-width: 1200px) {
     .container {
         max-width: 1268px !important;

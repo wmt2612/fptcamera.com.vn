@@ -51,7 +51,7 @@
             height: auto !important;
         }
 
-        .box_speci tr td{
+        .box_speci tr td {
             height: auto !important;
             vertical-align: center;
         }
@@ -180,6 +180,38 @@
             -webkit-line-clamp: 2;
         }
 
+        .product_detail .box_infor .box_item .title {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            background-color: var(--xanhnuocbien);
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffff;
+            border-radius: 10px 10px 0 0;
+            padding: 10px;
+            margin-bottom: 0;
+        }
+
+        .product_detail .box_infor .infor_left .box_item .title {
+            padding: 14px 10px;
+        }
+
+        .product_detail .box_infor .infor_right .box_item .title {
+            color: #d70018;
+            background-color: #fee2e2;
+        }
+
+        .product_detail .box_infor .box_item .title {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .product_detail .box_infor .box_item .title i{
+            font-size: 20px;
+        }
+
         .box_infor .infor_right ul {
             counter-reset: info_right_counter;
         }
@@ -202,12 +234,20 @@
             display: inline-flex;
         }
 
-        .box_infor .infor_right li a {
-            color: var(--xanhnuocbien);
+        .box_infor .infor_right li:before {
+            background: #cf0438;
         }
 
         .box_infor .infor_right .title img {
-            width: 100px;
+            width: 50px;
+        }
+
+        .product_detail .box_infor .box_item {
+            padding: 0;
+        }
+
+        .product_detail .box_infor .box_item .box_list_items {
+            padding: 10px;
         }
 
         .custom_tab {
@@ -220,6 +260,34 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 7px;
+        }
+
+        .product_img .product-thumbnail{
+            position: relative;
+        }
+
+        .product_img .product-img-frame {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+        }
+
+        .product-slide-img {
+            position: relative;
+        }
+
+        .product-slide-img-frame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .product-slide-img-frame img {
+            border: 0 !important;
         }
 
         #product-description table {
@@ -321,9 +389,14 @@
                 <div class="col-lg-7 col-md-7 col-12 col product_img">
                     <div class="box_img ">
                         <div class="slider_for custem_slider">
-                            <div class="box">
+                            <div class="box product-thumbnail">
                                 <img src="{{ $product->base_image->path }}" alt="{{ $product->name }}"
                                      class="bk-product-image">
+                                @if($product->frame_image->path)
+                                    <div class="product-img-frame">
+                                        <img loading="lazy" src="{{ $product->frame_image->path }}" />
+                                    </div>
+                                @endif
                             </div>
                             @foreach($product->additional_images as $image)
                                 <div class="box">
@@ -332,8 +405,13 @@
                             @endforeach
                         </div>
                         <div class="slider_nav custem_slider">
-                            <div class="box_bottom">
+                            <div class="box_bottom product-slide-img">
                                 <img src="{{ $product->base_image->path }}" alt="{{ $product->name }}">
+                                @if($product->frame_image->path)
+                                    <div class="product-slide-img-frame">
+                                        <img loading="lazy" src="{{ $product->frame_image->path }}" />
+                                    </div>
+                                @endif
                             </div>
                             @foreach($product->additional_images as $image)
                                 <div class="box_bottom">
@@ -348,8 +426,13 @@
                             @if($product->info_1)
                                 <div class="col-lg-6 col-md-6 col-6 col infor_left">
                                     <div class="box_item">
-                                        <div class="title">Thông tin sản phẩm</div>
-                                        {!! $product->info_1 !!}
+                                        <div class="title">
+                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                            <span>Thông tin sản phẩm</span>
+                                        </div>
+                                        <div class="box_list_items">
+                                            {!! $product->info_1 !!}
+                                        </div>
                                     </div>
                                 </div>
                             @endif
@@ -357,10 +440,14 @@
                                 <div class="col-lg-6 col-md-6 col-6 col infor_right">
                                     <div class="box_item">
                                         <div class="title">
+                                            <i class="fas fa-list"></i>
+                                            <span>Dịch vụ nổi bật</span>
                                             <img src="{{ v(Theme::url('assets/v2/images/hot-icon.png')) }}"
                                                  alt="super sale"/>
                                         </div>
-                                        {!! $product->info_2 !!}
+                                        <div class="box_list_items">
+                                            {!! $product->info_2 !!}
+                                        </div>
                                     </div>
                                 </div>
                             @endif
@@ -499,8 +586,13 @@
                             @if($product->info_1)
                                 <div class="col-12 col infor_left">
                                     <div class="box_item">
-                                        <div class="title">Thông tin sản phẩm</div>
-                                        {!! $product->info_1 !!}
+                                        <div class="title">
+                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                            <span>Thông tin sản phẩm</span>
+                                        </div>
+                                        <div class="box_list_items">
+                                            {!! $product->info_1 !!}
+                                        </div>
                                     </div>
                                 </div>
                             @endif
@@ -508,10 +600,14 @@
                                 <div class="col-12 col infor_right">
                                     <div class="box_item">
                                         <div class="title">
+                                            <i class="fas fa-list"></i>
+                                            <span>Dịch vụ nổi bật</span>
                                             <img src="{{ v(Theme::url('assets/v2/images/hot-icon.png')) }}"
                                                  alt="super sale"/>
                                         </div>
-                                        {!! $product->info_2 !!}
+                                        <div class="box_list_items">
+                                            {!! $product->info_2 !!}
+                                        </div>
                                     </div>
                                 </div>
                             @endif
@@ -712,9 +808,13 @@
 
             $('.btn-sv-product').click(function () {
                 const product = $(this).data('json')
-                console.log(product)
-                $('.box_img .slider_for .slick-list .slick-slide:first-child img').attr('src', product.base_image.path)
-                $('.box_img .slider_nav .slick-list .slick-slide:first-child img').attr('src', product.base_image.path)
+
+                $('.box_img .slider_for .slick-list .slick-slide:first-child img:nth-child(1)').attr('src', product.base_image.path)
+                $('.box_img .slider_nav .slick-list .slick-slide:first-child img:nth-child(1)').attr('src', product.base_image.path)
+                if(product.frame_image.path) {
+                    $('.box_img .product-img-frame img').attr('src', product.frame_image.path)
+                    $('.box_img .product-slide-img-frame img').attr('src', product.frame_image.path)
+                }
                 for (const [key, value] of Object.entries(product.additional_images)) {
                     const newKey = Number.parseInt(key) + 1
                     $(`.box_img .slider_for .slick-list .slick-slide:nth-child(${newKey}) img`).attr('src', value.path)

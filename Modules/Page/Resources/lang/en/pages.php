@@ -12,8 +12,10 @@ return [
         ],
         'general' => 'General',
         'seo' => 'SEO',
+        'category' => 'Category'
     ],
     'form' => [
         'enable_the_page' => 'Enable the page',
+        'enable_category_theme' => 'Enable category theme'
     ],
 ];
