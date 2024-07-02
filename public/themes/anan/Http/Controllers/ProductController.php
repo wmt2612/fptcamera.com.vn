@@ -419,7 +419,7 @@ class ProductController
             'posts' => $posts
         ];
 
-        SEO::setTitle('Trang sản phẩm');
+        SEO::setTitle($category->meta->meta_title ?? 'Trang sản phẩm');
         SEO::setDescription($category->meta->meta_description);
         SEOMeta::addKeyword($category->meta->meta_keyword);
         SEO::opengraph()->setUrl(url()->current());

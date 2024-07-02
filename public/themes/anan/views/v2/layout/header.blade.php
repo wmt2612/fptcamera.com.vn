@@ -19,7 +19,8 @@
                                     <li class="category_item">
                                         <a href="{{ $item->url() }}" class="menu_drop">
                                             <div class="box">
-                                                <img src="{{ $item->backgroundImage() ?? v(Theme::url('assets/v2/images/icon-camera.webp')) }}" alt="{{ $item->name() }}">
+                                                <img src="{{ $item->backgroundImage() ?? v(Theme::url('assets/v2/images/icon-camera.webp')) }}"
+                                                     alt="{{ $item->name() }}">
                                                 <p>{{ $item->name() }}</p>
                                             </div>
                                             <i class="fas fa-angle-right"></i>
@@ -36,7 +37,9 @@
                                                             </div>
                                                             <ul>
                                                                 @foreach($subMenu->items() as $itemMenu)
-                                                                    <li><a href="{{ $itemMenu->url() }}">{{ $itemMenu->name() }}</a></li>
+                                                                    <li>
+                                                                        <a href="{{ $itemMenu->url() }}">{{ $itemMenu->name() }}</a>
+                                                                    </li>
                                                                 @endforeach
                                                             </ul>
                                                         </div>
@@ -69,12 +72,31 @@
                                 </a>
                             </li>
                         @endforeach
+                        <li class="phone">
+                            <a href="{{ route('cart.index') }}" style="position: relative">
+                                <img src="{{ v(Theme::url('assets/v2/images/shopping-bag.png')) }}" alt="Giỏ hàng">
+                                <p>Giỏ hàng</p>
+                                @php
+                                    $countCartItems = count(\Modules\Cart\Facades\Cart::items());
+                                 @endphp
+                                @if($countCartItems > 0)
+                                    <div style="background: red; color: white; border-radius: 50%; overflow: hidden; position: absolute; padding: 2px 7px; left: 14px; top: -10px">
+                                        {{ $countCartItems }}
+                                    </div>
+                                @endif
+                            </a>
+                        </li>
                     </ul>
                     <ul class="new-top-mobile-menu">
                         <li class="cart">
-                            <a href="{{ route('cart.index') }}">
+                            <a href="{{ route('cart.index') }}" style="position: relative">
                                 <img src="{{ v(Theme::url('assets/v2/images/shopping-bag.png')) }}" alt="cart">
                                 <p>Giỏ Hàng</p>
+                                @if($countCartItems > 0)
+                                    <div style="background: red; color: white; border-radius: 50%; overflow: hidden; position: absolute; padding: 2px 7px; left: 20px; top: -10px">
+                                        {{ count(\Modules\Cart\Facades\Cart::items())  }}
+                                    </div>
+                                @endif
                             </a>
                         </li>
                     </ul>

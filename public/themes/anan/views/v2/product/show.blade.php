@@ -1,6 +1,5 @@
 @extends('v2.layout.mix_layout')
 @push('styles')
-    <link rel="stylesheet" href="https://pc.baokim.vn/css/bk.css">
     <link rel="stylesheet" href="{{ v(Theme::url('assets/v2/slick-1.8.1/slick/slick-theme.css')) }}"/>
     <link rel="stylesheet" href="{{ v(Theme::url('assets/v2/slick-1.8.1/slick/slick.css')) }}"/>
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/main.css')) }}" rel="stylesheet"/>
@@ -48,15 +47,24 @@
             background: #e6e6e8;
         }
 
+        .box_speci tr {
+            height: auto !important;
+        }
+
+        .box_speci tr td{
+            height: auto !important;
+            vertical-align: center;
+        }
+
         .box_speci tr td:nth-child(1) {
             padding: 6px 10px;
             min-width: 98px;
-            width: 40%;
+            width: 40% !important;
         }
 
         .box_speci tr td:nth-child(2) {
             padding: 6px 10px;
-            width: 60%;
+            width: 60% !important;
         }
 
         .box_speci tr td:nth-child(2) * {
@@ -71,6 +79,10 @@
             overflow-y: auto;
         }
 
+        .product-specifications table {
+            height: auto !important;
+        }
+
         .product_detail .product_variations .custom_content .box_btn-cart button {
             width: 100% !important;
 
@@ -80,13 +92,13 @@
             width: 100% !important;
         }
 
-        .product_detail .product_variations .custom_content .box_btn-cart .bk-btn .bk-btn-box{
+        .product_detail .product_variations .custom_content .box_btn-cart .bk-btn .bk-btn-box {
             display: flex;
             flex-direction: column;
             gap: 14px;
         }
 
-        .product_detail .product_variations .custom_content .box_btn-cart button span {
+        .product_detail .product_variations .custom_content .box_btn-cart .bk-btn button span {
             text-transform: none;
             font-size: 14px;
             font-weight: 400;
@@ -168,6 +180,76 @@
             -webkit-line-clamp: 2;
         }
 
+        .box_infor .infor_right ul {
+            counter-reset: info_right_counter;
+        }
+
+        .box_infor .infor_right li:before {
+            counter-increment: info_right_counter;
+            content: counter(info_right_counter);
+            background: var(--xanhnuocbien);
+            color: white;
+            border-radius: 50%;
+            padding: 1px 5px;
+            margin-right: 5px;
+            font-size: 12px;
+            width: 18px;
+            height: 18px;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            display: -ms-inline-flexbox;
+            display: inline-flex;
+        }
+
+        .box_infor .infor_right li a {
+            color: var(--xanhnuocbien);
+        }
+
+        .box_infor .infor_right .title img {
+            width: 100px;
+        }
+
+        .custom_tab {
+            position: sticky;
+            top: 4rem;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        #product-description table {
+            border-collapse: collapse;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        #product-description td {
+            border: 1px solid #c2c0c0;
+            padding: 8px;
+            vertical-align: middle;
+        }
+
+        #product-description tr {
+            border: 1px solid #c2c0c0;
+            padding: 8px;
+            vertical-align: middle;
+        }
+
+        #short-description > p {
+            padding: 10px;
+            counter-reset: section;
+        }
+
+        #short-description p {
+            font-size: 14px;
+            line-height: 31px;
+        }
+
         @media (max-width: 786px) {
             .product_detail .product_title h1 {
                 line-height: 1;
@@ -194,6 +276,10 @@
             .slider_nav .box_bottom {
                 height: 60px;
             }
+
+            .product_detail .box_infor .box_item {
+                max-height: none;
+            }
         }
 
 
@@ -208,8 +294,8 @@
                         <a href="{{ route('home') }}"><i class="fas fa-home"></i> Trang chủ</a>
                         <span class="divider">❯</span>
                         <a href="{{ route('product.index') }}">Sản phẩm</a>
-                        {!! str_replace("»", '<span class="divider">❯</span>', $breadcrumb) !!}
                         <span class="divider">❯</span>
+                        {!! str_replace("»", '<span class="divider">❯</span>', $breadcrumb) !!}
                         <a href="{{ route('product.single', ['slug' => $product->slug]) }}">{{ $product->name }}</a>
                     </div>
                     <div class="product_title">
@@ -236,7 +322,8 @@
                     <div class="box_img ">
                         <div class="slider_for custem_slider">
                             <div class="box">
-                                <img src="{{ $product->base_image->path }}" alt="{{ $product->name }}" class="bk-product-image">
+                                <img src="{{ $product->base_image->path }}" alt="{{ $product->name }}"
+                                     class="bk-product-image">
                             </div>
                             @foreach($product->additional_images as $image)
                                 <div class="box">
@@ -269,6 +356,10 @@
                             @if($product->info_2)
                                 <div class="col-lg-6 col-md-6 col-6 col infor_right">
                                     <div class="box_item">
+                                        <div class="title">
+                                            <img src="{{ v(Theme::url('assets/v2/images/hot-icon.png')) }}"
+                                                 alt="super sale"/>
+                                        </div>
                                         {!! $product->info_2 !!}
                                     </div>
                                 </div>
@@ -358,16 +449,16 @@
                                     @endif
                                 </div>
                                 <div class="box_btn-cart flex justify-content-between" style="gap: 10px">
-{{--                                    <form action="{{ route('cart.items.store') }}" method="POST" style="width: 100%">--}}
-{{--                                        @csrf--}}
-{{--                                        <input type="hidden" name="product_id" value="{{ $product->id }}"/>--}}
-{{--                                        <input type="hidden" name="qty" value="1" class="bk-product-qty"/>--}}
-{{--                                        <button type="submit">--}}
-{{--                                            <span>Mua ngay</span>--}}
-{{--                                            <p class="text-white">Giao tận nơi, nhận tại cửa hàng</p>--}}
-{{--                                        </button>--}}
-{{--                                    </form>--}}
-                                    <div class='bk-btn'></div>
+                                    <form action="{{ route('cart.items.store') }}" method="POST" style="width: 100%">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}"/>
+                                        <input type="hidden" name="qty" value="1" class="bk-product-qty"/>
+                                        <button type="submit">
+                                            <span>Mua ngay</span>
+                                            <p class="text-white">Giao tận nơi, nhận tại cửa hàng</p>
+                                        </button>
+                                    </form>
+                                    {{--                                    <div class='bk-btn'></div>--}}
 
                                     <a href="#" class="add_cart">
                                         <img src="{{ v(Theme::url('assets/v2/images/add-to-cart-icon.png')) }}" alt="">
@@ -416,6 +507,10 @@
                             @if($product->info_2)
                                 <div class="col-12 col infor_right">
                                     <div class="box_item">
+                                        <div class="title">
+                                            <img src="{{ v(Theme::url('assets/v2/images/hot-icon.png')) }}"
+                                                 alt="super sale"/>
+                                        </div>
                                         {!! $product->info_2 !!}
                                     </div>
                                 </div>
@@ -535,25 +630,25 @@
             </div>
         </div>
     </section>
-  <div class="box_speci">
-      <div class="modal custom_modal fade" id="specificationsModal" tabindex="-1"
-           aria-labelledby="specificationsModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="btn-close btn-close-spec-modal" data-bs-dismiss="modal"
-                              aria-label="Close" ><i class="fas fa-times"></i></button>
-                  </div>
-                  <div class="modal-body box_popup">
-                      <h2 class="card-title">Thông số kỹ thuật</h2>
-                      <div class="speci_content product-specifications">
-                          {!! $product->specifications !!}
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+    <div class="box_speci">
+        <div class="modal custom_modal fade" id="specificationsModal" tabindex="-1"
+             aria-labelledby="specificationsModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close btn-close-spec-modal" data-bs-dismiss="modal"
+                                aria-label="Close"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="modal-body box_popup">
+                        <h2 class="card-title">Thông số kỹ thuật</h2>
+                        <div class="speci_content product-specifications">
+                            {!! $product->specifications !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id='bk-modal'></div>
 @endsection
 @push('scripts')
@@ -561,7 +656,6 @@
     <script type="text/javascript" src="{{ v(Theme::url('assets/v2/js/jquery.popup.lightbox.min.js')) }}"></script>
     <script type="text/javascript" src="{{ v(Theme::url('assets/v2/js/product.js')) }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://pc.baokim.vn/js/bk_plus_v2.popup.js"></script>
     <script>
         let productId = {{ $product->id }}
 
@@ -593,7 +687,7 @@
                             cancelButtonText: 'Tiếp tục mua',
                             showConfirmButton: true,
                             confirmButtonText: 'Đến trang giỏ hàng',
-                            preConfirm: function() {
+                            preConfirm: function () {
                                 window.location.replace("{{ route('cart.index') }}")
                             }
                         });
