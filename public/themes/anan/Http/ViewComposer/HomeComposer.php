@@ -132,7 +132,7 @@ class HomeComposer
                         ->limit(setting('home_j4u_item_limit'))
                         ->get();
 
-                    $categories = Category::whereIn('id', setting('home_deal_category'))->get();
+                    $categories = Category::whereIn('id', setting('home_j4u_category'))->get();
                 }
                 break;
             case 'DEFAULT':
@@ -170,7 +170,7 @@ class HomeComposer
                         ->limit(setting('home_newest_product_item_limit'))
                         ->get();
 
-                    $categories = Category::whereIn('id', setting('home_deal_category'))->get();
+                    $categories = Category::whereIn('id', setting('home_newest_product_category'))->get();
                 }
                 break;
             case 'DEFAULT':
@@ -208,7 +208,7 @@ class HomeComposer
                         ->limit(setting('home_custom_v1_item_limit'))
                         ->get();
 
-                    $categories = Category::whereIn('id', setting('home_deal_category'))->get();
+                    $categories = Category::whereIn('id', setting('home_custom_v1_category'))->get();
                 }
                 break;
             case 'DEFAULT':

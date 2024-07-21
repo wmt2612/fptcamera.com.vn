@@ -43,6 +43,10 @@ header .box_header .flex_center form button {
     object-position: center;
 }
 
+.aml_pb-bottom-left.mobile {
+    bottom: 75px !important;
+}
+
 @media (min-width: 1200px) {
     .container {
         max-width: 1268px !important;
@@ -71,5 +75,9 @@ header .box_header .flex_center form button {
 @media (max-width: 500px) {
     header .box_header .flex_center .search .load-data {
         padding: 15px 10px;
+    }
+
+    .main_category .producer {
+        display: none;
     }
 }

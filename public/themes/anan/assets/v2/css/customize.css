@@ -53,6 +53,10 @@ footer .bg-ft-link .az-ft-link .list-social li i.fa-facebook {
     object-position: center;
 }
 
+.aml_pb-bottom-left.mobile {
+    bottom: 75px !important;
+}
+
 @media (max-width: 1024px) {
     .menu_mobile .category_mb ul li {
         height: auto;

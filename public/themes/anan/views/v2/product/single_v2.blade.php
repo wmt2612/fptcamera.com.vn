@@ -8,7 +8,9 @@
         </div>
         @if($product->frame_image->path)
             <div class="product-img-frame">
-                <img loading="lazy" src="{{ $product->frame_image->path }}" />
+                <a href="{{ $product->url() }}">
+                    <img loading="lazy" src="{{ $product->frame_image->path }}" />
+                </a>
             </div>
         @endif
     </div>

@@ -493,6 +493,13 @@
                                         <div class=" temp sphot ">
                                             <span>-${product.price_percent_convert}%</span>
                                         </div>
+                                           ${
+                                    product.frame_image.path ? ` <div class="product-img-frame">
+                                            <a href="${product.url}">
+                                                <img loading="lazy" src="${product.frame_image.path}" />
+                                            </a>
+                                        </div>` : ''
+                                }
                                     </div>
                                     <div class="title">
                                         <h3>

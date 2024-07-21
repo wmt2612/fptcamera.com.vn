@@ -2,7 +2,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{ v(Theme::url('assets/v2/slick-1.8.1/slick/slick-theme.css')) }}"/>
     <link rel="stylesheet" href="{{ v(Theme::url('assets/v2/slick-1.8.1/slick/slick.css')) }}"/>
-    <link type="text/css" href="{{ v(Theme::url('assets/v2/css/main.css')) }}" rel="stylesheet" />
+    <link type="text/css" href="{{ v(Theme::url('assets/v2/css/main.css')) }}" rel="stylesheet"/>
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/category.css')) }}" rel="stylesheet"/>
     <style>
         .row-v2 {
@@ -496,6 +496,13 @@
                                         <div class=" temp sphot ">
                                             <span>-${product.price_percent_convert}%</span>
                                         </div>
+                                        ${
+                                    product.frame_image.path ? ` <div class="product-img-frame">
+                                            <a href="${product.url}">
+                                                <img loading="lazy" src="${product.frame_image.path}" />
+                                            </a>
+                                        </div>` : ''
+                                    }
                                     </div>
                                     <div class="title">
                                         <h3>

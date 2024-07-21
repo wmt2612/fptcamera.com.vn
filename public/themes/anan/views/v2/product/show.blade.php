@@ -348,8 +348,16 @@
             .product_detail .box_infor .box_item {
                 max-height: none;
             }
-        }
 
+            .breadcrumbs a:nth-child(n + 4) {
+                display: none;
+            }
+
+            .breadcrumbs span:nth-child(n + 4) {
+                display: none;
+            }
+
+        }
 
     </style>
 @endpush
