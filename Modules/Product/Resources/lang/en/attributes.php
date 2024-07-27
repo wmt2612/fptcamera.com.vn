@@ -37,4 +37,5 @@ return [
     'gift_note' => 'Gift Note',
     'info_1' => 'Additional Information 1',
     'info_2' => 'Additional Information 2',
+    'is_hidden' => 'Hidden',
 ];

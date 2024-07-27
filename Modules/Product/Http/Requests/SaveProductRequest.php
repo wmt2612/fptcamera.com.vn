@@ -31,6 +31,7 @@ class SaveProductRequest extends Request
             'brand_id' => ['nullable', Rule::exists('brands', 'id')],
             'tax_class_id' => ['nullable', Rule::exists('tax_classes', 'id')],
             'is_active' => 'required|boolean',
+            'is_hidden' => 'required|boolean',
             'price' => 'required|numeric|min:0|max:99999999999999',
             'special_price' => 'nullable|numeric|min:0|max:99999999999999',
             'special_price_type' => ['nullable', Rule::in(['fixed', 'percent'])],
@@ -55,7 +56,9 @@ class SaveProductRequest extends Request
             ? ['required']
             : ['sometimes'];
 
-        $slug = Product::withoutGlobalScope('active')->where('id', $this->id)->value('slug');
+        $slug = Product::withoutGlobalScope('active')
+            ->withoutGlobalScope('checkHidden')
+            ->where('id', $this->id)->value('slug');
 
         $rules[] = Rule::unique('products', 'slug')->ignore($slug, 'slug');
 

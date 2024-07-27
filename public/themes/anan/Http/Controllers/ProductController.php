@@ -74,7 +74,7 @@ class ProductController
 
     public function singleV2($slug, RecentlyViewed $recentlyViewed)
     {
-        $product = Product::findBySlug($slug);
+        $product = Product::findHiddenBySlug($slug);
         $product->load('crossSellProducts', 'upSellProducts', 'relatedProducts', 'reviews');
         $productsRecentlyViewed = $recentlyViewed->products();
         $relatedProducts = $product->getRelatedProductCat($product->categories->pluck('id')->toArray());

@@ -3,6 +3,7 @@
 namespace Modules\Product\Entities;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Support\Money;
 use Modules\Tag\Entities\Tag;
 use Modules\Media\Entities\File;
@@ -41,6 +42,8 @@ class Product extends Model
 
     const CONTACT_FOR_PRICE_ACTIVE = 1;
     const CONTACT_FOR_PRICE_DEACTIVE = 0;
+    const IS_HIDDEN = 1;
+    const NOT_HIDDEN = 0;
 
     protected $perPage = 15;
     /**
@@ -76,6 +79,7 @@ class Product extends Model
         'contact_for_price',
         'vat_notice',
         'created_at',
+        'is_hidden'
     ];
     /*
     * @var array
@@ -85,6 +89,7 @@ class Product extends Model
         'in_stock' => 'boolean',
         'is_active' => 'boolean',
         'contact_for_price' => 'boolean',
+        'is_hidden' => 'boolean'
     ];
 
     /**
@@ -149,6 +154,9 @@ class Product extends Model
         });
 
         static::addActiveGlobalScope();
+        static::addGlobalScope('checkHidden', function (Builder $builder) {
+            $builder->where('is_hidden', static::NOT_HIDDEN);
+        });
     }
 
     public static function newArrivals($limit)
@@ -232,7 +240,7 @@ class Product extends Model
 
     public function scopeSortBy($query, $sortType)
     {
-        if(!$sortType) return $sortType;
+        if (!$sortType) return $sortType;
 
         switch ($sortType) {
             case 'price':
@@ -268,7 +276,7 @@ class Product extends Model
 
     public function scopeFilterContactPrice($query, $contactPrice)
     {
-        if(!$contactPrice) return $query;
+        if (!$contactPrice) return $query;
         return $query->where('contact_for_price', $contactPrice);
     }
 
@@ -280,7 +288,7 @@ class Product extends Model
             return $query->where('selling_price', '>=', $fromPrice);
         } elseif (!$fromPrice && $toPrice) {
             return $query->where('selling_price', '<=', $toPrice);
-        }else {
+        } else {
             return $query->where('selling_price', '>=', $fromPrice)
                 ->where('selling_price', '<=', $toPrice);
         }
@@ -704,6 +712,17 @@ class Product extends Model
             ->firstOrFail();
     }
 
+    public static function findHiddenBySlug($slug)
+    {
+        return self::with([
+            'categories', 'tags', 'attributes.attribute.attributeSet',
+            'options', 'files', 'relatedProducts', 'upSellProducts', 'sameVersionProducts'
+        ])
+            ->withoutGlobalScope('checkHidden')
+            ->where('slug', $slug)
+            ->firstOrFail();
+    }
+
     public function clean()
     {
         return array_except($this->toArray(), [
@@ -738,6 +757,7 @@ class Product extends Model
         // dd($array);
         $query = $this->newQuery()
             ->withoutGlobalScope('active')
+            ->withoutGlobalScope('checkHidden')
             ->withName()
             ->withBaseImage()
             ->withPrice()
@@ -754,7 +774,9 @@ class Product extends Model
 
     public function tableDinning($request)
     {
-        $query = Category::where('slug', 'our-special-dinning')->first()->products()->withoutGlobalScope('active')
+        $query = Category::where('slug', 'our-special-dinning')->first()->products()
+            ->withoutGlobalScope('active')
+            ->withoutGlobalScope('checkHidden')
             ->withName()
             ->withBaseImage()
             ->withPrice()
@@ -765,7 +787,9 @@ class Product extends Model
 
     public function tableMenu($request)
     {
-        $query = Category::where('slug', 'our-menu')->first()->products()->withoutGlobalScope('active')
+        $query = Category::where('slug', 'our-menu')->first()->products()
+            ->withoutGlobalScope('active')
+            ->withoutGlobalScope('checkHidden')
             ->withName()
             ->withBaseImage()
             ->withPrice()

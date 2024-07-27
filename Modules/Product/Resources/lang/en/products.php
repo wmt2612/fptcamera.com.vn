@@ -27,6 +27,7 @@ return [
     ],
     'form' => [
         'enable_the_product' => 'Enable the product',
+        'hidden_the_product' => 'Hidden the product',
         'price_types' => [
             'fixed' => 'Fixed',
             'percent' => 'Percent',

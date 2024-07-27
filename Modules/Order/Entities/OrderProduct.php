@@ -72,6 +72,7 @@ class OrderProduct extends Model
     {
         return $this->belongsTo(Product::class)
             ->withoutGlobalScope('active')
+            ->withoutGlobalScope('checkHidden')
             ->withTrashed();
     }
 

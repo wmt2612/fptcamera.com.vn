@@ -16,6 +16,7 @@ class StoreCartItemRequest extends Request
     public function rules()
     {
         $product = Product::with('options')
+            ->withoutGlobalScope('checkHidden')
             ->select('id', 'manage_stock', 'qty')
             ->findOrFail($this->product_id);
 

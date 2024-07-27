@@ -49,7 +49,9 @@ class Cart extends DarryldecodeCart implements JsonSerializable
     public function store($productId, $qty, $options = [])
     {
         $options = array_filter($options);
-        $product = Product::with('files', 'categories', 'taxClass')->findOrFail($productId);
+        $product = Product::with('files', 'categories', 'taxClass')
+            ->withoutGlobalScope('checkHidden')
+            ->findOrFail($productId);
         $chosenOptions = new ChosenProductOptions($product, $options);
         $this->add([
             'id' => md5("product_id.{$product->id}:options." . serialize($options)),

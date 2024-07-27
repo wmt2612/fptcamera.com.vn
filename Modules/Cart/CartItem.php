@@ -55,7 +55,9 @@ class CartItem implements JsonSerializable
 
     public function refreshStock()
     {
-        $product = Product::select(['manage_stock', 'in_stock', 'qty'])->find($this->product->id);
+        $product = Product::select(['manage_stock', 'in_stock', 'qty'])
+            ->withoutGlobalScope('checkHidden')
+            ->find($this->product->id);
 
         $this->product->fill([
             'manage_stock' => $product->manage_stock,

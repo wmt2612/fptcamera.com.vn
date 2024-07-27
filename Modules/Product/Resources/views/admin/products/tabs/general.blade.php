@@ -14,6 +14,7 @@
         {{ Form::select('tags', trans('product::attributes.tags'), $errors, $tags, $product, ['class' => 'selectize prevent-creation', 'multiple' => true]) }}
         {{ Form::input('created_at', trans('product::attributes.created_at'), $errors, $product, ['type' =>
         'datetime-local', 'data-date-format' => "dd-mm-yyyy"]) }}
+        {{ Form::checkbox('is_hidden', trans('product::attributes.is_hidden'), trans('product::products.form.hidden_the_product'), $errors, $product) }}
         {{ Form::checkbox('is_active', trans('product::attributes.is_active'), trans('product::products.form.enable_the_product'), $errors, $product) }}
     </div>
 </div>

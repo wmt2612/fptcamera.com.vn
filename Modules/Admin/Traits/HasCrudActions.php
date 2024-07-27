@@ -152,6 +152,7 @@ trait HasCrudActions
         return $this->getModel()
             ->with($this->relations())
             ->withoutGlobalScope('active')
+            ->withoutGlobalScope('checkHidden')
             ->findOrFail($id);
     }
 
