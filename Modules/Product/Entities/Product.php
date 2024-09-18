@@ -79,7 +79,8 @@ class Product extends Model
         'contact_for_price',
         'vat_notice',
         'created_at',
-        'is_hidden'
+        'is_hidden',
+        'banner_link'
     ];
     /*
     * @var array

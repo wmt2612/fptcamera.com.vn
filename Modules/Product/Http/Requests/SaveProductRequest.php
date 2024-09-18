@@ -47,6 +47,7 @@ class SaveProductRequest extends Request
             'gift_note' => 'nullable|string',
             'info_1' => 'nullable|string',
             'info_2' => 'nullable|string',
+            'banner_link' => 'nullable|string'
         ];
     }
 

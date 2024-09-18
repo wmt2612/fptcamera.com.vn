@@ -36,6 +36,6 @@ Route::post('/san-pham/danh-gia', 'ProductController@postComment')->name('produc
 
 // Blog
 Route::get('/blog', 'PostController@index')->name('blog.index'); 
-//Route::get('/blog/{slug}', 'PostController@category')->name('post.category');
+Route::get('/blog/{slug}', 'PostController@category')->name('post.category');
 //Route::get('/blog/{slug}', 'PostController@single')->name('post.single');
 

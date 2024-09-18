@@ -16,7 +16,8 @@ class ShortcodeComposerServiceProvider extends ServiceProvider
             "public.*",
             "v2.product.category",
             "v2.product.page_category",
-            "v2.product.all_category"
+            "v2.product.all_category",
+            "v2.product.show",
         ],
             ShortcodeViewComposer::class
         );

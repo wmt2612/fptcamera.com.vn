@@ -16,6 +16,7 @@
     'inputName' => 'files[banner_image]',
     'file' => $product->banner_image,
 ])
+{{ Form::text('banner_link', trans('product::attributes.banner_link'), $errors, $product, ['labelCol' => 2, 'required' => true]) }}
 
 {{-- <div class="media-picker-divider"></div>
 

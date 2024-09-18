@@ -318,6 +318,11 @@
             line-height: 31px;
         }
 
+        .box_info-content .az-product-item .az-title-post {
+            color: #444;
+            font-size: 14px !important;
+        }
+
         @media (max-width: 786px) {
             .product_detail .product_title h1 {
                 line-height: 1;
@@ -470,7 +475,8 @@
                             </div>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <button class="nav-link btn_tai-nha custom_tab-item active btn-sv-product"
-                                        data-json="{{ json_encode($product->toArray()) }}">
+                                        data-product_ids="{{ json_encode(array_merge([$product->id], array_column($sameVersionProducts, 'id'))) }}"
+                                        data-json="{{ Shortcode::strip(json_encode($product->toArray())) }}">
                                     <div class="box_btn">
                                         <div class="img">
                                             <img src="{{ $product->base_image->path }}"
@@ -490,7 +496,8 @@
                                 </button>
                                 @foreach($sameVersionProducts as $svProduct)
                                     <button class="nav-link  custom_tab-item btn-sv-product"
-                                            data-json="{{ json_encode($svProduct) }}">
+                                            data-product_ids="{{ json_encode(array_merge([$product->id], array_column($sameVersionProducts, 'id'))) }}"
+                                            data-json="{{ Shortcode::strip(json_encode($svProduct)) }}">
                                         <div class="box_btn">
                                             <div class="img">
                                                 <img src="{{ $svProduct['base_image']['path'] }}"
@@ -516,7 +523,9 @@
                             <div class="tab-pane custom_content fade show active">
                                 @if($product->banner_image->path)
                                     <div class="img" id="product-banner">
-                                        <img src="{{ $product->banner_image->path }}" alt="banner">
+                                        <a href="{{$product->banner_link}}">
+                                            <img src="{{ $product->banner_image->path }}" alt="banner">
+                                        </a>
                                     </div>
                                 @endif
 
@@ -703,16 +712,22 @@
 
             <div class="row main_info">
                 <div class="col-lg-8 col-md-12 col-12">
-                    <div class="box_info-content">
+                    <div id="product-desc-main" class="box_info-content">
                         <div class="box_content-item" id="product-description">
-                            {!! $product->description !!}
+                            <div id="sv-product-desc-{{$product->id}}">
+                                {!! $product->description !!}
+                            </div>
+                            @foreach($sameVersionProducts as $svProduct)
+                                <div id="sv-product-desc-{{$svProduct['id']}}" style="display: none">
+                                    {!! $svProduct['description'] !!}
+                                </div>
+                            @endforeach
                         </div>
                         <div class="temner_readmore_des">
                             <button class="btn_readmore-info" title="Xem thêm">Đọc thêm <i
                                         class="fas fa-angle-down"></i></button>
                         </div>
                     </div>
-
                 </div>
                 <div class="col-lg-4 col-md-12 col-12 product_speci">
                     <div class="box_speci ">
@@ -816,6 +831,7 @@
 
             $('.btn-sv-product').click(function () {
                 const product = $(this).data('json')
+                const productIds = $(this).data('product_ids')
 
                 $('.box_img .slider_for .slick-list .slick-slide:first-child img:nth-child(1)').attr('src', product.base_image.path)
                 $('.box_img .slider_nav .slick-list .slick-slide:first-child img:nth-child(1)').attr('src', product.base_image.path)
@@ -848,7 +864,13 @@
                 }
                 $('#product-price').html(priceHtml)
 
-                $('#product-description').html(product.description)
+                $(`#sv-product-desc-${product.id}`).show()
+
+                const hideProductIds = productIds.filter((id) => id != product.id);
+                for (const prodId of hideProductIds) {
+                    $(`#sv-product-desc-${prodId}`).hide()
+                }
+
                 $('.product-specifications').html(product.specifications)
 
                 if (product.banner_image.path)
