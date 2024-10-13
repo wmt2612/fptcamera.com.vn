@@ -22,23 +22,36 @@
                             <select name="shortcode" class="form-control form-select">
                                 <option value="">Select</option>
                                 <option value="product_list">Product List</option>
+                                <option value="single_product">Single Product</option>
                             </select>
                         </div>
                     </div>
-                    <div style="display: none" id="short_category_box">
-                        {{ Form::select('shortcode_category_id', 'Category', $errors, $categories, null, ['class' =>
-                        'selectize prevent-creation', 'multiple' => true, ]) }}
+                    <div id="additional-options-product-list">
+                        <div style="display: none" id="short_category_box">
+                            {{ Form::select('shortcode_category_id', 'Category', $errors, $categories, null, ['class' =>
+                            'selectize prevent-creation', 'multiple' => true, ]) }}
+                        </div>
+                        <div style="display: none" id="shortcode_product_limit_box">
+                            {{ Form::text('shortcode_product_limit', 'Limited Quantity', $errors, null,[
+                                'type' => 'number'
+                            ]) }}
+                        </div>
+                        <div style="display: none" id="shortcode_product_col_box">
+                            {{ Form::text('shortcode_product_col', 'Item Per Row', $errors, null, [
+                                'min' => 1,
+                                'type' => 'number'
+                            ]) }}
+                        </div>
                     </div>
-                    <div style="display: none" id="shortcode_product_limit_box">
-                        {{ Form::text('shortcode_product_limit', 'Limited Quantity', $errors, null,[
-                            'type' => 'number'
-                        ]) }}
-                    </div>
-                    <div style="display: none" id="shortcode_product_col_box">
-                        {{ Form::text('shortcode_product_col', 'Item Per Row', $errors, null, [
-                            'min' => 1,
-                            'type' => 'number'
-                        ]) }}
+                    <div id="additional-options-single-product" style="display: none ">
+                        <div >
+                            {{ Form::text('shortcode_product_id', 'Product ID', $errors, null,[
+                              'type' => 'number'
+                          ]) }}
+                        </div>
+                        <div style="display:none;" id="shortcode-single-product-desc">
+                            {{ Form::textarea('shortcode_single_product_desc', 'Description', $errors, null) }}
+                        </div>
                     </div>
                     <div style="display: none" class="form-group" id="render_shortcode">
                         <label class="col-md-3 control-label text-left">
@@ -63,10 +76,22 @@
     let categoryIds = '';
     let limit = 10;
     let col = 5;
+    let productId = null;
 
     $('select[name=shortcode]').change(function(e) {
+        // Product list shortcode
         if($(this).val() == 'product_list') {
+            $('#additional-options-product-list').show();
             $('#short_category_box').show('fast');
+        } else {
+            $('#additional-options-product-list').hide();
+        }
+
+        // Single Product shortcode
+        if($(this).val() == 'single_product') {
+            $('#additional-options-single-product').show()
+        } else {
+            $('#additional-options-single-product').hide()
         }
     });
 
@@ -92,6 +117,22 @@
             $('#render_shortcode').hide('fast');
         }
     });
+
+    // Single product shortcode
+    $('input[name=shortcode_product_id]').change(function () {
+        const productIdInput = $(this).val();
+        if (typeof parseInt(productIdInput) == 'number') {
+            productId = productIdInput;
+            $('input[name=render_shortcode]').val(`[single_product id="${productIdInput}"][/single_product]`);
+            $('#render_shortcode').show('fast');
+            $('#shortcode-single-product-desc').show('fast');
+        }
+    })
+
+    $('#shortcode_single_product_desc').change(function (e) {
+        const descTxt = encodeURI($(this).val());
+        $('input[name=render_shortcode]').val(`[single_product id="${productId}" desc="${descTxt}"][/single_product]`);
+    })
 
   $("#copyText").click(function(e) {
         e.preventDefault();

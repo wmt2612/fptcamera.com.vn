@@ -3,6 +3,7 @@
 namespace Modules\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Core\Shortcodes\SingleProductShortcode;
 use Shortcode;
 use Modules\Core\Shortcodes\BoxAlertShortcode;
 use Modules\Core\Shortcodes\ToggleShortcode;
@@ -25,6 +26,7 @@ class ShortcodesServiceProvider extends ServiceProvider
     public function register()
     {
          Shortcode::register('product_list', ProductListShortcode::class);
+         Shortcode::register('single_product', SingleProductShortcode::class);
     }
 
     /**

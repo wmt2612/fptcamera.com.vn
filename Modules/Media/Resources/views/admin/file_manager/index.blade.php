@@ -51,7 +51,7 @@
                 { data: 'checkbox', orderable: false, searchable: false, width: '3%' },
                 { data: 'id', width: '5%' },
                 { data: 'thumbnail', orderable: false, searchable: false, width: '10%' },
-                { data: 'filename', name: 'filename' },
+                { data: 'filename', name: 'filename', width: '30%' },
                 { data: 'created', name: 'created_at' },
                 { data: 'action', orderable: false, searchable: false },
             ],
