@@ -12,7 +12,6 @@ return [
         'admin.js' => ['module' => 'admin:js/admin.js'],
         'admin.dashboard.css' => ['module' => 'admin:css/dashboard.css'],
         'admin.dashboard.js' => ['module' => 'admin:js/dashboard.js'],
-        'admin.polyfill.js' => ['cdn' => 'https://cdnjs.cloudflare.com/ajax/libs/js-polyfills/0.1.43/polyfill.min.js'],
     ],
 
     /*
@@ -21,5 +20,5 @@ return [
     | through the asset pipeline
     |--------------------------------------------------------------------------
     */
-    'required_assets' => ['admin.css', 'admin.polyfill.js', 'admin.js'],
+    'required_assets' => ['admin.css', 'admin.js'],
 ];
