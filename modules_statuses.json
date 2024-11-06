@@ -44,5 +44,6 @@
     "Lecturer": false,
     "Gallery": true,
     "Tagp": true,
-    "Comment": true
+    "Comment": true,
+    "AutoLink": true
 }

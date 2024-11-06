@@ -1,0 +1,13 @@
+{
+    "name": "AutoLink",
+    "alias": "autolink",
+    "description": "The FleetCart AutoLink Module.",
+    
+    "priority": 0,
+    "providers": [
+        "Modules\\AutoLink\\Providers\\AutoLinkServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

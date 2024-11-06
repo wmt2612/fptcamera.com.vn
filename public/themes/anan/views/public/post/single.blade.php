@@ -67,6 +67,12 @@
         text-align: justify;
     }
 
+    .content-post h1 a,
+    .content-post h2 a,
+    .content-post h3 a,
+    .content-post h4 a {
+        color: #444;
+    }
     @media (max-width: 768px) {
         .post-author-content {
            flex-direction: column;
@@ -116,7 +122,9 @@
 
                         </div>
                         <div class="content-post pt-15">
-                            {!! $post->content !!}
+                            {!! \Modules\AutoLink\Helpers\RenderAutoLink::handle(
+                                $post->content,
+                                \Modules\AutoLink\Entities\AutoLink::RENDER_FOR_POST) !!}
                         </div>
 
                     </div>

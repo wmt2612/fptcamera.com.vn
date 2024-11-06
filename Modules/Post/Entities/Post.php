@@ -2,6 +2,7 @@
 
 namespace Modules\Post\Entities;
 
+use Modules\AutoLink\Helpers\RenderAutoLink;
 use Modules\Brand\Admin\BrandTable;
 use Modules\Group\Entities\Group;
 use Modules\Support\Eloquent\Model;
