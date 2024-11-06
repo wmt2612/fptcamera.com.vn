@@ -67,12 +67,6 @@
         text-align: justify;
     }
 
-    .content-post h1 a,
-    .content-post h2 a,
-    .content-post h3 a,
-    .content-post h4 a {
-        color: #444;
-    }
     @media (max-width: 768px) {
         .post-author-content {
            flex-direction: column;
