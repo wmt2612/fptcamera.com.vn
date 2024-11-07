@@ -14,7 +14,7 @@ class RenderAutoLink
         $content = html_entity_decode($content);
 
         // Tách phần <div id="toc-header"> để không thay thế nội dung trong phần này
-        $tocPattern = '/<div class="widget-toc">(.+)<\/div>/s';
+        $tocPattern = '/<div[^>]*class="[^"]*widget-toc[^"]*"[^>]*>(.+)<\/div>/is';
         preg_match($tocPattern, $content, $tocContent);
 
         // Xóa nội dung bên trong widget-toc
