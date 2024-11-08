@@ -30,7 +30,7 @@ class RenderAutoLink
                 if ($autoLink->is_duplicate) {
                     $content = preg_replace_callback($pattern, function ($matches) use ($autoLink) {
                         return $autoLink->getUrl($matches[0]);
-                    }, $content);
+                    }, $content, $autoLink->limit);
                 } else {
                     $content = preg_replace_callback($pattern, function ($matches) use ($autoLink) {
                         return $autoLink->getUrl($matches[0]);

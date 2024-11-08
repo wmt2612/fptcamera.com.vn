@@ -9,4 +9,5 @@ return [
     'for_page' => 'For Page',
     'is_duplicate' => 'Duplicate',
     'is_override' => 'Override',
+    'limit' => 'Limit'
 ];

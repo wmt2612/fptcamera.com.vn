@@ -24,6 +24,7 @@ class SaveAutoLinkRequest extends Request
             'title' => 'required|max:255|string',
             'target_url' => 'required|max:255|string',
             'target_type' => 'required|max:255|in:_blank,_self,_parent,_top',
+            'limit' => 'required|max:10|min:-1|integer',
         ];
     }
 }

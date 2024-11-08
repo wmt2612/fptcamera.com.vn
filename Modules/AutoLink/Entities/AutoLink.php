@@ -32,7 +32,8 @@ class AutoLink extends Model
         'is_active',
         'for_post',
         'for_page',
-        'is_override'
+        'is_override',
+        'limit'
     ];
 
     /**
