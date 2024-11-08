@@ -11,14 +11,28 @@ class RenderAutoLink
     public static function handle($content, $pageType)
     {
         $autoLinks = AutoLink::all();
-        $content = html_entity_decode($content);
 
         // Tách phần <div id="toc-header"> để không thay thế nội dung trong phần này
-        $tocPattern = '/<div[^>]*class="[^"]*widget-toc[^"]*"[^>]*>(.+)<\/div>/is';
-        preg_match($tocPattern, $content, $tocContent);
+        $dom = new \DOMDocument();
+        libxml_use_internal_errors(true); // Để xử lý các lỗi cảnh báo khi tải HTML
+        $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+        $xpath = new \DOMXPath($dom);
+        $nodeList = $xpath->query('//div[contains(@class, "widget-toc")]');
 
-        // Xóa nội dung bên trong widget-toc
-        $content = preg_replace($tocPattern, '<div class="widget-toc"></div>', $content);
+        if ($nodeList->length > 0) {
+            $widgetTocContent = $dom->saveHTML($nodeList->item(0));
+
+            // Duyệt qua các thẻ và xóa nội dung bên trong
+            foreach ($nodeList as $tocDiv) {
+                // Xóa tất cả các con (child) của thẻ div
+                while ($tocDiv->firstChild) {
+                    $tocDiv->removeChild($tocDiv->firstChild);
+                }
+            }
+        }
+
+        // Lấy lại nội dung HTML đã chỉnh sửa
+        $content = html_entity_decode($dom->saveHTML());
 
         foreach ($autoLinks as $autoLink) {
             if ($pageType === AutoLink::RENDER_FOR_PAGE && $autoLink->for_page
@@ -50,8 +64,9 @@ class RenderAutoLink
         }
 
         // Thêm lại nội dung trong widget-toc
-        if (isset($tocContent[1])) {
-            $content = preg_replace('/<div class="widget-toc"><\/div>/', '<div class="widget-toc">' . $tocContent[1] . '</div>', $content);
+        if (isset($widgetTocContent)) {
+            $tocPattern = '/<div[^>]*class="[^"]*\bwidget-toc\b[^"]*"[^>]*><\/div>/is';
+            $content = preg_replace($tocPattern, $widgetTocContent, $content);
         }
 
         $removeLinkInHeadingsPattern = '/<h([1-6])([^>]*)>(.*?)<\/h[1-6]>/is';
@@ -63,6 +78,15 @@ class RenderAutoLink
             return "<h{$matches[1]}{$matches[2]}>{$headingContent}</h{$matches[1]}>";
         }, $content);
 
+        // Xử lý lỗi khi sử dụng DOMDocument nếu có
+        libxml_clear_errors();
+
         return $content;
+    }
+
+    private static function decodeHTMLString($htmlString)
+    {
+        $decodedContent = urldecode($htmlString);
+        return utf8_decode($decodedContent);
     }
 }
