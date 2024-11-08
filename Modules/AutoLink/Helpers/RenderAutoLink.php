@@ -26,15 +26,25 @@ class RenderAutoLink
             ) {
                 // Prevent duplicate links
                 $pattern = '/' . preg_quote($autoLink->title, '/') . '/i';
+                $limit = $autoLink->limit;
 
-                if ($autoLink->is_duplicate) {
-                    $content = preg_replace_callback($pattern, function ($matches) use ($autoLink) {
-                        return $autoLink->getUrl($matches[0]);
-                    }, $content, $autoLink->limit);
+                if (!$autoLink->is_duplicate) {
+                    $limit = 1;
+                }
+
+                $keywords = explode(',', $autoLink->title);
+
+                if (count($keywords) > 1) {
+                    foreach ($keywords as $keyword) {
+                        $keywordPattern = '/' . preg_quote(trim($keyword), '/') . '/i';
+                        $content = preg_replace_callback($keywordPattern, function ($matches) use ($autoLink) {
+                            return $autoLink->getUrl($matches[0]);
+                        }, $content, $limit);
+                    }
                 } else {
                     $content = preg_replace_callback($pattern, function ($matches) use ($autoLink) {
                         return $autoLink->getUrl($matches[0]);
-                    }, $content, 1);
+                    }, $content, $limit);
                 }
             }
         }
