@@ -39,26 +39,46 @@ class RenderAutoLink
                 || ($pageType === AutoLink::RENDER_FOR_POST && $autoLink->for_post)
             ) {
                 // Prevent duplicate links
-                $pattern = '/' . preg_quote($autoLink->title, '/') . '/i';
-                $limit = $autoLink->limit;
-
-                if (!$autoLink->is_duplicate) {
-                    $limit = 1;
-                }
+                $limit = $autoLink->is_duplicate ? $autoLink->limit + 1 : 1;
 
                 $keywords = explode(',', $autoLink->title);
 
-                if (count($keywords) > 1) {
-                    foreach ($keywords as $keyword) {
-                        $keywordPattern = '/' . preg_quote(trim($keyword), '/') . '/i';
+                foreach ($keywords as $keyword) {
+                    $keywordPattern = '/' . preg_quote(trim($keyword), '/') . '/i';
+
+                    // Tìm tất cả các vị trí xuất hiện của keyword
+                    preg_match_all($keywordPattern, $content, $matches, PREG_OFFSET_CAPTURE);
+
+                    $totalMatches = count($matches[0]);
+
+                    // Nếu số lần xuất hiện ít hơn hoặc bằng limit, thay thế tất cả
+                    if ($totalMatches <= $limit) {
                         $content = preg_replace_callback($keywordPattern, function ($matches) use ($autoLink) {
                             return $autoLink->getUrl($matches[0]);
                         }, $content, $limit);
+                    } else {
+                        // Tính toán các vị trí cần thay thế một cách đồng đều
+                        $selectedIndexes = [];
+                        for ($i = 0; $i < $limit; $i++) {
+                            $index = ceil(($i + 1) * $totalMatches / ($limit + 1)) - 1;
+                            $index = max(0, min($index, $totalMatches - 1));
+                            $selectedIndexes[] = $index;
+                        }
+
+                        // Loại bỏ các chỉ số trùng lặp và sắp xếp giảm dần
+                        $selectedIndexes = array_unique($selectedIndexes);
+                        rsort($selectedIndexes);
+
+                        foreach ($selectedIndexes as $index) {
+                            $match = $matches[0][$index];
+                            $matchedText = $match[0];
+                            $offset = $match[1];
+
+                            // Thay thế từ khóa bằng URL tại vị trí offset
+                            $replacement = $autoLink->getUrl($matchedText);
+                            $content = substr_replace($content, $replacement, $offset, strlen($matchedText));
+                        }
                     }
-                } else {
-                    $content = preg_replace_callback($pattern, function ($matches) use ($autoLink) {
-                        return $autoLink->getUrl($matches[0]);
-                    }, $content, $limit);
                 }
             }
         }
