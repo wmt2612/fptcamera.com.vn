@@ -342,6 +342,7 @@
             border-radius: 15px;
             -webkit-box-shadow: 0 1px 2px 0 rgba(190, 218, 240, 0.1019607843), 0 2px 6px 2px rgba(60, 64, 67, 0.1490196078);
             box-shadow: 0 1px 2px 0 rgba(190, 218, 240, 0.1019607843), 0 2px 6px 2px rgba(60, 64, 67, 0.1490196078);
+            line-height: 1.5;
         }
 
         @media (max-width: 786px) {
