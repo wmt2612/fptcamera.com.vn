@@ -208,7 +208,7 @@
             align-items: center;
         }
 
-        .product_detail .box_infor .box_item .title i{
+        .product_detail .box_infor .box_item .title i {
             font-size: 20px;
         }
 
@@ -262,7 +262,7 @@
             gap: 7px;
         }
 
-        .product_img .product-thumbnail{
+        .product_img .product-thumbnail {
             position: relative;
         }
 
@@ -308,6 +308,13 @@
             vertical-align: middle;
         }
 
+        #product-description .card-title {
+            color: #333;
+            font-size: 16px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
         #short-description > p {
             padding: 10px;
             counter-reset: section;
@@ -321,6 +328,20 @@
         .box_info-content .az-product-item .az-title-post {
             color: #444;
             font-size: 14px !important;
+        }
+
+        #brand-info-box {
+            margin-bottom: 15px;
+        }
+
+        .brand-info {
+            width: 100%;
+            position: relative;
+            background: #fff;
+            padding: 15px;
+            border-radius: 15px;
+            -webkit-box-shadow: 0 1px 2px 0 rgba(190, 218, 240, 0.1019607843), 0 2px 6px 2px rgba(60, 64, 67, 0.1490196078);
+            box-shadow: 0 1px 2px 0 rgba(190, 218, 240, 0.1019607843), 0 2px 6px 2px rgba(60, 64, 67, 0.1490196078);
         }
 
         @media (max-width: 786px) {
@@ -407,7 +428,7 @@
                                      class="bk-product-image">
                                 @if($product->frame_image->path)
                                     <div class="product-img-frame">
-                                        <img loading="lazy" src="{{ $product->frame_image->path }}" />
+                                        <img loading="lazy" src="{{ $product->frame_image->path }}"/>
                                     </div>
                                 @endif
                             </div>
@@ -422,7 +443,7 @@
                                 <img src="{{ $product->base_image->path }}" alt="{{ $product->name }}">
                                 @if($product->frame_image->path)
                                     <div class="product-slide-img-frame">
-                                        <img loading="lazy" src="{{ $product->frame_image->path }}" />
+                                        <img loading="lazy" src="{{ $product->frame_image->path }}"/>
                                     </div>
                                 @endif
                             </div>
@@ -657,6 +678,13 @@
                                 aria-selected="false">Sản phẩm đã xem
                         </button>
                     </li>
+                    <li class="nav-item tab-prods" data-tab="brand">
+                        <button class="nav-link" id="brand-tab" data-bs-toggle="tab"
+                                data-bs-target="#brand-tab-pane" type="button" role="tab"
+                                aria-controls="brand-tab-pane"
+                                aria-selected="false">Thông tin hãng sản xuất
+                        </button>
+                    </li>
                 </ul>
 
                 <div class="tab-content" id="myTabContent">
@@ -705,6 +733,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="tab-pane fade" id="brand-tab-pane" role="tabpanel" aria-labelledby="brand-tab"
+                         tabindex="0">
+                        <div id="brand-info-box">
+                            <div class="product_title">
+                                <h3>Thông tin hãng sản xuất</h3>
+                            </div>
+                            <div class="brand-info">
+                                {!! $product->brand->description !!}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -714,6 +753,7 @@
                 <div class="col-lg-8 col-md-12 col-12">
                     <div id="product-desc-main" class="box_info-content">
                         <div class="box_content-item" id="product-description">
+                            <h2 class="card-title">Mô tả sản phẩm</h2>
                             <div id="sv-product-desc-{{$product->id}}">
                                 {!! $product->description !!}
                             </div>
@@ -835,7 +875,7 @@
 
                 $('.box_img .slider_for .slick-list .slick-slide:first-child img:nth-child(1)').attr('src', product.base_image.path)
                 $('.box_img .slider_nav .slick-list .slick-slide:first-child img:nth-child(1)').attr('src', product.base_image.path)
-                if(product.frame_image.path) {
+                if (product.frame_image.path) {
                     $('.box_img .product-img-frame img').attr('src', product.frame_image.path)
                     $('.box_img .product-slide-img-frame img').attr('src', product.frame_image.path)
                 }
