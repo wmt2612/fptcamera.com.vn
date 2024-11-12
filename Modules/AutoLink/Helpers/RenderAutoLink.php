@@ -36,7 +36,9 @@ class RenderAutoLink
 
         foreach ($autoLinks as $autoLink) {
             if ($pageType === AutoLink::RENDER_FOR_PAGE && $autoLink->for_page
-                || ($pageType === AutoLink::RENDER_FOR_POST && $autoLink->for_post)
+                || ($pageType === AutoLink::RENDER_FOR_POST && $autoLink->for_post
+                || (is_bool($pageType) && $pageType)
+                )
             ) {
                 // Prevent duplicate links
                 $limit = $autoLink->is_duplicate ? $autoLink->limit + 1 : 1;

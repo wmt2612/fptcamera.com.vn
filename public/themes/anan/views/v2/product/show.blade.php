@@ -756,7 +756,7 @@
                         <div class="box_content-item" id="product-description">
                             <h2 class="card-title">Mô tả sản phẩm</h2>
                             <div id="sv-product-desc-{{$product->id}}">
-                                {!! $product->description !!}
+                                {!! \Modules\AutoLink\Helpers\RenderAutoLink::handle($product->description, true) !!}
                             </div>
                             @foreach($sameVersionProducts as $svProduct)
                                 <div id="sv-product-desc-{{$svProduct['id']}}" style="display: none">
