@@ -30,8 +30,8 @@
             columns: [
                 { data: 'checkbox', orderable: false, searchable: false, width: '3%' },
                 { data: 'id', orderable: false, searchable: false },
-                { data: 'title', orderable: false, searchable: false },
-                { data: 'target_url', orderable: false, searchable: false },
+                { data: 'title', name: 'translations.title', orderable: false, searchable: true, defaultContent: '' },
+                { data: 'target_url', orderable: false, searchable: true },
                 { data: 'status', name: 'is_active', orderable: false, searchable: false },
             ],
         });
