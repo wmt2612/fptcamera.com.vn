@@ -45,5 +45,6 @@
     "Gallery": true,
     "Tagp": true,
     "Comment": true,
-    "AutoLink": true
+    "AutoLink": true,
+    "Rating": true
 }

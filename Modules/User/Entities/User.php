@@ -252,4 +252,9 @@ class User extends EloquentUser implements AuthenticatableContract
     {
         return new UserTable($this->newQuery());
     }
+
+    public function isAdmin()
+    {
+        return $this->hasRoleName('admin');
+    }
 }

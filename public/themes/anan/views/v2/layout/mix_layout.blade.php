@@ -62,6 +62,7 @@
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/header.css')) }}" rel="stylesheet" />
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/footer.css')) }}" rel="stylesheet" />
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/customize.css')) }}" rel="stylesheet" />
+    <link type="text/css" href="{{ v(Theme::url('assets/v2/css/root-review.css')) }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ v(Theme::url('assets/css/customize.css')) }}">
     <link rel="stylesheet" href="{{ v(Theme::url('assets/v2/css/mix_customize.css')) }}">
     <link rel="shortcut icon" href="{{ $favicon ?? '' }}" type="image/x-icon">
@@ -193,7 +194,7 @@
 
 <script type="text/javascript" src="{{ v(Theme::url('assets/v2/js/menu.js')) }}"></script>
 <script type='text/javascript' src='{{ v(Theme::url('assets/v2/js/search-product.js')) }}' defer></script>
-
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 @stack('scripts')
 
 {!! setting('custom_footer_assets') !!}

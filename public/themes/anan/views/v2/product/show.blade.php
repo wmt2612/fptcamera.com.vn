@@ -788,6 +788,13 @@
                     </div>
                 </div>
             </div>
+            <div class="row-v2" style="margin-top: 30px">
+                @include('v2.sections.review.root-review', [
+                               'type' => \Modules\Rating\Entities\Rating::TYPE_PRODUCT_ID,
+                               'url' => '#',
+                               'post_id' => $product->id
+                           ])
+            </div>
         </div>
     </section>
     <div class="box_speci">
@@ -923,4 +930,9 @@
             })
         })
     </script>
+    @include('v2.sections.review.review-script', [
+     'type' => \Modules\Rating\Entities\Rating::TYPE_PRODUCT_ID,
+     'url' => '#',
+     'post_id' => $product->id
+    ])
 @endpush
