@@ -23,6 +23,7 @@
             data: fetchReviewDataParams,
             success: function (res) {
                 const ratings = res.data ?? [];
+                console.log('ratings', ratings);
                 totalPage = res.last_page;
                 $('#root-review .user-wrapper').html('');
                 ratings?.map((rating, index) => {
@@ -31,17 +32,22 @@
                                 <div class="avatar avatar-md avatar-text avatar-circle">
                                     <div class="avatar-shape">
                                           ${
-                                            rating.user?.avatar
-                                                ? `<div class="avatar-shape comment-user-avatar">
-                                                                <img src=${rating.user.avatar} width="60px" />
+                        rating.user?.avatar_url
+                            ? `<div class="avatar-shape comment-user-avatar">
+                                                                <img src=${rating.user.avatar_url} width="60px" />
                                                             </div>`
-                                                :
-                                                `<div class="avatar-shape"><span class="f-s-p-20 f-w-500">${rating.avt_letters}</span></div>`
-                                        }
+                            :
+                            `<div class="avatar-shape"><span class="f-s-p-20 f-w-500">${rating.avt_letters}</span></div>`
+                    }
                                     </div>
                                     <div class="avatar-info">
                                         <div class="avatar-name">
                                             <div class="text">${rating.customer_name}</div>
+                                            ${
+                        rating.is_admin ?
+                            `<span class="badge badge-grayscale badge-xxs m-l-4 badge-orange">Quản trị viên</span>`
+                            : ``
+                    }
                                         </div>
                                         <div class="avatar-rate">
                                             <ul class="list-star m-t-4 review-star">
@@ -96,6 +102,19 @@
                                             <div class="text">
                                                  ${rating.review}
                                             </div>
+                                            ${
+                                                rating.photos.length > 0
+                                                ? `
+                                                <div class="review-photos">
+                                                    ${rating.photos.map(photo => (
+                                                       ` <div class="review-photo-item">
+                                                            <img alt="review-photo" src="${photo.path}"/>
+                                                        </div>`
+                                                    ))}
+                                                </div>
+                                                ` : ''
+                                             }
+
                                         </div>
                                         <div class="avatar-time">
                                             <div class="text text-grayscale">${rating.created_at}</div>
@@ -119,12 +138,12 @@
                             <div class="avatar avatar-md avatar-text avatar-circle">
                                 <div class="avatar-shape">
                             ${
-                                reply.is_admin ?
-                                    `<img class="avt-admin" src="https://fpttelecom.net.vn/storage/media/rKbSne7vtqNUFhRJZjOnMLfxgB8D9t7oPTa0gLmJ.png" />`
-                                    : reply.user?.avatar ?
-                                        `<img src=${reply.user.avatar} width="60px" />`
-                                        : `<span class="f-s-p-20 f-w-500">${reply.avt_letters}</span>`
-                            }
+                            reply.is_admin ?
+                                `<img class="avt-admin" src="${reply.user.avatar_url ?? reply.avt_letters}" />`
+                                : reply.user?.avatar_url ?
+                                    `<img src=${reply.user.avatar} width="60px" />`
+                                    : `<span class="f-s-p-20 f-w-500">${reply.avt_letters}</span>`
+                        }
                         </div>
                         <div class="avatar-info">
                             <div class="avatar-name">
@@ -157,7 +176,7 @@
 
                 });
 
-                if(totalPage > 1) {
+                if (totalPage > 1) {
                     res.links.map((link, index) => {
                         let label = link.label;
                         if (index == 0) {
@@ -208,7 +227,7 @@
                     });
                 }
 
-                if(res.data.length == 0) {
+                if (res.data.length == 0) {
                     $('#root-review .user-wrapper').html(`
                             <div class="text-center">Chưa có đánh giá nào phù hợp</div>
                         `);
@@ -313,7 +332,7 @@
         fetchOverviewReview();
         fetchReviewData();
 
-        $('#btnStartReview').click(function(e) {
+        $('#btnStartReview').click(function (e) {
             e.preventDefault();
             $('#reviewModal').modal('show');
         })
@@ -356,7 +375,7 @@
             } else if (page == 'pagination.next' && fetchReviewDataParams.page < totalPage) {
                 fetchReviewDataParams.page += 1;
                 fetchReviewData();
-            } else if(typeof page == 'number') {
+            } else if (typeof page == 'number') {
                 fetchReviewDataParams.page = page;
                 fetchReviewData();
             }
@@ -372,7 +391,7 @@
             } else if (page == 'pagination.next' && fetchReviewDataParams.page < totalPage) {
                 fetchReviewDataParams.page += 1;
                 fetchReviewData();
-            } else if(typeof page == 'number') {
+            } else if (typeof page == 'number') {
                 fetchReviewDataParams.page = page;
                 fetchReviewData();
             }
@@ -380,9 +399,9 @@
 
         const customerInfo = JSON.parse(localStorage.getItem('customer_info'));
         if (customerInfo) {
-            if(customerInfo.gender == 'male') {
+            if (customerInfo.gender == 'male') {
                 $('#genderMale').prop('checked', true);
-            }else {
+            } else {
                 $('#genderFemale').prop('checked', true);
             }
             $('input[name=customer_name]').val(customerInfo.name);
@@ -400,24 +419,19 @@
 
         $(document).on('click', '.btn-reply-review', function (e) {
             e.preventDefault();
-            @if(auth()->check())
-                const ratingId = $(this).data('rating_id');
-                const replyName = $(this).data('reply_name');
-                replyRatingId = ratingId;
-                $('#reviewReplyModalTitle').html(`Trả lời "${replyName}"`);
-                $('#reviewReplyModal textarea').val(`@${replyName}  `);
-                const customerInfo = JSON.parse(localStorage.getItem('customer_info'));
-                if (customerInfo) {
-                    $('input[name=reply_gender]').val(customerInfo.gender);
-                    $('input[name=reply_name]').val(customerInfo.name);
-                    $('input[name=reply_phone]').val(customerInfo.phone);
-                    $('input[name=reply_email]').val(customerInfo.email);
-                }
-                $('#reviewReplyModal').modal('show');
-            @else
-                $('#loginModal').modal('show');
-            @endif
-
+            const ratingId = $(this).data('rating_id');
+            const replyName = $(this).data('reply_name');
+            replyRatingId = ratingId;
+            $('#reviewReplyModalTitle').html(`Trả lời "${replyName}"`);
+            $('#reviewReplyModal textarea').val(`@${replyName}  `);
+            const customerInfo = JSON.parse(localStorage.getItem('customer_info'));
+            if (customerInfo) {
+                $('input[name=reply_gender]').val(customerInfo.gender);
+                $('input[name=reply_name]').val(customerInfo.name);
+                $('input[name=reply_phone]').val(customerInfo.phone);
+                $('input[name=reply_email]').val(customerInfo.email);
+            }
+            $('#reviewReplyModal').modal('show');
         })
     })
 </script>
@@ -457,6 +471,8 @@
             "Please check your input."
         );
 
+        let reviewPhotos = [];
+
         $("#reviewForm").validate({
             onfocusout: false,
             onkeyup: false,
@@ -473,21 +489,32 @@
                     localStorage.removeItem('customer_info');
                 }
 
+                const formData = new FormData();
+                // Thêm CSRF token
+                formData.append('_token', "{{ csrf_token() }}");
+
+                // Thêm các trường dữ liệu khác
+                formData.append('rating', rating);
+                formData.append('customer_gender', $('input[name=gender]:checked').val());
+                formData.append('customer_name', $('input[name=customer_name]').val());
+                formData.append('customer_email', $('input[name=customer_email]').val());
+                formData.append('customer_phone', $('input[name=customer_phone]').val());
+                formData.append('review', $('textarea[name=review]').val());
+                formData.append('type', "{{ $type }}");
+                formData.append('url', "{{ $url }}");
+                formData.append('post_id', "{{ $post_id }}");
+
+                // Thêm danh sách ảnh (nếu có)
+                $.each(reviewPhotos, function(i, file) {
+                    formData.append('upload_files[]', file);
+                });
+
                 $.ajax({
                     type: "POST",
                     url: '/ratings',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        rating,
-                        customer_gender: $('input[name=gender]:checked').val(),
-                        customer_name: $('input[name=customer_name]').val(),
-                        customer_email: $('input[name=customer_email]').val(),
-                        customer_phone: $('input[name=customer_phone]').val(),
-                        review: $('textarea[name=review]').val(),
-                        type: "{{ $type }}",
-                        url: "{{ $url }}",
-                        post_id: "{{ $post_id }}",
-                    },
+                    processData: false,  // Ngăn jQuery xử lý dữ liệu
+                    contentType: false,  // Ngăn jQuery thiết lập Content-Type
+                    data: formData,
                     success: function (res) {
                         $('#reviewModal').modal('hide');
                         scrollToReview();
@@ -615,9 +642,70 @@
             }
         });
 
-        $('#btnCloseReviewModal').click(function(e) {
+        $('#btnCloseReviewModal').click(function (e) {
             e.preventDefault();
             $('#reviewModal').modal('toggle');
         })
+
+        $('.reviewPhotos').on('click', '.reviewPhotoItem', function(e) {
+            e.preventDefault();
+            $('#imageUpload').click()
+        });
+
+        $('.reviewPhotos').on('click', '.removeReviewPhotoItem', function(e) {
+            e.stopPropagation();
+            $(this).parent().remove();
+
+            if ($('.reviewPhotos').children().length < 6) {
+                $('.reviewPhotos').append(`
+                 <div class="reviewPhotoItem">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+                    </svg>
+                </div>
+            `);
+            }
+        });
+
+        let checkAppendImageUpload = false;
+        $('.btnSendReviewPhoto').click(function(e) {
+            e.preventDefault();
+            $('#imageUpload').click()
+
+            if (!checkAppendImageUpload) {
+                $('.reviewPhotos').append(`
+                 <div class="reviewPhotoItem">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+                    </svg>
+                </div>
+            `);
+            }
+            checkAppendImageUpload = true;
+        });
+
+        $('#imageUpload').change(function() {
+            const file = this.files[0];
+            const uploadedImages = $('.reviewPhotos').children().length;
+            if (file && uploadedImages < 6) {
+                reviewPhotos.push(file);
+                // Create an object URL from the file and set it as the source for the preview image
+                const imageUrl = URL.createObjectURL(file);
+                $('.reviewPhotos').prepend(`
+                      <div class="reviewPhotoItem">
+                           <img alt="photo" src="${imageUrl}"/>
+                            <div class="removeReviewPhotoItem">
+                               <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                   <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z" clip-rule="evenodd"/>
+                               </svg>
+                           </div>
+                      </div>
+                `);
+            }
+
+            if ($('.reviewPhotos').children().length >= 6) {
+                $('.reviewPhotos').children().last().remove();
+            }
+        });
     })
 </script>

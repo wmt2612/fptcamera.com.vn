@@ -7283,8 +7283,36 @@ label.error {
     border-color: #fe4b30 !important;
 }
 
-#reviewModal {
+.reviewPhotos {
+    gap: 10px;
+    margin-top: 10px;
+}
 
+.reviewPhotos .reviewPhotoItem {
+    width: 100px;
+    height: 100px;
+    border: 1px dashed black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.reviewPhotos .reviewPhotoItem .removeReviewPhotoItem {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
+
+.review-photos {
+    display: flex;
+    gap: 5px;
+}
+
+.review-photos .review-photo-item {
+    width: 80px;
+    height: 80px;
 }
 
 @media (max-width: 768px) {

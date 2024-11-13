@@ -35,6 +35,8 @@ class StoreRatingRequest extends FormRequest
             'customer_name' => 'required_without:user_id|string',
             'customer_email' => 'required_without:user_id|email',
             'customer_phone' => 'required_without:user_id|string',
+            'upload_files' => 'nullable|array',
+            'upload_files.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 

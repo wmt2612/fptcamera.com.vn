@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
 use Modules\Comment\Jobs\SendCommentDataToSheet;
+use Modules\Media\Eloquent\HasMedia;
+use Modules\Media\Entities\File;
 use Modules\Post\Entities\Post;
 use Modules\Product\Entities\Product;
 use Modules\Rating\Jobs\SendReviewDataToSheet;
@@ -14,7 +16,7 @@ use Modules\User\Entities\User;
 
 class Rating extends Model
 {
-    use HasFactory;
+    use HasFactory, HasMedia;
 
     const TABLE_NAME = 'ratings';
     const ID = 'id';
@@ -74,7 +76,8 @@ class Rating extends Model
 
     protected $appends = [
         'avt_letters',
-        'is_admin'
+        'is_admin',
+        'photos'
     ];
 
     public static function booted()
@@ -163,5 +166,10 @@ class Rating extends Model
             return route('shop.product.details', ['slug' => $this->product()->first()->slug]);
         }
         return route('pages.news.show', ['slug' => $this->post()->first()->slug]);
+    }
+
+    public function getPhotosAttribute()
+    {
+        return $this->files->where('pivot.zone', 'review_photo');
     }
 }

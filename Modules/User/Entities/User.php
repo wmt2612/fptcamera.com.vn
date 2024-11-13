@@ -30,6 +30,10 @@ class User extends EloquentUser implements AuthenticatableContract
         'description'
     ];
 
+    protected $appends = [
+        'avatar_url',
+    ];
+
     protected $loginNames = ['email', 'first_name'];
 
     /**
@@ -241,6 +245,11 @@ class User extends EloquentUser implements AuthenticatableContract
     public function getAvatarAttribute()
     {
         return $this->files->where('pivot.zone', 'avatar')->first() ?: new File;
+    }
+
+    public function getAvatarUrlAttribute()
+    {
+        return $this->avatar->path;
     }
 
     /**

@@ -2,11 +2,15 @@
 
 namespace Modules\Rating\Http\Controllers;
 
+use Carbon\Carbon;
 use http\Env\Response;
 use Illuminate\Queue\Middleware\RateLimited;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Modules\Media\Entities\File;
 use Modules\Rating\Entities\LikeRatingHistory;
 use Modules\Rating\Entities\Rating;
 use Modules\Rating\Http\Requests\Client\GetRatingListRequest;
@@ -41,6 +45,7 @@ class RatingController extends Controller
         $userId = 0;
         $customerName = $request->input('customer_name');
         $customerEmail = $request->input('customer_email');
+        $uploadFiles = $request->upload_files ?? [];
 
         if ($user) {
             $userId = $user->id;
@@ -58,6 +63,29 @@ class RatingController extends Controller
             Rating::CUSTOMER_NAME => $customerName,
             Rating::CUSTOMER_EMAIL => $customerEmail,
         ]);
+
+        foreach ($uploadFiles as $file) {
+            $path = Storage::putFile('media', $file);
+
+            $storedFile = File::create([
+                'user_id' => auth()->check() ? auth()->id() : 0,
+                'disk' => config('filesystems.default'),
+                'filename' => $file->getClientOriginalName(),
+                'path' => $path,
+                'extension' => $file->guessClientExtension() ?? '',
+                'mime' => $file->getClientMimeType(),
+                'size' => $file->getSize(),
+            ]);
+
+            DB::table('entity_files')->insert([
+                'file_id' => $storedFile->id,
+                'entity_id' => $rating->id,
+                'entity_type' => get_class($rating),
+                'zone' => 'review_photo',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
 
         return response()->json($rating, 201);
     }
@@ -126,12 +154,28 @@ class RatingController extends Controller
         try {
             $rating = Rating::findOrFail($ratingId);
             $user = Auth::user();
+
+            $userId = 0;
+            $customerName = $request->input('customer_name');
+            $customerEmail = $request->input('customer_email');
+            $customerGender = $request->input('customer_gender');
+            $status = Rating::PENDING;
+
+            if ($user) {
+                $userId = $user->id;
+                $customerName = $user->full_name;
+                $customerEmail = $user->email;
+                $status = $user->isAdmin() || $user->isEditor() ? Rating::APPROVED : Rating::PENDING;
+            }
+
             $reply = $rating->replies()->create([
                 Rating::REVIEW => $request->review,
                 Rating::TYPE => $request->type,
-                Rating::USER_ID => $user->id,
-                Rating::CUSTOMER_NAME => $user->full_name,
-                Rating::STATUS => $user->isAdmin() || $user->isEditor() ? Rating::APPROVED : Rating::PENDING,
+                Rating::USER_ID => $userId,
+                Rating::CUSTOMER_NAME => $customerName,
+                Rating::CUSTOMER_EMAIL => $customerEmail,
+                Rating::CUSTOMER_GENDER => $customerGender,
+                Rating::STATUS => $status,
             ]);
             DB::commit();
             return response()->json($rating, 201);

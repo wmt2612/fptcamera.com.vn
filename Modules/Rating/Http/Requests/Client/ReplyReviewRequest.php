@@ -6,6 +6,17 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ReplyReviewRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $user = $this->user();
+
+        if ($user) {
+            $this->merge([
+                'user_id' => $user->id,
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -14,8 +25,13 @@ class ReplyReviewRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id' => 'nullable|integer|exists:users,id',
             'review' => 'required|string',
-            'type' => 'required|int|in:0,1'
+            'type' => 'required|int|in:1,2,3',
+            'customer_gender' => 'required_without:user_id|string|in:male,female',
+            'customer_name' => 'required_without:user_id|string',
+            'customer_email' => 'required_without:user_id|email',
+            'customer_phone' => 'required_without:user_id|string',
         ];
     }
 
