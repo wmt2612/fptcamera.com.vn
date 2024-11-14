@@ -105,10 +105,10 @@
                                             ${
                                                 rating.photos.length > 0
                                                 ? `
-                                                <div class="review-photos">
+                                                <div class="review-photos" >
                                                     ${rating.photos.map(photo => (
-                                                       ` <div class="review-photo-item">
-                                                            <img alt="review-photo" src="${photo.path}"/>
+                                                       ` <div class="review-photo-item" >
+                                                            <img alt="${rating.review}" src="${photo.path}"/>
                                                         </div>`
                                                     ))}
                                                 </div>
@@ -175,6 +175,8 @@
                     })
 
                 });
+
+                $(".review-photos").popupLightbox();
 
                 if (totalPage > 1) {
                     res.links.map((link, index) => {
@@ -489,16 +491,29 @@
                     localStorage.removeItem('customer_info');
                 }
 
+                const txtGender = $('input[name=gender]:checked').val();
+                const txtCName = $('input[name=customer_name]').val();
+                const txtEmail = $('input[name=customer_email]').val();
+                const txtPhone = $('input[name=customer_phone]').val();
+
                 const formData = new FormData();
                 // Thêm CSRF token
                 formData.append('_token', "{{ csrf_token() }}");
 
                 // Thêm các trường dữ liệu khác
                 formData.append('rating', rating);
-                formData.append('customer_gender', $('input[name=gender]:checked').val());
-                formData.append('customer_name', $('input[name=customer_name]').val());
-                formData.append('customer_email', $('input[name=customer_email]').val());
-                formData.append('customer_phone', $('input[name=customer_phone]').val());
+                if (txtGender) {
+                    formData.append('customer_gender', txtGender);
+                }
+                if (txtCName) {
+                    formData.append('customer_name', txtCName);
+                }
+                if (txtEmail) {
+                    formData.append('customer_email', txtEmail);
+                }
+                if (txtPhone) {
+                    formData.append('customer_phone', txtPhone);
+                }
                 formData.append('review', $('textarea[name=review]').val());
                 formData.append('type', "{{ $type }}");
                 formData.append('url', "{{ $url }}");

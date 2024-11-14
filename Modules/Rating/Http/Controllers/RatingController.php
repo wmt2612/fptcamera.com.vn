@@ -61,6 +61,8 @@ class RatingController extends Controller
             Rating::RATING => $request->rating,
             Rating::USER_ID => $userId,
             Rating::CUSTOMER_NAME => $customerName,
+            Rating::CUSTOMER_GENDER => $request->customer_gender,
+            Rating::CUSTOMER_PHONE => $request->customer_phone,
             Rating::CUSTOMER_EMAIL => $customerEmail,
         ]);
 
@@ -174,6 +176,7 @@ class RatingController extends Controller
                 Rating::USER_ID => $userId,
                 Rating::CUSTOMER_NAME => $customerName,
                 Rating::CUSTOMER_EMAIL => $customerEmail,
+                Rating::CUSTOMER_PHONE => $request->customer_phone,
                 Rating::CUSTOMER_GENDER => $customerGender,
                 Rating::STATUS => $status,
             ]);

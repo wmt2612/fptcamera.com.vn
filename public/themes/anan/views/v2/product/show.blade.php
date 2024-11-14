@@ -795,6 +795,13 @@
                                'post_id' => $product->id
                            ])
             </div>
+            <div class="row-v2" style="margin-top: 30px">
+                @include('v2.sections.comment.root-comment', [
+                               'type' => \Modules\Rating\Entities\Rating::TYPE_PRODUCT_ID,
+                               'url' => '#',
+                               'post_id' => $product->id
+                           ])
+            </div>
         </div>
     </section>
     <div class="box_speci">
@@ -935,4 +942,9 @@
      'url' => '#',
      'post_id' => $product->id
     ])
+    @include('v2.sections.comment.comment-script', [
+    'type' => \Modules\Rating\Entities\Rating::TYPE_PRODUCT_ID,
+    'url' => '#',
+    'post_id' => $product->id
+   ])
 @endpush

@@ -83,14 +83,13 @@ class Rating extends Model
     public static function booted()
     {
         static::created(function($rating) {
-            if($rating->customer_email != env('SEEDING_EMAIL')) {
-                SendReviewDataToSheet::dispatch($rating);
-            }
+
         });
     }
 
     public function getCreatedAtAttribute($value)
     {
+        Carbon::setLocale('vi');
         $createdAt = Carbon::parse($value);
         return $createdAt->diffForHumans(Carbon::now());
     }

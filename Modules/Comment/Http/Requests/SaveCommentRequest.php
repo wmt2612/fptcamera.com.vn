@@ -4,7 +4,7 @@ namespace Modules\Comment\Http\Requests;
 
 use Modules\Core\Http\Requests\Request;
 
-class SaveCommentsRequest extends Request
+class SaveCommentRequest extends Request
 {
     /**
      * Available attributes.

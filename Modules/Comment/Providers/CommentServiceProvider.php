@@ -4,8 +4,6 @@ namespace Modules\Comment\Providers;
 
 use Modules\Support\Traits\AddsAsset;
 use Illuminate\Support\ServiceProvider;
-use Modules\Admin\Ui\Facades\TabManager;
-use Modules\Comment\Admin\CommentTabs;
 
 class CommentServiceProvider extends ServiceProvider
 {
@@ -18,7 +16,7 @@ class CommentServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        TabManager::register('comment', CommentTabs::class);
+        //
     }
 
     /**

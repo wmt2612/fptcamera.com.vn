@@ -7231,7 +7231,7 @@
 }
 
 #review-pagination .active a{
-    background: #f47a3c  !important;
+    background: var(--xanhnuocbien)  !important;
 }
 
 #review-pagination-mobile {
@@ -7244,12 +7244,12 @@
 
 
 .fpt-comment .btn-primary {
-    background: #fe4b30;
+    background: var(--xanhnuocbien);
 }
 
 .fpt-comment .user-rate .user-content .result .tags .list .badge.active {
-    color: #fe4b30;
-    border-color: #fe4b30;
+    color: var(--xanhnuocbien);
+    border-color: var(--xanhnuocbien);
 }
 
 .fpt-comment .user-rate__box .progress-block__line .progress {
@@ -7264,7 +7264,7 @@
 }
 
 .badge-orange {
-    background: #fe4b30 !important;
+    background: var(--xanhnuocbien) !important;
 }
 
 .avt-admin {
@@ -7278,9 +7278,9 @@ label.error {
 }
 
 .fpt-comment .pagination-item.active .pagination-link {
-    background: #fe4b30 !important;
+    background: var(--xanhnuocbien) !important;
     color: #fff;
-    border-color: #fe4b30 !important;
+    border-color: var(--xanhnuocbien) !important;
 }
 
 .reviewPhotos {
@@ -7313,6 +7313,14 @@ label.error {
 .review-photos .review-photo-item {
     width: 80px;
     height: 80px;
+}
+
+.fpt-comment .user-content .pages {
+    padding-bottom: 45px;
+}
+
+#root-review .fpt-comment {
+    margin-bottom: 0;
 }
 
 @media (max-width: 768px) {
