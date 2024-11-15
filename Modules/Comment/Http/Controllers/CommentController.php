@@ -143,7 +143,7 @@ class CommentController extends Controller
 
             if($reply->replyTo && $reply->replyTo->customer_email) {
                 Mail::to($reply->replyTo->customer_email)
-                    ->send(new SendReplyCommentEmail($comment, $reply));
+                    ->queue(new SendReplyCommentEmail($comment, $reply));
             }
 
             DB::commit();
