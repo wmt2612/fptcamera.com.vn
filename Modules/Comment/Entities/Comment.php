@@ -39,7 +39,7 @@ class Comment extends Model
     const TYPE = 'type';
     const TYPE_URL = 1;
     const TYPE_POST_ID = 2;
-    const TYPE_PRODUCT = 3;
+    const TYPE_PRODUCT_ID = 3;
 
     /**
      * Status of rating
@@ -189,6 +189,9 @@ class Comment extends Model
         if ($this->type == self::TYPE_URL) {
             return URL::to($this->url);
         }
-        return route('pages.news.show', ['slug' => $this->post()->first()->slug]);
+        if ($this->type == self::TYPE_PRODUCT_ID) {
+            return route('product.single', ['slug' => $this->product()->first()->slug]);
+        }
+        return route('blog.category', ['slug' => $this->post()->first()->slug]);
     }
 }

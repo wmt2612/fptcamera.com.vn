@@ -1,6 +1,7 @@
 @extends('admin::layout')
 
 @push('styles')
+    <link type="text/css" href="{{ v(Theme::url('assets/v2/css/popup-lightbox.min.css')) }}" rel="stylesheet"/>
     <style>
         .table {
             padding: 20px;
@@ -88,6 +89,21 @@
         .badge-reply {
             background-color: #8b06b0;
         }
+
+        .review-photos {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .review-photo-item {
+            width: 80px;
+            height: 80px;
+        }
+
+        .review-photo-item img{
+            width: 100%;
+        }
     </style>
 @endpush
 
@@ -117,7 +133,10 @@
                         @elseif($rating->type == \Modules\Rating\Entities\Rating::TYPE_POST_ID)
                             <a href="#" target="_blank">{{ $rating->customer_name }}</a>
                         @else
-                            <a href="{{ route('product.single', ['slug' => $rating->product->slug]) . '#root-review'  }}" target="_blank">{{ $rating->customer_name }}</a>
+                            <a href="{{ route('product.single', ['slug' => $rating->product->slug]) . '#root-review'  }}" target="_blank">
+                                @php $photos = count($rating->photos); @endphp
+                                {{ $rating->customer_name }} @if($photos > 0) <span>({{ $photos }} ảnh)</span> @endif
+                            </a>
                         @endif
                     </td>
                     <td>{{ $rating->customer_phone }}</td>
@@ -172,6 +191,7 @@
 @endsection
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="{{ v(Theme::url('assets/v2/js/jquery.popup.lightbox.min.js')) }}"></script>
     <script>
         let editRatingId = 0;
         let editRating = {};
@@ -229,6 +249,7 @@
 
             $('.btnEditReview').click(function () {
                 const rating = $(this).data('rating');
+                const photos = rating.photos;
 
                 editRating = rating;
                 editRatingId = rating.id;
@@ -237,6 +258,22 @@
                 $('input[name=customer_email]').val(rating.customer_email ?? rating.user?.email);
                 $('input[name=customer_phone]').val(rating.customer_phone);
                 $('textarea[name=review]').val(rating.review);
+
+                if (photos.length > 0) {
+                    $('.review-text-box .review-photos').remove();
+
+                    $('.review-text-box').append(`
+                         <div class="d-flex gap-10 review-photos">
+                                ${photos.map((photo) => (
+                                    `<div class="review-photo-item">
+                                        <img alt="${rating.review}" src="${photo.path}"/>
+                                    </div>`
+                                ))}
+                         </div>
+                    `);
+
+                    // $(".review-photos").popupLightbox();
+                }
 
                 if(rating.customer_gender === 'male') {
                     $('#genderMale').prop('checked', true);
@@ -331,6 +368,8 @@
                     },
                 }
             });
+
+
         })
     </script>
 @endpush

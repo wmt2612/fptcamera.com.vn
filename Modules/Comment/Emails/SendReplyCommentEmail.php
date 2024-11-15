@@ -8,20 +8,22 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Modules\Comment\Entities\Comment;
 
-class SendReplyCommentNoticeMail extends Mailable
+class SendReplyCommentEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
     protected $comment;
+    protected $reply;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Comment $comment)
+    public function __construct(Comment $comment, Comment $reply)
     {
         $this->comment = $comment;
+        $this->reply = $reply;
     }
 
     /**
@@ -31,13 +33,13 @@ class SendReplyCommentNoticeMail extends Mailable
      */
     public function build()
     {
-        $subject = "[FPT Telecom] {$this->comment->customer_name} vừa trả lời một bình luận của bạn";
+        $subject = "Thông báo: {$this->reply->customer_name} vừa trả lời một bình luận của bạn";
         return $this
             ->subject($subject)
-            ->from('info@webmaster.com.vn', 'FPT Telecom')
-            ->view('comment::mails.send_reply_comment_notice')
+            ->view('comment::emails.reply-comment')
             ->with([
-                'comment' => $this->comment
+                'comment' => $this->comment,
+                'reply' => $this->reply
             ]);
     }
 }

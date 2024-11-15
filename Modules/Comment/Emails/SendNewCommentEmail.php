@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Modules\Comment\Entities\Comment;
 
-class SendCommentNoticeMail extends Mailable
+class SendNewCommentEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,11 +31,11 @@ class SendCommentNoticeMail extends Mailable
      */
     public function build()
     {
-        $subject = "[FPT Telecom] {$this->comment->customer_name} vừa thêm một bình luận mới";
+        $subject = "Thông báo: {$this->comment->customer_name} vừa thêm một bình luận mới";
+
         return $this
             ->subject($subject)
-            ->from('info@webmaster.com.vn', 'FPT Telecom')
-            ->view('comment::mails.send_comment_notice')
+            ->view('comment::emails.new-comment')
             ->with([
                 'comment' => $this->comment
             ]);

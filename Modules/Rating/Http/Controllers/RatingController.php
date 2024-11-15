@@ -9,8 +9,11 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Modules\Media\Entities\File;
+use Modules\Rating\Emails\SendReplyReviewMail;
+use Modules\Rating\Emails\SendReviewMail;
 use Modules\Rating\Entities\LikeRatingHistory;
 use Modules\Rating\Entities\Rating;
 use Modules\Rating\Http\Requests\Client\GetRatingListRequest;
@@ -53,43 +56,55 @@ class RatingController extends Controller
             $customerEmail = $user->email;
         }
 
-        $rating = Rating::create([
-            Rating::REVIEW => $request->review,
-            Rating::TYPE => $request->type,
-            Rating::POST_ID => $request->post_id,
-            Rating::URL => $request->get('url'),
-            Rating::RATING => $request->rating,
-            Rating::USER_ID => $userId,
-            Rating::CUSTOMER_NAME => $customerName,
-            Rating::CUSTOMER_GENDER => $request->customer_gender,
-            Rating::CUSTOMER_PHONE => $request->customer_phone,
-            Rating::CUSTOMER_EMAIL => $customerEmail,
-        ]);
-
-        foreach ($uploadFiles as $file) {
-            $path = Storage::putFile('media', $file);
-
-            $storedFile = File::create([
-                'user_id' => auth()->check() ? auth()->id() : 0,
-                'disk' => config('filesystems.default'),
-                'filename' => $file->getClientOriginalName(),
-                'path' => $path,
-                'extension' => $file->guessClientExtension() ?? '',
-                'mime' => $file->getClientMimeType(),
-                'size' => $file->getSize(),
+        DB::beginTransaction();
+        try {
+            $rating = Rating::create([
+                Rating::REVIEW => $request->review,
+                Rating::TYPE => $request->type,
+                Rating::POST_ID => $request->post_id,
+                Rating::URL => $request->get('url'),
+                Rating::RATING => $request->rating,
+                Rating::USER_ID => $userId,
+                Rating::CUSTOMER_NAME => $customerName,
+                Rating::CUSTOMER_GENDER => $request->customer_gender,
+                Rating::CUSTOMER_PHONE => $request->customer_phone,
+                Rating::CUSTOMER_EMAIL => $customerEmail,
             ]);
 
-            DB::table('entity_files')->insert([
-                'file_id' => $storedFile->id,
-                'entity_id' => $rating->id,
-                'entity_type' => get_class($rating),
-                'zone' => 'review_photo',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
+            foreach ($uploadFiles as $file) {
+                $path = Storage::putFile('media', $file);
+
+                $storedFile = File::create([
+                    'user_id' => auth()->check() ? auth()->id() : 0,
+                    'disk' => config('filesystems.default'),
+                    'filename' => $file->getClientOriginalName(),
+                    'path' => $path,
+                    'extension' => $file->guessClientExtension() ?? '',
+                    'mime' => $file->getClientMimeType(),
+                    'size' => $file->getSize(),
+                ]);
+
+                DB::table('entity_files')->insert([
+                    'file_id' => $storedFile->id,
+                    'entity_id' => $rating->id,
+                    'entity_type' => get_class($rating),
+                    'zone' => 'review_photo',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
+
+            Mail::to(setting('mail_from_address'))->queue(new SendReviewMail($rating));
+
+            DB::commit();
+
+            return response()->json($rating, 201);
+        }catch (\Exception $exception){
+            DB::rollBack();
+            throw $exception;
         }
 
-        return response()->json($rating, 201);
+        return response()->json(false, 500);
     }
 
     public function seedingStoreRating(SeedingStoreRatingRequest $request)
@@ -180,6 +195,9 @@ class RatingController extends Controller
                 Rating::CUSTOMER_GENDER => $customerGender,
                 Rating::STATUS => $status,
             ]);
+
+            Mail::to($rating->customer_email)->queue(new SendReplyReviewMail($rating, $reply));
+
             DB::commit();
             return response()->json($rating, 201);
         }catch (\Exception $e) {

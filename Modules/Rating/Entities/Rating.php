@@ -162,9 +162,9 @@ class Rating extends Model
             return URL::to($this->url);
         }
         if ($this->type == self::TYPE_PRODUCT_ID) {
-            return route('shop.product.details', ['slug' => $this->product()->first()->slug]);
+            return route('product.single', ['slug' => $this->product()->first()->slug]);
         }
-        return route('pages.news.show', ['slug' => $this->post()->first()->slug]);
+        return route('blog.category', ['slug' => $this->post()->first()->slug]);
     }
 
     public function getPhotosAttribute()

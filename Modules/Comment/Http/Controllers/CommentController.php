@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Modules\Comment\Emails\SendCommentNoticeMail;
-use Modules\Comment\Emails\SendReplyCommentNoticeMail;
+use Modules\Comment\Emails\SendNewCommentEmail;
+use Modules\Comment\Emails\SendReplyCommentEmail;
 use Modules\Comment\Entities\Comment;
 use Modules\Comment\Entities\LikeCommentHistory;
 use Modules\Comment\Http\Requests\Client\GetCommentListRequest;
@@ -67,11 +67,10 @@ class CommentController extends Controller
 
         ]);
 
-//        $mails = str_replace(' ', '', setting('config_mails_new_comment'));
-//        $mails = explode(',', $mails);
-//
-//        Mail::to($mails)
-//            ->queue(new SendCommentNoticeMail($comment));
+        $mails = setting('mail_from_address');
+
+        Mail::to($mails)
+            ->queue(new SendNewCommentEmail($comment));
 
         return response()->json($comment, 201);
     }
@@ -79,11 +78,10 @@ class CommentController extends Controller
     public function seedingComment(SeedingCommentRequest  $request)
     {
         $comment = Comment::create($request->all());
-        $mails = str_replace(' ', '', setting('config_mails_new_comment'));
-        $mails = explode(',', $mails);
+        $mails = setting('mail_from_address');
 
         Mail::to($mails)
-            ->queue(new SendCommentNoticeMail($comment));
+            ->queue(new SendNewCommentEmail($comment));
 
         return response()->json($comment, 201);
     }
@@ -140,15 +138,15 @@ class CommentController extends Controller
                 Comment::CUSTOMER_EMAIL => $customerEmail,
                 Comment::CUSTOMER_PHONE => $request->input('customer_phone'),
                 Comment::CREATED_AT => $createdAt,
-
+                Comment::REPLY_TO => $request->reply_to
             ]);
-
-            DB::commit();
 
             if($reply->replyTo && $reply->replyTo->customer_email) {
                 Mail::to($reply->replyTo->customer_email)
-                    ->queue(new SendReplyCommentNoticeMail($reply));
+                    ->send(new SendReplyCommentEmail($comment, $reply));
             }
+
+            DB::commit();
 
             return response()->json($comment);
         }catch (\Exception $e) {
@@ -172,7 +170,7 @@ class CommentController extends Controller
             DB::commit();
             if($reply->replyTo->customer_email) {
                 Mail::to($reply->replyTo->customer_email)
-                    ->queue(new SendReplyCommentNoticeMail($reply));
+                    ->queue(new SendReplyCommentEmail($reply));
             }
             return response()->json($comment);
         }catch (\Exception $e) {

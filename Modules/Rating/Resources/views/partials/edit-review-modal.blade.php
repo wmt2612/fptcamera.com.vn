@@ -93,7 +93,7 @@
                 </div>
                 <form action="#" id="editReviewForm">
                     <div class="row mt-3">
-                        <div class="col-md-12">
+                        <div class="col-md-12 review-text-box">
                             <div class="form-group">
                         <textarea class="form-control"
                                   name="review"
