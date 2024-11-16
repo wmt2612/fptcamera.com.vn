@@ -597,5 +597,9 @@
 
     @endif
 
+    $('#btnCloseCommentModal').click(function() {
+       $('#commentModal').modal('hide');
+    });
+
 
 </script>
