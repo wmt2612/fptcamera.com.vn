@@ -39,7 +39,7 @@
 <div class="email-container">
     <h2>Thông báo: Bình luận mới từ khách hàng</h2>
     <p>Kính gửi Admin,</p>
-    <p>Chúng tôi vừa nhận được một bình luận mới từ khách hàng trên website <strong>FPT Camera</strong>. Dưới đây là thông tin chi tiết:</p>
+    <p>Chúng tôi vừa nhận được một bình luận mới từ khách hàng trên website <strong>FPTC</strong>. Dưới đây là thông tin chi tiết:</p>
 
     <ul>
         <li><strong>Tên khách hàng:</strong> {{ $comment->customer_name }}</li>
@@ -55,7 +55,7 @@
     <p>Để xem chi tiết bình luận, vui lòng nhấp vào liên kết sau:</p>
     <p><a href="{{ $comment->link() }}">Xem chi tiết bình luận</a></p>
 
-    <p>Trân trọng,<br>Đội ngũ Hỗ trợ <strong>FPT Camera</strong></p>
+    <p>Trân trọng,<br>Đội ngũ Hỗ trợ <strong>FPTC</strong></p>
 </div>
 </body>
 </html>

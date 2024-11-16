@@ -39,7 +39,7 @@
 <div class="email-container">
     <h2>Thông báo: Đánh giá của bạn đã được phản hồi</h2>
     <p>Xin chào {{ $rating->customer_name }},</p>
-    <p>Chúng tôi trân trọng thông báo rằng đánh giá của bạn trên <strong>FPT Camera</strong> đã nhận được phản hồi. Dưới đây là nội dung:</p>
+    <p>Chúng tôi trân trọng thông báo rằng đánh giá của bạn trên <strong>FPTC</strong> đã nhận được phản hồi. Dưới đây là nội dung:</p>
 
     <h3>Đánh giá của bạn:</h3>
     <div class="rating">
@@ -55,7 +55,7 @@
     <p>Để xem chi tiết hoặc trả lời, vui lòng nhấp vào liên kết sau:</p>
     <p><a href="{{ $rating->link() }}">Xem chi tiết đánh giá và phản hồi</a></p>
 
-    <p>Trân trọng,<br>Đội ngũ Hỗ trợ <strong>FPT Camera</strong></p>
+    <p>Trân trọng,<br>Đội ngũ Hỗ trợ <strong>FPTC</strong></p>
 </div>
 </body>
 </html>

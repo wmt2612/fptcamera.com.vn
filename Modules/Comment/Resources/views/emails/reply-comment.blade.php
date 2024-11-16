@@ -39,7 +39,7 @@
 <div class="email-container">
     <h2>Thông báo: Bình luận của bạn đã được phản hồi</h2>
     <p>Xin chào {{ $comment->customer_name }},</p>
-    <p>Chúng tôi trân trọng thông báo rằng bình luận của bạn trên <strong>FPT Camera</strong> đã nhận được phản hồi. Dưới đây là nội dung chi tiết:</p>
+    <p>Chúng tôi trân trọng thông báo rằng bình luận của bạn trên <strong>FPTC</strong> đã nhận được phản hồi. Dưới đây là nội dung chi tiết:</p>
 
     <h3>Bình luận của bạn:</h3>
     <div class="comment">
@@ -54,7 +54,7 @@
     <p>Để xem chi tiết hoặc trả lời thêm, vui lòng nhấp vào liên kết sau:</p>
     <p><a href="{{ $comment->link() }}">Xem chi tiết bình luận và phản hồi</a></p>
 
-    <p>Trân trọng,<br>Đội ngũ Hỗ trợ <strong>FPT Camera</strong></p>
+    <p>Trân trọng,<br>Đội ngũ Hỗ trợ <strong>FPTC</strong></p>
 </div>
 </body>
 </html>

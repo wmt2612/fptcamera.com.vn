@@ -34,7 +34,7 @@
 <body>
 <div class="email-container">
     <h2>Thông báo đánh giá từ khách hàng</h2>
-    <p>Chúng tôi đã nhận được một đánh giá từ khách hàng trên website <strong>FPT Camera</strong>:</p>
+    <p>Chúng tôi đã nhận được một đánh giá từ khách hàng trên website <strong>FPTC</strong>:</p>
     <ul>
         <li><strong>Tên khách hàng:</strong> {{ $rating->customer_name }}</li>
         <li><strong>Email:</strong> {{ $rating->customer_email }}</li>
@@ -43,7 +43,7 @@
     </ul>
     <p>Để xem chi tiết, vui lòng nhấp vào liên kết sau:</p>
     <p><a href="{{ $rating->link() }}">Xem chi tiết đánh giá</a></p>
-    <p>Trân trọng,<br>Đội ngũ Hỗ trợ <strong>FPT Camera</strong></p>
+    <p>Trân trọng,<br>Đội ngũ Hỗ trợ <strong>FPTC</strong></p>
 </div>
 </body>
 </html>
