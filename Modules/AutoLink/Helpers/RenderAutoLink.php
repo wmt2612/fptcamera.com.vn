@@ -46,7 +46,11 @@ class RenderAutoLink
                 $keywords = explode(',', $autoLink->title);
 
                 foreach ($keywords as $keyword) {
-                    $keywordPattern = '/' . preg_quote(trim($keyword), '/') . '/i';
+                    $keyword = trim($keyword);
+
+                    if (empty($keyword)) continue;
+
+                    $keywordPattern = '/' . preg_quote($keyword, '/') . '/i';
 
                     // Tìm tất cả các vị trí xuất hiện của keyword
                     preg_match_all($keywordPattern, $content, $matches, PREG_OFFSET_CAPTURE);
