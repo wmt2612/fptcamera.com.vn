@@ -2,25 +2,16 @@
 
 namespace Modules\Order\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Modules\Order\Entities\Order;
+use Modules\Order\Http\Requests\OrderTrackingRequest;
+
 class OrderController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function orderTracking(OrderTrackingRequest $request)
     {
-        return view('order::index');
-    }
-
-    /**
-     * Show the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show()
-    {
-        return view('order::show');
+        $orderCode = $request->order_code;
+        $order = Order::find($orderCode);
+        return view('v2.order.tracking', compact('order'));
     }
 }

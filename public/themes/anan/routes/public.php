@@ -23,6 +23,8 @@ Route::get('/prods/search-ajax', 'ProductController@searchAjax')->name('product.
 
 Route::get('/sitemap.xml', 'HomeController@generateSitemap')->name('sitemap.xml');
 
+Route::get('tra-cuu-don-hang', [\Modules\Order\Http\Controllers\OrderController::class, 'orderTracking'])->name('order.tracking');
+
 Route::get('/ajax/categories/{slug}', 'ProductController@ajaxCategory')->name('product.ajaxCategory');
 Route::get('/ajax/page-categories/{slug}', 'ProductController@ajaxPageCategory')->name('product.ajaxPageCategory');
 Route::get('/ajax/categories', 'ProductController@ajaxAllCategory')->name('product.ajax.categories');
