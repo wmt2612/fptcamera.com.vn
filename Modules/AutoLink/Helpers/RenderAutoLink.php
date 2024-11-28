@@ -10,7 +10,9 @@ class RenderAutoLink
 {
     public static function handle($content, $pageType)
     {
-        $autoLinks = AutoLink::all();
+        $autoLinks = AutoLink::all()->sortByDesc(function($autoLink) {
+            return strlen($autoLink->title);
+        });
 
         // Tách phần <div id="toc-header"> để không thay thế nội dung trong phần này
         $dom = new \DOMDocument();
@@ -33,6 +35,9 @@ class RenderAutoLink
 
         // Lấy lại nội dung HTML đã chỉnh sửa
         $content = html_entity_decode($dom->saveHTML());
+
+        // Mảng lưu trữ các vùng đã thay thế
+        $replacedRanges = [];
 
         foreach ($autoLinks as $autoLink) {
             if ($pageType === AutoLink::RENDER_FOR_PAGE && $autoLink->for_page
@@ -80,9 +85,24 @@ class RenderAutoLink
                             $matchedText = $match[0];
                             $offset = $match[1];
 
-                            // Thay thế từ khóa bằng URL tại vị trí offset
-                            $replacement = $autoLink->getUrl($matchedText);
-                            $content = substr_replace($content, $replacement, $offset, strlen($matchedText));
+                            // Kiểm tra xem vị trí có chồng lấn với các vùng đã thay thế hay không
+                            $isOverlapping = false;
+                            foreach ($replacedRanges as $range) {
+                                if ($offset >= $range['start'] && $offset < $range['end']) {
+                                    $isOverlapping = true;
+                                    break;
+                                }
+                            }
+
+                            // Nếu không chồng lấn, thực hiện thay thế
+                            if (!$isOverlapping) {
+                                $replacement = $autoLink->getUrl($matchedText);
+                                $content = substr_replace($content, $replacement, $offset, strlen($matchedText));
+
+                                // Lưu lại vùng đã thay thế
+                                $end = $offset + strlen($replacement);
+                                $replacedRanges[] = ['start' => $offset, 'end' => $end];
+                            }
                         }
                     }
                 }
@@ -108,11 +128,5 @@ class RenderAutoLink
         libxml_clear_errors();
 
         return $content;
-    }
-
-    private static function decodeHTMLString($htmlString)
-    {
-        $decodedContent = urldecode($htmlString);
-        return utf8_decode($decodedContent);
     }
 }
