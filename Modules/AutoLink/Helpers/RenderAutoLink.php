@@ -86,13 +86,10 @@ class RenderAutoLink
                             $offset = $match[1];
 
                             // Kiểm tra xem vị trí có chồng lấn với các vùng đã thay thế hay không
-                            $isOverlapping = false;
-                            foreach ($replacedRanges as $range) {
-                                if ($offset >= $range['start'] && $offset < $range['end']) {
-                                    $isOverlapping = true;
-                                    break;
-                                }
-                            }
+                            $isOverlapping = array_reduce($replacedRanges, function ($carry, $range) use ($offset, $matchedText) {
+                                $endOffset = $offset + strlen($matchedText);
+                                return $carry || ($offset < $range['end'] && $endOffset > $range['start']);
+                            }, false);
 
                             // Nếu không chồng lấn, thực hiện thay thế
                             if (!$isOverlapping) {
