@@ -10,7 +10,7 @@ class RenderAutoLink
 {
     public static function handle($content, $pageType)
     {
-        $autoLinks = AutoLink::all()->sortByDesc(function($autoLink) {
+        $autoLinks = AutoLink::all()->sortByDesc(function ($autoLink) {
             return strlen($autoLink->title);
         });
 
@@ -42,7 +42,7 @@ class RenderAutoLink
         foreach ($autoLinks as $autoLink) {
             if ($pageType === AutoLink::RENDER_FOR_PAGE && $autoLink->for_page
                 || ($pageType === AutoLink::RENDER_FOR_POST && $autoLink->for_post
-                || (is_bool($pageType) && $pageType)
+                    || (is_bool($pageType) && $pageType)
                 )
             ) {
                 // Prevent duplicate links
