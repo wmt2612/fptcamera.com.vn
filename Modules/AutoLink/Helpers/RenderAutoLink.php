@@ -55,7 +55,7 @@ class RenderAutoLink
 
                     if (empty($keyword)) continue;
 
-                    $keywordPattern = '/' . preg_quote($keyword, '/') . '/i';
+                    $keywordPattern = '/' . preg_quote($keyword, '/') . '/ui';
 
                     // Tìm tất cả các vị trí xuất hiện của keyword
                     preg_match_all($keywordPattern, $content, $matches, PREG_OFFSET_CAPTURE);
