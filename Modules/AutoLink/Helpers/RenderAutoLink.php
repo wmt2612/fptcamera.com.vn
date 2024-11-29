@@ -64,8 +64,16 @@ class RenderAutoLink
 
                     // Nếu số lần xuất hiện ít hơn hoặc bằng limit, thay thế tất cả
                     if ($totalMatches <= $limit) {
-                        $content = preg_replace_callback($keywordPattern, function ($matches) use ($autoLink) {
-                            return $autoLink->getUrl($matches[0]);
+                        $content = preg_replace_callback($keywordPattern, function ($matches) use ($autoLink, $content, &$replacedRanges) {
+                            $replacement = $autoLink->getUrl($matches[0]);
+                            $offset = strpos($content, $matches[0]);
+
+                            // Lưu vùng đã thay thế
+                            if ($offset !== false) {
+                                $replacedRanges[] = ['start' => $offset, 'end' => $offset + strlen($replacement)];
+                            }
+
+                            return $replacement;
                         }, $content, $limit);
                     } else {
                         // Tính toán các vị trí cần thay thế một cách đồng đều
