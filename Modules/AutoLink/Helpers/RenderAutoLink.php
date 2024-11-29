@@ -100,8 +100,6 @@ class RenderAutoLink
 
                                 // Lưu lại vùng đã thay thế
                                 $replacedRanges[] = ['start' => $offset, 'end' => $offset + strlen($replacement)];
-                            } else {
-                                dump($matchedText);
                             }
                         }
                     }
