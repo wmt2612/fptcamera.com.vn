@@ -85,20 +85,13 @@ class RenderAutoLink
                             $matchedText = $match[0];
                             $offset = $match[1];
 
-                            // Kiểm tra xem vị trí có chồng lấn với các vùng đã thay thế hay không
-                            $isOverlapping = array_reduce($replacedRanges, function ($carry, $range) use ($offset, $matchedText) {
-                                $endOffset = $offset + strlen($matchedText);
-                                return $carry || ($offset < $range['end'] && $endOffset > $range['start']);
-                            }, false);
-
-                            // Nếu không chồng lấn, thực hiện thay thế
-                            if (!$isOverlapping) {
+                            // Kiểm tra chồng lấn vùng đã thay thế
+                            if (!self::isOverlapping($offset, strlen($matchedText), $replacedRanges)) {
                                 $replacement = $autoLink->getUrl($matchedText);
                                 $content = substr_replace($content, $replacement, $offset, strlen($matchedText));
 
                                 // Lưu lại vùng đã thay thế
-                                $end = $offset + strlen($replacement);
-                                $replacedRanges[] = ['start' => $offset, 'end' => $end];
+                                $replacedRanges[] = ['start' => $offset, 'end' => $offset + strlen($replacement)];
                             }
                         }
                     }
@@ -125,5 +118,15 @@ class RenderAutoLink
         libxml_clear_errors();
 
         return $content;
+    }
+
+    private static function isOverlapping($offset, $length, $ranges) {
+        $endOffset = $offset + $length;
+        foreach ($ranges as $range) {
+            if ($offset < $range['end'] && $endOffset > $range['start']) {
+                return true;
+            }
+        }
+        return false;
     }
 }
