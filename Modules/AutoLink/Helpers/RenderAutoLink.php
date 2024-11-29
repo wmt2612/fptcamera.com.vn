@@ -10,9 +10,7 @@ class RenderAutoLink
 {
     public static function handle($content, $pageType)
     {
-        $autoLinks = AutoLink::all()->sortByDesc(function ($autoLink) {
-            return strlen($autoLink->title);
-        });
+        $autoLinks = AutoLink::all();
 
         // Tách phần <div id="toc-header"> để không thay thế nội dung trong phần này
         $dom = new \DOMDocument();
@@ -100,10 +98,6 @@ class RenderAutoLink
 
                                 // Lưu lại vùng đã thay thế
                                 $replacedRanges[] = ['start' => $offset, 'end' => $offset + strlen($replacement)];
-                                dump([
-                                    'offset' => $offset,
-                                    'matchedText' => $matchedText,
-                                ]);
                             }
                         }
                     }
