@@ -456,23 +456,23 @@
                         </div>
                     </div>
 
-                    @if($product->info_1 && $product->info_2)
+                    @if($product->short_description || $product->info_2)
                         <div class="row box_infor">
-                            @if($product->info_1)
-                                <div class="col-lg-6 col-md-6 col-6 col infor_left">
+                            @if($product->short_description)
+                                <div class="col-lg-6 col-md-6 col-sm-12 col infor_left">
                                     <div class="box_item">
                                         <div class="title">
-                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                            <span>Thông tin sản phẩm</span>
+                                            <i class="fas fa-gift"></i>
+                                            <span>Khuyến mãi</span>
                                         </div>
                                         <div class="box_list_items">
-                                            {!! $product->info_1 !!}
+                                            {!! $product->short_description !!}
                                         </div>
                                     </div>
                                 </div>
                             @endif
                             @if($product->info_2)
-                                <div class="col-lg-6 col-md-6 col-6 col infor_right">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col infor_right">
                                     <div class="box_item">
                                         <div class="title">
                                             <i class="fas fa-list"></i>
@@ -552,14 +552,14 @@
                                 @endif
 
 
-                                @if($product->short_description)
+                                @if($product->info_1)
                                     <div class="tab_content_item">
                                         <div class="title">
-                                            <i class="fas fa-gift"></i>
-                                            <h4>Khuyến mãi</h4>
+                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                            <h4>Thông tin sản phẩm</h4>
                                         </div>
                                         <div id="short-description">
-                                            {!! $product->short_description !!}
+                                            {!! $product->info_1 !!}
                                         </div>
                                     </div>
                                 @endif
