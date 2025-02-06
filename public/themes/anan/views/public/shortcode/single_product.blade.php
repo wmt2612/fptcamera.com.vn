@@ -8,7 +8,7 @@
         @endif
         <p class="single-product-name">{{ $product->name }}</p>
         <div class="single-product-desc">
-            {!! $customDesc ?? $product->short_description !!}
+            {!! $customDesc ?? $product->info_1 !!}
         </div>
         <a href="{{ route('product.single', ['slug' => $product->slug]) }}" target="_blank" class="single-product-button">
             Xem thêm
