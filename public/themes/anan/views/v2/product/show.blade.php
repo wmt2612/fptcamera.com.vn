@@ -619,18 +619,18 @@
                         </div>
                     </div>
                 </div>
-                @if($product->info_1 && $product->info_2)
+                @if($product->short_description || $product->info_2)
                     <div class="col-lg-12 col-md-12 col-12 hidden_destop ">
                         <div class="row box_infor">
                             @if($product->info_1)
                                 <div class="col-12 col infor_left">
                                     <div class="box_item">
                                         <div class="title">
-                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                            <span>Thông tin sản phẩm</span>
+                                            <i class="fas fa-gift"></i>
+                                            <span>Khuyến mại</span>
                                         </div>
                                         <div class="box_list_items">
-                                            {!! $product->info_1 !!}
+                                            {!! $product->short_description !!}
                                         </div>
                                     </div>
                                 </div>
