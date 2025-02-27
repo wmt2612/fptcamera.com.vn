@@ -18,7 +18,7 @@ class PostController
 {
     public function index(Product $model, ProductFilter $productFilter, Request $request)
     {
-        SEO::setTitle('Anantelecom - Tin công nghệ');
+        SEO::setTitle('FPTC - Tin công nghệ');
         SEO::setDescription(setting('meta_description_of_home') ?? 'Tin tức về công nghệ');
         SEOMeta::addKeyword(setting('meta_keyword_of_home') ?? setting('store_name'));
         SEO::opengraph()->setUrl(url()->current());
