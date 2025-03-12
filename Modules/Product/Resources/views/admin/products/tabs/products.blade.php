@@ -26,7 +26,6 @@
                 $svProducts = array_map('intval', $product->sameVersionProductList()->toArray());
             @endphp
             DataTable.setSelectedIds('#same_version_products .table', {!! old_json('same_version_products', $svProducts) !!});
-            window.form.appendHiddenInputs('#product-create-form, #product-edit-form', 'same_version_products', DataTable.getSelectedIds('#same_version_products .table'));
         @endif
         
         DataTable.setRoutes('#{{ $name }} .table', {

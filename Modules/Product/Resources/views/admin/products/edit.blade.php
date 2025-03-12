@@ -21,13 +21,6 @@
 @push('scripts')
       <script>
             $(document).ready(function() {
-                $('#product-edit-form').on('click', '#same_version_products input[type=checkbox]', function(e) {
-                    setTimeout(() => {
-                        window.form.appendHiddenInputs('#product-create-form, #product-edit-form', 'same_version_products', DataTable.getSelectedIds('#same_version_products .table'));
-                        console.log(DataTable.getSelectedIds('#same_version_products .table'));
-                    }, 1000);
-                });
-              
                  $('#btnReplicateProduct').click(function(e) {
                     e.preventDefault();
                     if(confirm('Are you sure you want to copy this product ?') === true) {
