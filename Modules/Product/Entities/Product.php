@@ -768,6 +768,48 @@ class Product extends Model
             ->addSelect(['id', 'is_active', 'created_at'])
             ->when($request->has('except'), function ($query) use ($request) {
                 $query->whereNotIn('id', explode(',', $request->except));
+            })
+            ->when($request->has('tab'), function ($query) use ($request) {
+                switch ($request->get('tab')) {
+                    case 'related_products':
+                        $relatedProductIds = DB::table('related_products')
+                            ->where('product_id', explode(',', $request->except))
+                            ->pluck('related_product_id');
+
+                        if ($relatedProductIds->isNotEmpty()) {
+                            $query->orderByRaw("FIELD(id, " . $relatedProductIds->implode(',') . ") DESC");
+                        }
+                        break;
+                    case 'up_sells':
+                        $upSellProductIds = DB::table('up_sell_products')
+                            ->where('product_id', explode(',', $request->except))
+                            ->pluck('up_sell_product_id');
+
+                        if ($upSellProductIds->isNotEmpty()) {
+                            $query->orderByRaw("FIELD(id, " . $upSellProductIds->implode(',') . ") DESC");
+                        }
+                        break;
+                    case 'cross_sells':
+                        $crossSellProductIds = DB::table('cross_sell_products')
+                            ->where('product_id', explode(',', $request->except))
+                            ->pluck('cross_sell_product_id');
+
+                        if ($crossSellProductIds->isNotEmpty()) {
+                            $query->orderByRaw("FIELD(id, " . $crossSellProductIds->implode(',') . ") DESC");
+                        }
+                        break;
+                    case 'same_version_products':
+                        $sameVersionProductIds = DB::table('same_version_products')
+                            ->where('product_id', explode(',', $request->except))
+                            ->pluck('same_version_product_id');
+
+                        if ($sameVersionProductIds->isNotEmpty()) {
+                            $query->orderByRaw("FIELD(id, " . $sameVersionProductIds->implode(',') . ") DESC");
+                        }
+                        break;
+                    default:
+                        break;
+                }
             });
 
         return new ProductTable($query);
