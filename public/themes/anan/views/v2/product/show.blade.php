@@ -691,18 +691,21 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="sp_lienquan-pane" role="tabpanel"
                          aria-labelledby="sp_lienquan" tabindex="0">
-                        <div id="relatedProducts">
-                            <div class="product_title">
-                                <h3>Sản phẩm liên quan</h3>
+                        @if(count($relatedProducts) > 0)
+                            <div id="relatedProducts">
+                                <div class="product_title">
+                                    <h3>Sản phẩm liên quan</h3>
+                                </div>
+                                <div class="row product_slider custem_slider">
+                                    @foreach($relatedProducts as $rProduct)
+                                        <div class="" style="width: 100%; ">
+                                            @include('v2.product.single_v2', ['product' => $rProduct])
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                            <div class="row product_slider custem_slider">
-                                @foreach($relatedProducts as $rProduct)
-                                    <div class="" style="width: 100%; ">
-                                        @include('v2.product.single_v2', ['product' => $rProduct])
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
+                        @endif
+
                     </div>
                     <div class="tab-pane fade" id="phukien-tab-pane" role="tabpanel" aria-labelledby="phukien-tab"
                          tabindex="0">

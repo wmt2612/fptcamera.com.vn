@@ -77,7 +77,7 @@ class ProductController
         $product = Product::findHiddenBySlug($slug);
         $product->load('crossSellProducts', 'upSellProducts', 'relatedProducts', 'reviews');
         $productsRecentlyViewed = $recentlyViewed->products();
-        $relatedProducts = $product->getRelatedProductCat($product->categories->pluck('id')->toArray());
+        $relatedProducts = $product->relatedProducts;
         $sameVersionProducts = $product->sameVersionProducts()->get();
 
         event(new ProductViewed($product));

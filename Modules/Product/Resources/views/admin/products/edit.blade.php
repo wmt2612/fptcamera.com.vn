@@ -32,7 +32,7 @@
                         $('#product-edit-form input[name=created_at]').remove();
                         $('#product-edit-form').submit();
                     }
-                })
+                });
             })
            
         </script>

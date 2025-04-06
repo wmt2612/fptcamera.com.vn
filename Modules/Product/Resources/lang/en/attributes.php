@@ -38,5 +38,6 @@ return [
     'info_1' => 'Additional Information 1',
     'info_2' => 'Additional Information 2',
     'is_hidden' => 'Hidden',
-    'banner_link' => 'Banner Link'
+    'banner_link' => 'Banner Link',
+    'url' => 'URL',
 ];

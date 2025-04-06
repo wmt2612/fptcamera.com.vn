@@ -1,3 +1,11 @@
+@if(!empty($product->id))
+    <div class="form-group" style="display: flex; align-items: center">
+        <label for="url" class="col-md-2 control-label text-left">{{ trans('product::attributes.url') }}</label>
+        <div class="col-md-10">
+            <a href="{{ $product->url }}" target="_blank">{{ $product->url }}</a>
+        </div>
+    </div>
+@endif
 {{ Form::text('name', trans('product::attributes.name'), $errors, $product, ['labelCol' => 2, 'required' => true]) }}
 {{ Form::text('short_name', trans('product::attributes.short_name'), $errors, $product, ['labelCol' => 2]) }}
 {{ Form::text('gift_note', trans('product::attributes.gift_note'), $errors, $product, ['labelCol' => 2]) }}
@@ -19,9 +27,9 @@
     </div>
 </div>
 @if($product->id)
-<div class="form-group"><label for="short_name" class="col-md-2 control-label text-left">Replicate</label>
-    <div class="col-md-10">
-        <button class="btn btn-danger" id="btnReplicateProduct">Copy</button>
+    <div class="form-group"><label for="short_name" class="col-md-2 control-label text-left">Replicate</label>
+        <div class="col-md-10">
+            <button class="btn btn-danger" id="btnReplicateProduct">Copy</button>
+        </div>
     </div>
-</div>
 @endif
