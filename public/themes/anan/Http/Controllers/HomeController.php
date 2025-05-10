@@ -79,8 +79,12 @@ class HomeController
         $data['recommends'] = Product::whereNotNull('special_price')->limit(10)->orderBy('id','asc')->get();
         $data['latest'] = Product::limit(10)->orderBy('id','desc')->get();
 
-        $lastblog = Group::where('slug', 'thong-tin-huu-ich')->first();
-        $data['latest_posts'] = $lastblog->posts()->limit(8)->get();
+        $lastblog = Group::find(1);
+        $data['latest_posts'] = [];
+
+        if ($lastblog) {
+            $data['latest_posts'] = $lastblog->posts()->limit(8)->get();
+        }
 
         if($request->get('s'))
         {
