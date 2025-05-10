@@ -67,6 +67,14 @@
         text-align: justify;
     }
 
+    .content-post table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-collapse: collapse;
+    }
+
     @media (max-width: 768px) {
         .post-author-content {
            flex-direction: column;
@@ -76,9 +84,8 @@
            text-align: center;
             margin-top: 12px;
         }
-
-
     }
+
 </style>
 @endpush
 @section('content')
@@ -180,7 +187,37 @@
                 $('.show-toc-toggle-btn').text('[ Ẩn ]');
             }
             $('.widget-toc').css('width', '100%');
-        }); 
+        });
+
+        $('.content-post table').each(function () {
+            const $table = $(this);
+
+                // Nếu chưa có tfoot thì tạo mới
+                if ($table.find('tfoot').length === 0) {
+                    const columnCount = $table.find('thead tr th').length || $table.find('tbody tr:first td').length;
+                    const $tfoot = $(`
+                      <tfoot>
+                        <tr>
+                          <td colspan="${columnCount}" class="table-scroll-hint" style="text-align:left; color:red; font-size:14px; padding:8px 0;">
+                            👉 Kéo sang phải để xem hết nội dung
+                          </td>
+                        </tr>
+                      </tfoot>
+                    `);
+                    $table.append($tfoot);
+                } else {
+                    // Nếu đã có tfoot thì chèn thông báo vào
+                    const columnCount = $table.find('thead tr th').length || $table.find('tbody tr:first td').length;
+                    $table.find('tfoot').html(`
+                      <tr>
+                        <td colspan="${columnCount}" class="table-scroll-hint" style="text-align:left; color:red; font-size:14px; padding:8px 0;">
+                          👉 Kéo sang phải để xem hết nội dung
+                        </td>
+                      </tr>
+                    `);
+                }
+        });
+
     })
 </script>
 @endpush
