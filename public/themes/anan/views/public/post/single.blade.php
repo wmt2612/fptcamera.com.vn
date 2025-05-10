@@ -189,34 +189,34 @@
             $('.widget-toc').css('width', '100%');
         });
 
-        $('.content-post table').each(function () {
-            const $table = $(this);
+        function showScrollHintIfNeeded() {
+            $('.content-post table').each(function () {
+                const $table = $(this);
+                const isMobile = window.innerWidth <= 768;
 
-                // Nếu chưa có tfoot thì tạo mới
-                if ($table.find('tfoot').length === 0) {
+                // Xóa hint cũ (nếu có)
+                $table.find('tfoot.table-scroll-hint-wrapper').remove();
+
+                if (isMobile) {
                     const columnCount = $table.find('thead tr th').length || $table.find('tbody tr:first td').length;
+
                     const $tfoot = $(`
-                      <tfoot>
+                      <tfoot class="table-scroll-hint-wrapper">
                         <tr>
-                          <td colspan="${columnCount}" class="table-scroll-hint" style="text-align:left; color:red; font-size:14px; padding:8px 0;">
+                          <td colspan="${columnCount}" class="table-scroll-hint" style="text-align:left; color:red; font-size:14px; padding:10px;">
                             👉 Kéo sang phải để xem hết nội dung
                           </td>
                         </tr>
                       </tfoot>
                     `);
+
                     $table.append($tfoot);
-                } else {
-                    // Nếu đã có tfoot thì chèn thông báo vào
-                    const columnCount = $table.find('thead tr th').length || $table.find('tbody tr:first td').length;
-                    $table.find('tfoot').html(`
-                      <tr>
-                        <td colspan="${columnCount}" class="table-scroll-hint" style="text-align:left; color:red; font-size:14px; padding:8px 0;">
-                          👉 Kéo sang phải để xem hết nội dung
-                        </td>
-                      </tr>
-                    `);
                 }
-        });
+            });
+        }
+
+        showScrollHintIfNeeded();
+        $(window).on('resize', showScrollHintIfNeeded);
 
     })
 </script>
