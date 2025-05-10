@@ -67,7 +67,7 @@
         text-align: justify;
     }
 
-    .content-post table {
+    .content-post .table-wrapper {
         display: block;
         width: 100%;
         overflow-x: auto;
@@ -187,6 +187,12 @@
                 $('.show-toc-toggle-btn').text('[ Ẩn ]');
             }
             $('.widget-toc').css('width', '100%');
+        });
+
+        $('.content-post table').each(function () {
+            if (!$(this).parent().hasClass('table-wrapper')) {
+                $(this).wrap('<div class="table-wrapper"></div>');
+            }
         });
 
         function showScrollHintIfNeeded() {
