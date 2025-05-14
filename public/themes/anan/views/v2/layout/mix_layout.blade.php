@@ -195,6 +195,7 @@
 <script type="text/javascript" src="{{ v(Theme::url('assets/v2/js/menu.js')) }}"></script>
 <script type='text/javascript' src='{{ v(Theme::url('assets/v2/js/search-product.js')) }}' defer></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script type='text/javascript' src='{{ v(Theme::url('assets/v2/js/countdown-timer.js')) }}' defer></script>
 @stack('scripts')
 
 {!! setting('custom_footer_assets') !!}

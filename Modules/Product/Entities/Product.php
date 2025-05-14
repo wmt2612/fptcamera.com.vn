@@ -388,6 +388,12 @@ class Product extends Model
 
     public function getSellingPriceAttribute($sellingPrice)
     {
+        if ($this->hasSpecialPrice()) {
+            $sellingPrice = $this->special_price->amount();
+        } else {
+            $sellingPrice = $this->price->amount();
+        }
+
         if (FlashSale::contains($this)) {
             $sellingPrice = FlashSale::pivot($this)->price->amount();
         }
@@ -1005,4 +1011,44 @@ class Product extends Model
         })->where('id', '!=', $this->id)->limit($limit)->get();
     }
 
+    public function getSpecialPriceRemainingAttribute()
+    {
+        if (!$this->special_price_end) {
+            return null;
+        }
+
+        $now = Carbon::now();
+        $start = Carbon::parse($this->special_price_start);
+        $end = Carbon::parse($this->special_price_end);
+
+        if ($start->gt($now)) {
+            return '';
+        }
+
+        if ($now->gt($end)) {
+            return 'Đã kết thúc';
+        }
+
+        $diffInSeconds = $now->diffInSeconds($end);
+        $diff = $now->diff($end);
+
+        if ($diff->d >= 1) {
+            // Nếu còn >= 1 ngày
+            return 'Còn ' . str_pad($diff->d, 2, '0', STR_PAD_LEFT) . ' ngày ' .
+                str_pad($diff->h, 2, '0', STR_PAD_LEFT) . ':' .
+                str_pad($diff->i, 2, '0', STR_PAD_LEFT) . ':' .
+                str_pad($diff->s, 2, '0', STR_PAD_LEFT);
+        } elseif ($diff->h >= 1) {
+            // Nếu còn giờ (nhưng < 1 ngày)
+            return 'Còn ' .
+                str_pad($diff->h, 2, '0', STR_PAD_LEFT) . ':' .
+                str_pad($diff->i, 2, '0', STR_PAD_LEFT) . ':' .
+                str_pad($diff->s, 2, '0', STR_PAD_LEFT);
+        } else {
+            // Nếu chỉ còn phút giây
+            return 'Còn ' .
+                str_pad($diff->i, 2, '0', STR_PAD_LEFT) . ' phút ' .
+                str_pad($diff->s, 2, '0', STR_PAD_LEFT) . ' giây';
+        }
+    }
 }

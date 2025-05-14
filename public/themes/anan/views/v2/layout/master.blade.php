@@ -37,6 +37,7 @@
 <script type="text/javascript" src="{{ v(Theme::url('assets/v2/slick-1.8.1/slick/slick.min.js')) }}"></script>
 <script type="text/javascript" src="{{ v(Theme::url('assets/v2/js/js.js')) }}"></script>
 <script type='text/javascript' src='{{ v(Theme::url('assets/v2/js/search-product.js')) }}' defer></script>
+<script type='text/javascript' src='{{ v(Theme::url('assets/v2/js/countdown-timer.js')) }}' defer></script>
 @stack('scripts')
 
 {!! setting('custom_footer_assets') !!}

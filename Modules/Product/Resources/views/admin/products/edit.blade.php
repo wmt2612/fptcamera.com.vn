@@ -8,6 +8,26 @@
     <li class="active">{{ trans('admin::resource.edit', ['resource' => trans('product::products.product')]) }}</li>
 @endcomponent
 
+@push('styles')
+    <style>
+        .datetime-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .remove-icon {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 35px;
+            color: red;
+            display: none;
+        }
+    </style>
+@endpush
+
 @section('content')
     <form method="POST" action="{{ route('admin.products.update', $product) }}" class="form-horizontal" id="product-edit-form" novalidate>
         {{ csrf_field() }}
@@ -33,8 +53,51 @@
                         $('#product-edit-form').submit();
                     }
                 });
-            })
-           
-        </script>
+
+                $('.datetime-picker[type="text"]').each(function () {
+                    // Bọc input và thêm icon
+                    const $input = $(this);
+                    $input.wrap('<div class="datetime-wrapper"></div>');
+                    const $wrapper = $input.parent();
+                    const $removeIcon = $('<span class="remove-icon">&times;</span>'); // dấu x
+
+                    $wrapper.append($removeIcon);
+
+                    const $hiddenInput = $input.closest('.form-group').find('input.datetime-picker[type="hidden"]');
+
+                    // Click vào icon để xoá
+                    $removeIcon.on('click', function () {
+                        $input.val('');
+                        $hiddenInput.val('');
+                        $removeIcon.hide();
+                        $input.focus();
+                    });
+
+                    // Nếu có sẵn giá trị thì hiện icon
+                    if ($input.val()) {
+                        $removeIcon.show();
+                    }
+                });
+
+                $('.form-group').has('input.datetime-picker[type="text"]').each(function () {
+                    const $wrapper = $(this);
+                    const $visibleInput = $wrapper.find('input.datetime-picker[type="text"]');
+                    const $hiddenInput = $wrapper.find('input.datetime-picker[type="hidden"]');
+                    const $removeIcon = $wrapper.find('.remove-icon');
+
+                    const handleChange = () => {
+                        if ($hiddenInput.val()) {
+                            $removeIcon.show();
+                        } else {
+                            $removeIcon.hide();
+                        }
+                    };
+
+                    // Gắn sự kiện khi input hidden (giá trị thực) thay đổi
+                    $hiddenInput.on('change', handleChange);
+
+                });
+            });
+      </script>
 @endpush
 

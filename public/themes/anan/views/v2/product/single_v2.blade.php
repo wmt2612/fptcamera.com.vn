@@ -30,6 +30,14 @@
                 <p>{{ $product->selling_price->format() }}</p>
             @endif
         </div>
+
+        @if($product->hasSpecialPrice() && !$product->contact_for_price && $product->special_price_end)
+            <div class="sale-countdown-timer"
+                 data-start-time="{{ optional($product->special_price_start)->toIso8601String() }}"
+                 data-end-time="{{ $product->special_price_end->toIso8601String() }}">
+               <span>{{ $product->special_price_remaining }}</span>
+            </div>
+        @endif
         <div class="star-rating">
             <i class="fa fa-star"></i>
             <i class="fa fa-star"></i>
