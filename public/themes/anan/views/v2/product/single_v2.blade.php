@@ -45,6 +45,16 @@
             <i class="fa fa-star"></i>
             <i class="fa fa-star"></i>
         </div>
+        @php
+            $productAttributes = $product->attributeValues();
+        @endphp
+        @if(count($productAttributes) > 0)
+            <div class="product-attributes">
+                @foreach($productAttributes as $attributeValue)
+                    <span>{{ $attributeValue->value }}</span>
+                @endforeach
+            </div>
+        @endif
         <div class="flash-sale-process">
             <div class="text">Đã bán {{ $product->viewed }}</div>
             <div class="icon_hot">

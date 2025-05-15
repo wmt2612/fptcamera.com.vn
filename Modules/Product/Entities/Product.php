@@ -1051,4 +1051,17 @@ class Product extends Model
                 str_pad($diff->s, 2, '0', STR_PAD_LEFT) . ' giây';
         }
     }
+
+    public function attributeValues()
+    {
+        $values = [];
+
+        foreach ($this->attributes()->get() as $productAttribute) {
+            foreach ($productAttribute->values as $productAttributeValue) {
+                $values[] = $productAttributeValue->attributeValue;
+            }
+        }
+
+        return $values;
+    }
 }
