@@ -563,7 +563,16 @@
                                         </div>
                                     </div>
                                 @endif
-
+                                @php
+                                    $productAttributes = $product->attributeValues();
+                                @endphp
+                                @if(count($productAttributes) > 0)
+                                    <div class="single-product-attributes">
+                                        @foreach($productAttributes as $attributeValue)
+                                            <span>{{ $attributeValue->value }}</span>
+                                        @endforeach
+                                    </div>
+                                @endif
                                 <div class="price" id="product-price">
                                     @if($product->contact_for_price)
                                         <span class="bk-check-out-of-stock">Giá liên hệ</span>
