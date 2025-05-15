@@ -124,6 +124,14 @@ footer .bg-ft-link .az-ft-link .list-social li i.fa-facebook {
     font-weight: bold;
 }
 
+.product-sale-countdown-timer {
+    font-size: 15px;
+    color: #7300ff;
+    font-weight: bold;
+    margin: 10px 0;
+    font-style: italic;
+}
+
 .product-attributes {
     display: flex;
     gap: 5px;

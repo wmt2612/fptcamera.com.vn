@@ -574,6 +574,13 @@
                                         <span class="bk-product-price">{{ $product->selling_price->format() }}</span>
                                     @endif
                                 </div>
+                                @if($product->hasSpecialPrice() && !$product->contact_for_price && $product->special_price_end)
+                                    <div class="product-sale-countdown-timer"
+                                         data-start-time="{{ optional($product->special_price_start)->toIso8601String() }}"
+                                         data-end-time="{{ $product->special_price_end->toIso8601String() }}">
+                                        <span>{{ $product->special_price_remaining }}</span>
+                                    </div>
+                                @endif
                                 <div class="box_btn-cart flex justify-content-between" style="gap: 10px">
                                     <form action="{{ route('cart.items.store') }}" method="POST" style="width: 100%">
                                         @csrf
