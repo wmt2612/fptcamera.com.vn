@@ -12,7 +12,7 @@ class RenderAutoLink
     {
         $autoLinks = AutoLink::all();
 
-        $maxAutoLinks = 6;
+        $maxAutoLinks = 11;
         $currentAutoLinkCount = 0;
 
         // Tách phần <div id="toc-header"> để không thay thế nội dung trong phần này
