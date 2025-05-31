@@ -525,13 +525,21 @@
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                             </div>
+                                                             ${product.attribute_values.length > 0 ?
+                                                                `<div class="product-attributes">
+                                                                    ${product.attribute_values.map(function (attribute) {
+                                                                        return `<span>${attribute.value}</span>`;
+                                                                    }).join('')}
+                                                                </div>`
+                                                                : ''
+                                                            }
                                                             <div class="flash-sale-process">
                                                                 <div class="text">Đã bán ${product.viewed}</div>
-                                            <div class="icon_hot">
-                                                <img loading="lazy"
-                                                     src="{{ v(Theme::url("assets/v2/images/flash-sale.png")) }}" alt="sold">
-                                            </div>
-                                        </div>
+                                                                <div class="icon_hot">
+                                                                    <img loading="lazy"
+                                                                         src="{{ v(Theme::url("assets/v2/images/flash-sale.png")) }}" alt="sold">
+                                                                </div>
+                                                            </div>
 
                                     </div>
                                     <div class="product-attribute">
