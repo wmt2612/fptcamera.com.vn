@@ -12,6 +12,9 @@ class RenderAutoLink
     {
         $autoLinks = AutoLink::all();
 
+        $maxAutoLinks = 6;
+        $currentAutoLinkCount = 0;
+
         // Tách phần <div id="toc-header"> để không thay thế nội dung trong phần này
         $dom = new \DOMDocument();
         libxml_use_internal_errors(true); // Để xử lý các lỗi cảnh báo khi tải HTML
@@ -62,13 +65,16 @@ class RenderAutoLink
 
                     // Nếu số lần xuất hiện ít hơn hoặc bằng limit, thay thế tất cả
                     if ($totalMatches <= $limit) {
-                        $content = preg_replace_callback($keywordPattern, function ($matches) use ($autoLink, $content, &$replacedRanges) {
+                        $content = preg_replace_callback($keywordPattern, function ($matches) use ($autoLink, $content, &$replacedRanges,  &$currentAutoLinkCount, $maxAutoLinks) {
+                            if ($currentAutoLinkCount >= $maxAutoLinks) return $matches[0]; // Không thay thế nếu vượt giới hạn
+
                             $replacement = $autoLink->getUrl($matches[0]);
                             $offset = strpos($content, $matches[0]);
 
                             // Lưu vùng đã thay thế
                             if ($offset !== false) {
                                 $replacedRanges[] = ['start' => $offset, 'end' => $offset + strlen($replacement)];
+                                $currentAutoLinkCount++;
                             }
 
                             return $replacement;
@@ -87,6 +93,8 @@ class RenderAutoLink
                         rsort($selectedIndexes);
 
                         foreach ($selectedIndexes as $index) {
+                            if ($currentAutoLinkCount >= $maxAutoLinks) break;
+
                             $match = $matches[0][$index];
                             $matchedText = $match[0];
                             $offset = $match[1];
@@ -98,6 +106,8 @@ class RenderAutoLink
 
                                 // Lưu lại vùng đã thay thế
                                 $replacedRanges[] = ['start' => $offset, 'end' => $offset + strlen($replacement)];
+
+                                $currentAutoLinkCount++;
                             }
                         }
                     }
