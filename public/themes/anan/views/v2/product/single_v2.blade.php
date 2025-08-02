@@ -51,7 +51,9 @@
         @if(count($productAttributes) > 0)
             <div class="product-attributes">
                 @foreach($productAttributes as $attributeValue)
-                    <span>{{ $attributeValue->value }}</span>
+                    @if(!empty($attributeValue))
+                        <span>{{ $attributeValue->value }}</span>
+                    @endif
                 @endforeach
             </div>
         @endif
