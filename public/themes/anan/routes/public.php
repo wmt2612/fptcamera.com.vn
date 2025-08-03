@@ -21,8 +21,6 @@ Route::group(['prefix' => 'gio-hang', 'as' => 'cart.'], function(){
 });
 Route::get('/prods/search-ajax', 'ProductController@searchAjax')->name('product.search.ajax');
 
-Route::get('/sitemap.xml', 'HomeController@generateSitemap')->name('sitemap.xml');
-
 Route::get('tra-cuu-don-hang', [\Modules\Order\Http\Controllers\OrderController::class, 'orderTracking'])->name('order.tracking');
 
 Route::get('/ajax/categories/{slug}', 'ProductController@ajaxCategory')->name('product.ajaxCategory');
