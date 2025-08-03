@@ -31,7 +31,7 @@ class SendReviewMail extends Mailable
      */
     public function build()
     {
-        $subject = "Thông báo: Khách hàng {$this->rating->customer_name} vừa gửi đánh giá trên FPT Camera";
+        $subject = "Thông báo: Khách hàng {$this->rating->customer_name} vừa gửi đánh giá trên FPTC";
 
         return $this
             ->subject($subject)

@@ -5,7 +5,7 @@ return [
     'thank_you'    => 'Cảm ơn quý khách đã đặt hàng tại '. setting('store_name'),
     'template'  => [
         'thank_you_text' => 'Cảm ơn bạn %s đã đặt hàng tại '. setting('store_name'),
-        'text_order'    => 'FPTC Camera vui mừng thông báo đơn hàng #%d của bạn đã được nhận và đang trong quá trình xử lý.',
+        'text_order'    => 'FPTC vui mừng thông báo đơn hàng #%d của bạn đã được nhận và đang trong quá trình xử lý.',
         'info_order'    => 'Thông tin đơn hàng',
         'day'   => 'Day',
         'month' => 'Month',
