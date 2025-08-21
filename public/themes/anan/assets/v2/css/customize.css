@@ -40,7 +40,7 @@ footer .bg-ft-link .az-ft-link .list-social li i.fa-facebook {
     color: #3B5996;
 }
 
-.box_product .img .product-img-frame{
+.box_product .img .product-img-frame {
     position: absolute;
     top: 0;
     left: 0;
@@ -58,7 +58,7 @@ footer .bg-ft-link .az-ft-link .list-social li i.fa-facebook {
 }
 
 .single-product-block {
-    box-shadow: 0 1px 14px rgba(0,0,0,.16);
+    box-shadow: 0 1px 14px rgba(0, 0, 0, .16);
     padding: 20px;
     display: flex;
     gap: 10px;
@@ -206,11 +206,40 @@ footer .bg-ft-link .az-ft-link .list-social li i.fa-facebook {
     .product-attributes span {
         font-size: 10px;
     }
+
+    footer .ft-link-row-1 div{
+        margin-bottom: 15px;
+    }
+
+    footer .ft-link-row-1 > div:last-child {
+        order: -1;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    footer .ft-link-row-1 .d-sm-block {
+        display: block !important;
+    }
+
+    footer .az-col {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
 }
 
 @media (max-width: 500px) {
     header .box_header .flex_right ul li a img {
         width: 30px;
+    }
+}
+
+@media (max-width: 400px) {
+    footer .az-col {
+        flex: 0 0 100%;
+        max-width: 100%;
     }
 }
 
