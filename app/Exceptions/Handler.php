@@ -69,7 +69,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($this->shouldShowNotFoundPage($e)) {
-            return response()->view('errors.404');
+            return response()->view('errors.404', [], 404);
         }
 
         return parent::render($request, $e);
