@@ -2,6 +2,7 @@
 
 namespace FleetCart\Exceptions;
 
+use Modules\Product\Entities\Product;
 use Throwable;
 use Illuminate\Http\Request;
 use Swift_TransportException;
@@ -36,7 +37,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param \Throwable  $e
+     * @param \Throwable $e
      * @return void
      */
     public function report(Throwable $e)
@@ -106,7 +107,7 @@ class Handler extends ExceptionHandler
      */
     private function shouldRedirectToAdminDashboard(Throwable $e)
     {
-        if (config('app.debug') || ! $this->inAdminPanel()) {
+        if (config('app.debug') || !$this->inAdminPanel()) {
             return false;
         }
 
