@@ -1,6 +1,6 @@
 @extends('public.layout')
 
-@section('title', '404 - Trang không tồn tại | FPTC')
+@section('title', '404 - Trang không tồn tại')
 
 @section('content')
     <div class="container py-5">
