@@ -1,6 +1,6 @@
 @extends('public.layout')
 
-@section('title', '404 - Trang không tồn tại | FPT Camera')
+@section('title', '404 - Trang không tồn tại | FPTC')
 
 @section('content')
     <div class="container py-5">
@@ -25,7 +25,7 @@
                 <h2 class="mb-3">Oops! Trang bạn tìm không tồn tại</h2>
                 <p class="text-muted">
                     Có thể URL bạn nhập sai, hoặc trang đã bị xóa khỏi hệ thống.
-                    Hãy quay lại trang chủ hoặc tiếp tục khám phá các sản phẩm của FPT Camera.
+                    Hãy quay lại trang chủ hoặc tiếp tục khám phá các sản phẩm của FPTC.
                 </p>
 
                 <!-- Action buttons -->
