@@ -382,6 +382,10 @@
     .sale-off-overlay.active {
         display: flex;
     }
+
+    .popup-content {
+        max-height: 400px;
+    }
 }
 
 /* Mobile nhỏ hơn nữa: dưới 480px */
