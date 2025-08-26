@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="{{ v(Theme::url('assets/v2/slick-1.8.1/slick/slick.css')) }}" />
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/style.css')) }}" rel="stylesheet" />
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/root-review.css')) }}" rel="stylesheet" />
+    <link type="text/css" href="{{ v(Theme::url('assets/v2/css/contact-buttons.css')) }}" rel="stylesheet" />
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/customize.css')) }}" rel="stylesheet" />
     @stack('styles')
 

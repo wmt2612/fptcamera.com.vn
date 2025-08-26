@@ -48,7 +48,8 @@ class LayoutComposer
             'primaryMenu' => $this->getPrimaryMenu(),
             'leftSideTopMenu' => $this->getLeftSideTopMenu(),
             'rightSideTopMenu' => $this->getRightSideTopMenu(),
-            'newTopMenu' => $this->getNewTopMenu()
+            'newTopMenu' => $this->getNewTopMenu(),
+            'saleOffProducts' => $this->getSaleOffProducts(),
         ]);
     }
     
@@ -143,4 +144,22 @@ class LayoutComposer
             });
     }
 
+    private function getSaleOffProducts()
+    {
+        $products = [];
+
+        for ($i = 1; $i <= 10; $i++) {
+           if (!empty(setting("sale_off_popup_product_{$i}_name"))) {
+               $products[] = [
+                   'name' => setting("sale_off_popup_product_{$i}_name"),
+                   'desc' => setting("sale_off_popup_product_{$i}_desc"),
+                   'url' => setting("sale_off_popup_product_{$i}_url"),
+                   'is_hot' => setting("sale_off_popup_product_{$i}_is_hot"),
+                   'image' => $this->getMedia(setting("sale_off_popup_product_{$i}_image")),
+               ];
+           }
+        }
+
+        return $products;
+    }
 }

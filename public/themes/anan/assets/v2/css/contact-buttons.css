@@ -1,0 +1,393 @@
+.contact-buttons {
+    position: fixed;
+    right: 20px;
+    bottom: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 9999;
+}
+
+/* Mỗi item */
+.contact-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Icon tròn */
+.contact-btn {
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-btn img {
+    max-width: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
+}
+
+.contact-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Tooltip hiển thị text */
+.contact-tooltip {
+    position: absolute;
+    right: 70px; /* cách icon */
+    background: #0284c7;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateX(10px);
+}
+
+/* Mũi tên nhỏ */
+.contact-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -8px; /* đẩy mũi tên ra sát icon */
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid #0284c7; /* màu trùng background tooltip */
+}
+
+.contact-item:hover .contact-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* SALE OFF */
+.tooltip-sale {
+    background: #f97316; /* cam đỏ */
+}
+.tooltip-sale::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -8px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid #f97316;
+}
+
+/* ZALO */
+.tooltip-zalo {
+    background: #007aff; /* xanh zalo */
+}
+.tooltip-zalo::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -8px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid #007aff;
+}
+
+/* PHONE */
+.tooltip-phone {
+    background: #22c55e; /* xanh lá */
+}
+.tooltip-phone::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -8px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid #22c55e;
+}
+
+.sale-off-btn {
+    position: fixed;
+    bottom: 50px;    /* chỉnh khoảng cách từ bottom */
+    left: 40px;      /* cách cạnh trái */
+    z-index: 9999;
+    width: 60px;     /* full width icon */
+    height: 60px;
+}
+
+/* Link chính */
+.sale-off-link {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 15px 4px rgba(255, 215, 0, 0.7); /* phát sáng vàng */
+    animation: glow 0.8s infinite ease-in-out; /* nhanh và rõ hơn */
+}
+
+/* Ảnh icon */
+.sale-off-link img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
+}
+
+/* Badge số lượng */
+.sale-off-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #dc2626; /* đỏ */
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 4px 7px;
+    min-width: 20px;
+    text-align: center;
+    line-height: 1;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Hiệu ứng phát sáng vàng */
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 4px 1px rgba(255, 215, 0, 0.5);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 12px 3px rgba(255, 215, 0, 0.9);
+        transform: scale(1.05);
+    }
+    100% {
+        box-shadow: 0 0 4px 1px rgba(255, 215, 0, 0.5);
+        transform: scale(1);
+    }
+}
+
+/* Tooltip */
+.sale-off-tooltip {
+    position: absolute;
+    left: 75px; /* cách icon 1 chút */
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    background: #1d4ed8; /* xanh đậm */
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Mũi tên */
+.sale-off-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -8px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid #1d4ed8;
+}
+
+/* Hover hiển thị tooltip */
+.sale-off-btn:hover .sale-off-tooltip {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+/* Popup mặc định ẩn */
+.sale-off-popup {
+    position: fixed;
+    bottom: 50px;
+    left: 40px;
+    width: 400px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 9999999999;
+    transform: translateX(-120%); /* ẩn sang trái */
+    transition: transform 0.3s ease;
+}
+
+.sale-off-popup.active {
+    display: flex;
+    transform: translateX(0); /* trượt vào */
+}
+
+/* Header */
+.sale-off-popup .popup-header {
+    background: #0284c7;
+    color: #fff;
+    padding: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sale-off-popup .popup-close {
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Nội dung sản phẩm */
+.popup-content {
+    padding: 10px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Custom Scrollbar trong content */
+.popup-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.popup-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.popup-content::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 10px;
+}
+
+.popup-content::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+.popup-item {
+    display: flex;
+    align-items: flex-start;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    gap: 10px;
+}
+
+.popup-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+
+.popup-item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.item-info h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.item-info p {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: #666;
+    display: -webkit-box;             /* Dùng box model của WebKit */
+    -webkit-box-orient: vertical;     /* Xếp theo chiều dọc */
+    -webkit-line-clamp: 2;            /* Giới hạn 2 dòng */
+    overflow: hidden;                 /* Ẩn phần dư */
+    text-overflow: ellipsis;          /* Thêm dấu ... */
+}
+
+/* Badge HOT */
+.badge-hot {
+    background: #dc2626;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+/* Overlay nền mờ */
+.sale-off-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5); /* màu đen trong suốt */
+    z-index: 9999;
+    display: none;
+}
+
+/* Mobile: màn hình dưới 768px */
+@media (max-width: 768px) {
+    .sale-off-btn {
+        bottom: 80px;
+        left: 18px;
+    }
+
+    .sale-off-popup {
+        width: 90%;
+        left: 50%;
+        bottom: 140px;
+        transform: translateX(-50%);
+    }
+
+    .sale-off-popup.active {
+        transform: translateX(-50%) translateY(0);
+        display: flex;
+    }
+
+    .sale-off-overlay.active {
+        display: flex;
+    }
+}
+
+/* Mobile nhỏ hơn nữa: dưới 480px */
+@media (max-width: 480px) {
+    .contact-buttons {
+        bottom: 200px; /* cao hơn để tránh đè nút điều hướng mobile */
+        right: 18px;
+    }
+}

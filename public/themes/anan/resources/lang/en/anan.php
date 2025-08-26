@@ -53,6 +53,12 @@ return [
         'vertical_products_2' => 'Vertical Products 2',
         'vertical_products_3' => 'Vertical Products 3',
         'image' => 'Image',
+        'sale_off_popup_product_name' => 'Product Name',
+        'sale_off_popup_product_desc' => 'Product Description',
+        'sale_off_popup_product_image' => 'Product Image',
+        'sale_off_popup_product_url' => 'Product URL',
+        'sale_off_popup_title' => 'Title',
+        'sale_off_popup_product_is_hot' => 'Is Hot',
     ],
     'tabs' => [
         'group' => [
@@ -62,6 +68,7 @@ return [
             'page_setting' => 'Page Setting',
             'home_1' => 'Home 1',
             'home_2' => 'Home 2',
+            'sale_off_setting' => 'Sale Off Setting',
         ],
         'general' => 'General',
         'logo' => 'Logo',
@@ -82,6 +89,8 @@ return [
         'three_column_banners' => 'Three Column Banners',
         'product_tabs_two' => 'Product Tabs Two',
         'one_column_banner' => 'One Column Banner',
+        'sale_off_contact' => 'Contact',
+        'sale_off_popup' => 'Sale Off Popup',
     ],
     'error' => [
         'name' => [

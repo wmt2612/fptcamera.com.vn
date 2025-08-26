@@ -5,8 +5,6 @@
         {{ Form::select('anan_terms_page', trans('anan::attributes.anan_terms_page'), $errors, $pages, $settings) }}
         {{ Form::select('anan_privacy_page', trans('anan::attributes.anan_privacy_page'), $errors, $pages, $settings) }}
         {{ Form::text('translatable[anan_address]', trans('anan::attributes.anan_address'), $errors, $settings) }}
-        {{ Form::text('contact_phone', 'Phone Number', $errors, $settings) }}
-        {{ Form::text('contact_zalo', 'Zalo', $errors, $settings) }}
         {{ Form::text('contact_messenger', 'Messenger', $errors, $settings) }}
         {{ Form::text('product_hotlines', 'Product Hotlines', $errors, $settings) }}
         <div class="row" style="margin-bottom: 10px">

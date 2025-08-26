@@ -55,6 +55,10 @@ class AnanTabs extends Tabs
             ->add($this->footer())
             ->add($this->productSidebar());
 
+        $this->group('sale_off_setting', trans('anan::anan.tabs.group.sale_off_setting'))
+            ->add($this->saleOffContact())
+            ->add($this->saleOffPopup());
+
     }
 
     private function productSidebar()
@@ -436,4 +440,27 @@ class AnanTabs extends Tabs
         });
     }
 
+    private function saleOffContact()
+    {
+        return tap(new Tab('sale_off_contact', trans('anan::anan.tabs.sale_off_contact')), function (Tab $tab) {
+            $tab->weight(1);
+
+            $tab->view('admin.anan.tabs.sale_off.contact');
+        });
+    }
+
+    private function saleOffPopup()
+    {
+        $data = [];
+
+        for ( $i = 1; $i <= 10; $i++ ) {
+            $data["productImage{$i}"] = $this->getMedia(setting("sale_off_popup_product_{$i}_image"));
+        }
+
+        return tap(new Tab('sale_off_popup', trans('anan::anan.tabs.sale_off_popup')), function (Tab $tab) use ($data) {
+            $tab->weight(2);
+
+            $tab->view('admin.anan.tabs.sale_off.sale_off_popup', $data);
+        });
+    }
 }
