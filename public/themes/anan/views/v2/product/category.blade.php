@@ -614,7 +614,40 @@
                 if (params.has('toPrice')) params.delete('toPrice')
                 params.set('contactPrice', value)
                 handleReload(params)
-            })
+            });
         })
+    </script>
+    <script>
+        function wrapTables() {
+            $(".category_content .box_text table").each(function() {
+                if (!$(this).parent().hasClass("table-wrapper")) {
+                    $(this).wrap('<div class="table-wrapper"></div>');
+                }
+            });
+        }
+
+        function addScrollHint() {
+            $(".category_content .box_text .table-wrapper").each(function() {
+                var $wrapper = $(this);
+
+                // Xoá hint cũ nếu có
+                $wrapper.next(".table-scroll-hint").remove();
+
+                // Kiểm tra có bị scroll ngang không
+                if ($wrapper[0].scrollWidth > $wrapper.innerWidth()) {
+                    $wrapper.after('<div class="table-scroll-hint mt-2">👉 Kéo sang ngang để xem thêm</div>');
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            wrapTables();
+            addScrollHint();
+
+            // Re-check khi resize
+            $(window).on("resize", function() {
+                addScrollHint();
+            });
+        });
     </script>
 @endpush

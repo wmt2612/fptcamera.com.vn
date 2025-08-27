@@ -166,6 +166,137 @@ footer .bg-ft-link .az-ft-link .list-social li i.fa-facebook {
     padding: 5px;
 }
 
+/* Wrapper cho scroll ngang */
+.category_content .box_text .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* mượt trên iOS */
+}
+
+.category_content .box_text table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.category_content .box_text table thead {
+    background: #f5f7fa;
+}
+
+.category_content .box_text table th,
+.category_content .box_text table td {
+    padding: 12px 16px;
+    text-align: left;
+    border: 1px solid #e5e7eb;
+}
+
+.category_content .box_text table th {
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+}
+
+.category_content .box_text table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.category_content .box_text table tbody tr:hover {
+    background-color: #f0f9ff;
+    transition: background 0.2s;
+}
+
+.category_content .box_text h1,
+.category_content .box_text h2,
+.category_content .box_text h3,
+.category_content .box_text h4,
+.category_content .box_text h5,
+.category_content .box_text h6 {
+    font-weight: 600;
+    line-height: 1.3;
+    color: #111827; /* gray-900 */
+}
+
+/* h1: tiêu đề lớn nhất */
+.category_content .box_text h1 {
+    font-size: 2rem;   /* ~32px */
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+    border-bottom: 2px solid #e5e7eb; /* gạch nhẹ dưới H1 */
+    padding-bottom: 0.3em;
+}
+
+/* h2 */
+.category_content .box_text h2 {
+    font-size: 1.75rem; /* ~28px */
+    font-weight: 700;
+}
+
+/* h3 */
+.category_content .box_text h3 {
+    font-size: 1.5rem;  /* ~24px */
+    font-weight: 600;
+    margin-top: 0.6em;
+    margin-bottom: 0.6em;
+    color: #1f2937; /* gray-800 */
+}
+
+/* h4 */
+.category_content .box_text h4 {
+    font-size: 1.25rem; /* ~20px */
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: #374151; /* gray-700 */
+}
+
+/* h5 */
+.category_content .box_text h5 {
+    font-size: 1.125rem; /* ~18px */
+    font-weight: 500;
+    margin-top: 0.8em;
+    margin-bottom: 0.4em;
+    color: #4b5563; /* gray-600 */
+}
+
+/* h6 */
+.category_content .box_text h6 {
+    font-size: 1rem; /* ~16px */
+    font-weight: 500;
+    margin-top: 0.6em;
+    margin-bottom: 0.3em;
+    color: #6b7280; /* gray-500 */
+}
+
+.category_content .box_text ul {
+    list-style: none !important;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.category_content .box_text li {
+    position: relative;
+    padding-left: 1.5em;
+    margin: 0.5em 0;
+    line-height: 1.6;
+}
+
+.category_content .box_text li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #3b82f6; /* xanh brand */
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+
 @media (max-width: 1024px) {
     .menu_mobile .category_mb ul li {
         height: auto;
