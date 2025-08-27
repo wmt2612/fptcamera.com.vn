@@ -83,10 +83,12 @@
             <p class="cb-hotline-title">Hoặc liên hệ trực tiếp:</p>
             <ul>
                 @for($i = 1; $i <= 4; $i++)
-                    <li>
-                        <span class="cb-label"><span class="cb-icon">📞</span> {{ setting("contact_hotline_{$i}_name") }}: <span class="cb-number">{{ setting("contact_hotline_{$i}_number") }}</span></span>
-                        <a href="tel:{{ setting("contact_hotline_{$i}_number") }}" class="cb-call-now text-decoration-none">Gọi ngay</a>
-                    </li>
+                    @if(!empty(setting("contact_hotline_{$i}_name")))
+                        <li>
+                            <span class="cb-label"><span class="cb-icon">📞</span> {{ setting("contact_hotline_{$i}_name") }}: <span class="cb-number">{{ setting("contact_hotline_{$i}_number") }}</span></span>
+                            <a href="tel:{{ setting("contact_hotline_{$i}_number") }}" class="cb-call-now text-decoration-none">Gọi ngay</a>
+                        </li>
+                    @endif
                 @endfor
             </ul>
         </div>
