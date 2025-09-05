@@ -305,9 +305,9 @@ class ProductController
                 'posts' => $posts
             ];
 
-            SEO::setTitle($category->name);
-            SEO::setDescription($category->name);
-            SEOMeta::addKeyword($category->name);
+            SEO::setTitle($category->meta->meta_title ?? $category->name);
+            SEO::setDescription($category->meta->meta_description ?? $category->name);
+            SEOMeta::addKeyword($category->meta->meta_keyword ?? $category->name);
             SEO::opengraph()->setUrl(url()->current());
             SEO::twitter()->setSite('https://fptcamera.com.vn');
             SEO::jsonLd()->addImage('https://fptcamera.com.vn/themes/anan/assets/images/2020/04/logo.jpg');
