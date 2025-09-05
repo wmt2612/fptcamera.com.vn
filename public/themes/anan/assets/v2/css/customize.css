@@ -307,6 +307,10 @@ footer .bg-ft-link .az-ft-link .list-social li i.fa-facebook {
         padding: 10px 0;
     }
 
+    .menu_mobile {
+        z-index: 9999;
+    }
+
     header .box_header .flex_right ul.new-top-mobile-menu {
         display: flex;
         justify-content: flex-end;

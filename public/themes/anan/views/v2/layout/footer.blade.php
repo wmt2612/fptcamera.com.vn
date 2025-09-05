@@ -86,6 +86,10 @@
 
 </footer>
 
+<div class="button_scrool">
+<button id="scroll_bt"><i class="fas fa-angle-up"></i></button>
+</div>
+
 @include('v2.sections.contact-buttons')
 
 <div class="menu_mobile">

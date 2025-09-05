@@ -38,13 +38,10 @@ $(document).ready(function(){
     });
 
 // menu mobile
-    $(".open_tab-menu").click(function(){
-        if($(this).parent().parent().find('.category_mb').hasClass('open_tab')){
-            $(this).parent().parent().find('.category_mb').removeClass('open_tab')
-        } else {
-            $(this).parent().parent().find('.category_mb').addClass('open_tab')
-        }
+    $(".open_tab-menu").click(function(e){
+        e.preventDefault();
 
+        $(this).closest(".menu_mobile").find(".category_mb").toggleClass("open_tab");
     });
 
 });
