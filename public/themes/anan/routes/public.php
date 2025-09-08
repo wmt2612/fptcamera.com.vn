@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'HomeController@homeV2')->name('home');
+Route::get('/', 'HomeV2Controller@index')->name('home')->middleware('cache.response');
 Route::get('/product/{slug}', 'HomeController@index')->name('product.category');
 
 // Product

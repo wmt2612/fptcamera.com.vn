@@ -8,6 +8,7 @@ use Themes\Anan\Admin\AnanTabs;
 use Modules\Support\Traits\AddsAsset;
 use Illuminate\Support\Facades\View;
 
+use Themes\Anan\Http\ViewComposer\HomeV2Composer;
 use Themes\Anan\Http\ViewComposer\LayoutComposer;
 use Themes\Anan\Http\ViewComposer\HomeComposer;
 use Themes\Anan\Http\ViewComposer\BlogComposer;
@@ -21,7 +22,7 @@ class ThemeServiceProvider extends ServiceProvider
     {
 
     	View::composer(['public.*', 'v2.layout.*'], LayoutComposer::class);
-    	View::composer(['public.home.*', 'v2.home.*'], HomeComposer::class);
+    	View::composer(['public.home.*', 'v2.home.*'], HomeV2Composer::class);
         View::composer('public.post.*', BlogComposer::class);
         View::composer(['public.*', 'v2.layout.*'], AnanViewComposer::class);
 
