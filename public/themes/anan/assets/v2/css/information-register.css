@@ -1,0 +1,87 @@
+/* ===============================
+   Form đăng ký thông tin
+   Prefix: info-register-
+   =============================== */
+
+.info-register {
+    background: #f8f9fa;
+}
+
+.info-register-box {
+    max-width: 800px;
+}
+
+.info-register-box .card {
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+/* Banner */
+.info-register-banner h2 {
+    color: var(--xanhnuocbien);
+}
+
+.info-register-banner p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Button */
+.info-register-btn {
+    background-color: var(--xanhnuocbien);
+    color: #fff;
+    border-radius: 8px;
+    padding: 12px 40px;
+    transition: all 0.3s ease;
+}
+
+.info-register-btn:hover {
+    background-color: #006bb3;
+    color: #fff;
+}
+
+/* Input spacing */
+.info-register-form .form-control {
+    padding: 12px 14px;
+    font-size: 1rem;
+}
+
+.info-register-form .form-label {
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.info-register-form .mb-3,
+.info-register-form .col-md-6,
+.info-register-form .col-12 {
+    margin-bottom: 1.2rem;
+}
+
+/* Focus effect */
+.info-register-form .form-control:focus {
+    border-color: var(--xanhnuocbien);
+    box-shadow: 0 0 0 0.2rem rgba(0, 136, 204, 0.25);
+}
+
+/* ===============================
+   Trang Thank You
+   Prefix: thank-you-
+   =============================== */
+
+.thank-you {
+    background: #f8f9fa;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+}
+
+.thank-you-box {
+    max-width: 600px;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .info-register-box {
+        padding: 0 10px;
+    }
+}

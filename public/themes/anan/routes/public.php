@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Themes\anan\Http\Controllers\InformationRegisterController;
 
 Route::get('/', 'HomeV2Controller@index')->name('home')->middleware('cache.response');
 Route::get('/product/{slug}', 'HomeController@index')->name('product.category');
@@ -22,6 +23,10 @@ Route::group(['prefix' => 'gio-hang', 'as' => 'cart.'], function(){
 Route::get('/prods/search-ajax', 'ProductController@searchAjax')->name('product.search.ajax');
 
 Route::get('tra-cuu-don-hang', [\Modules\Order\Http\Controllers\OrderController::class, 'orderTracking'])->name('order.tracking');
+
+Route::get('dang-ky-thong-tin', [InformationRegisterController::class, 'create'])->name('register.info');
+Route::get('dang-ky-thong-tin/cam-on', [InformationRegisterController::class, 'thankYou'])->name('register.info.thank-you');
+Route::post('dang-ky-thong-tin', [InformationRegisterController::class, 'store'])->name('register.info.store');
 
 Route::post('callback-request', [\Themes\anan\Http\Controllers\ContactController::class, 'store'])->name('callback.store');
 

@@ -3,65 +3,57 @@
         <div class="panel panel-default option">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#seo" aria-expanded="true" class="" style="position: relative;
-                                        text-decoration: none;
-                                        overflow: hidden;">
-
+                    <a data-toggle="collapse" href="#seo" aria-expanded="true" class="no-underline relative overflow-hidden">
                         <span id="option-name" class="pull-left">Short Code</span>
                     </a>
                 </h4>
             </div>
 
-            <div id="seo" class="panel-collapse collapse in" aria-expanded="true" style="">
+            <div id="seo" class="panel-collapse collapse in" aria-expanded="true">
                 <div class="panel-body">
                     <div class="form-group">
-                        <label for="meta-title" class="col-md-3 control-label text-left">
-                            Choose shortcode
-                        </label>
+                        <label class="col-md-3 control-label text-left">Choose shortcode</label>
                         <div class="col-md-9">
                             <select name="shortcode" class="form-control form-select">
                                 <option value="">Select</option>
                                 <option value="product_list">Product List</option>
                                 <option value="single_product">Single Product</option>
+                                <option value="info_register_form">Form Đăng Ký</option>
                             </select>
                         </div>
                     </div>
-                    <div id="additional-options-product-list">
-                        <div style="display: none" id="short_category_box">
-                            {{ Form::select('shortcode_category_id', 'Category', $errors, $categories, null, ['class' =>
-                            'selectize prevent-creation', 'multiple' => true, ]) }}
-                        </div>
-                        <div style="display: none" id="shortcode_product_limit_box">
-                            {{ Form::text('shortcode_product_limit', 'Limited Quantity', $errors, null,[
-                                'type' => 'number'
+
+                    {{-- Product List Options --}}
+                    <div id="options-product-list" style="display:none">
+                        <div id="short_category_box">
+                            {{ Form::select('shortcode_category_id', 'Category', $errors, $categories, null, [
+                                'class' => 'selectize prevent-creation',
+                                'multiple' => true,
                             ]) }}
                         </div>
-                        <div style="display: none" id="shortcode_product_col_box">
-                            {{ Form::text('shortcode_product_col', 'Item Per Row', $errors, null, [
-                                'min' => 1,
-                                'type' => 'number'
-                            ]) }}
+                        <div id="shortcode_product_limit_box" style="display:none">
+                            {{ Form::text('shortcode_product_limit', 'Limited Quantity', $errors, null, ['type' => 'number']) }}
+                        </div>
+                        <div id="shortcode_product_col_box" style="display:none">
+                            {{ Form::text('shortcode_product_col', 'Item Per Row', $errors, null, ['type' => 'number', 'min' => 1]) }}
                         </div>
                     </div>
-                    <div id="additional-options-single-product" style="display: none ">
-                        <div >
-                            {{ Form::text('shortcode_product_id', 'Product ID', $errors, null,[
-                              'type' => 'number'
-                          ]) }}
-                        </div>
-                        <div style="display:none;" id="shortcode-single-product-desc">
+
+                    {{-- Single Product Options --}}
+                    <div id="options-single-product" style="display:none">
+                        {{ Form::text('shortcode_product_id', 'Product ID', $errors, null, ['type' => 'number']) }}
+                        <div id="shortcode-single-product-desc" style="display:none">
                             {{ Form::textarea('shortcode_single_product_desc', 'Description', $errors, null) }}
                         </div>
                     </div>
-                    <div style="display: none" class="form-group" id="render_shortcode">
-                        <label class="col-md-3 control-label text-left">
-                            Render Shortcode
-                        </label>
+
+                    {{-- Render shortcode --}}
+                    <div id="render_shortcode" class="form-group" style="display:none">
+                        <label class="col-md-3 control-label text-left">Render Shortcode</label>
                         <div class="col-md-9">
-                            <input type="text" name="render_shortcode" class="form-control" 
-                                value="" readonly>
+                            <input type="text" name="render_shortcode" class="form-control" readonly>
                         </div>
-                        <div class="col-md-3" style="margin-top: 1rem">
+                        <div class="col-md-3 mt-3">
                             <button id="copyText" class="btn btn-primary">Copy</button>
                         </div>
                     </div>
@@ -70,78 +62,96 @@
         </div>
     </div>
 </div>
+
 @push('scripts')
-<script type="text/javascript">
-    let shortCode = '';
-    let categoryIds = '';
-    let limit = 10;
-    let col = 5;
-    let productId = null;
+    <script>
+        $(function(){
+            let state = {
+                shortcode: '',
+                categoryIds: '',
+                limit: 10,
+                col: 5,
+                productId: null,
+                desc: ''
+            };
 
-    $('select[name=shortcode]').change(function(e) {
-        // Product list shortcode
-        if($(this).val() == 'product_list') {
-            $('#additional-options-product-list').show();
-            $('#short_category_box').show('fast');
-        } else {
-            $('#additional-options-product-list').hide();
-        }
+            const $renderBox = $('#render_shortcode');
+            const $renderInput = $('input[name=render_shortcode]');
 
-        // Single Product shortcode
-        if($(this).val() == 'single_product') {
-            $('#additional-options-single-product').show()
-        } else {
-            $('#additional-options-single-product').hide()
-        }
-    });
+            function generateShortcode() {
+                let code = '';
 
-    $("select[name='shortcode_category_id[]']").change(function(e) {
-        $('#shortcode_product_limit_box').show('fast');
-        categoryIds = $(this).val();
-        $('input[name=render_shortcode]').val(`[product_list category_ids="${categoryIds}" limit="${limit}"][/product_list]`);
-    });
+                switch(state.shortcode) {
+                    case 'product_list':
+                        code = `[product_list category_ids="${state.categoryIds}" limit="${state.limit}" col="${state.col}"][/product_list]`;
+                        break;
 
-    $('input[name=shortcode_product_col]').change(function(e) {
-            col = $(this).val();
-            $('#shortcode_product_col_box').show('fast');
-            $('#render_shortcode').show('fast');
-            $('input[name=render_shortcode]').val(`[product_list category_ids="${categoryIds}" limit="${limit}" col="${col}"][/product_list]`);
-    });
+                    case 'single_product':
+                        code = `[single_product id="${state.productId || ''}"${state.desc ? ` desc="${state.desc}"` : ''}][/single_product]`;
+                        break;
 
-    $('input[name=shortcode_product_limit]').change(function(e) {
-        if(typeof parseInt($(this).val()) === 'number') {
-            limit = $(this).val();
-            $('input[name=render_shortcode]').val(`[product_list category_ids="${categoryIds}" limit="${limit}" col="${col}"][/product_list]`);
-            $('#shortcode_product_col_box').show('fast');
-        }else {
-            $('#render_shortcode').hide('fast');
-        }
-    });
+                    default:
+                        // fallback: nếu không có config → tự gen [shortcode][/shortcode]
+                        if(state.shortcode) {
+                            code = `[${state.shortcode}][/${state.shortcode}]`;
+                        }
+                        break;
+                }
 
-    // Single product shortcode
-    $('input[name=shortcode_product_id]').change(function () {
-        const productIdInput = $(this).val();
-        if (typeof parseInt(productIdInput) == 'number') {
-            productId = productIdInput;
-            $('input[name=render_shortcode]').val(`[single_product id="${productIdInput}"][/single_product]`);
-            $('#render_shortcode').show('fast');
-            $('#shortcode-single-product-desc').show('fast');
-        }
-    })
+                $renderInput.val(code);
+                code ? $renderBox.show('fast') : $renderBox.hide('fast');
+            }
 
-    $('#shortcode_single_product_desc').change(function (e) {
-        const descTxt = encodeURI($(this).val());
-        $('input[name=render_shortcode]').val(`[single_product id="${productId}" desc="${descTxt}"][/single_product]`);
-    })
+            // Chọn shortcode
+            $('select[name=shortcode]').on('change', function(){
+                state.shortcode = $(this).val();
+                $('#options-product-list, #options-single-product').hide();
 
-  $("#copyText").click(function(e) {
-        e.preventDefault();
-        let $temp = $("<input>");
-        $("body").append($temp);
-        $temp.val($("input[name=render_shortcode]").val()).select();
-        document.execCommand("copy");
-        $(this).html('Copied');
-        $temp.remove();
-    })
-</script>
+                if(state.shortcode === 'product_list') {
+                    $('#options-product-list').show('fast');
+                }
+                if(state.shortcode === 'single_product') {
+                    $('#options-single-product').show('fast');
+                }
+                generateShortcode();
+            });
+
+            // Product list
+            $(document).on('change', "select[name='shortcode_category_id[]']", function(){
+                state.categoryIds = $(this).val();
+                $('#shortcode_product_limit_box').show('fast');
+                generateShortcode();
+            });
+
+            $(document).on('change', "input[name=shortcode_product_limit]", function(){
+                state.limit = $(this).val() || 10;
+                $('#shortcode_product_col_box').show('fast');
+                generateShortcode();
+            });
+
+            $(document).on('change', "input[name=shortcode_product_col]", function(){
+                state.col = $(this).val() || 5;
+                generateShortcode();
+            });
+
+            // Single product
+            $(document).on('change', "input[name=shortcode_product_id]", function(){
+                state.productId = $(this).val();
+                $('#shortcode-single-product-desc').show('fast');
+                generateShortcode();
+            });
+
+            $(document).on('change', "textarea[name=shortcode_single_product_desc]", function(){
+                state.desc = encodeURI($(this).val());
+                generateShortcode();
+            });
+
+            // Copy shortcode
+            $("#copyText").click(function(e){
+                e.preventDefault();
+                navigator.clipboard.writeText($renderInput.val());
+                $(this).text('Copied');
+            });
+        });
+    </script>
 @endpush

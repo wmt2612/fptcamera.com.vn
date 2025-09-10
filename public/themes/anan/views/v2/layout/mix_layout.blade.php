@@ -64,6 +64,7 @@
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/customize.css')) }}" rel="stylesheet" />
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/root-review.css')) }}" rel="stylesheet" />
     <link type="text/css" href="{{ v(Theme::url('assets/v2/css/contact-buttons.css')) }}" rel="stylesheet" />
+    <link type="text/css" href="{{ v(Theme::url('assets/v2/css/information-register.css')) }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ v(Theme::url('assets/css/customize.css')) }}">
     <link rel="stylesheet" href="{{ v(Theme::url('assets/v2/css/mix_customize.css')) }}">
     <link rel="shortcut icon" href="{{ $favicon ?? '' }}" type="image/x-icon">
