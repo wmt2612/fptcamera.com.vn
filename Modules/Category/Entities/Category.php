@@ -2,6 +2,7 @@
 
 namespace Modules\Category\Entities;
 
+use Modules\Attribute\Entities\Attribute;
 use TypiCMS\NestableTrait;
 use Modules\Media\Entities\File;
 use Modules\Support\Eloquent\Model;
@@ -215,5 +216,15 @@ class Category extends Model
     public function slider2()
     {
         return $this->belongsTo(Slider::class, 'slider_2_id');
+    }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(
+            Attribute::class,
+            'attribute_categories',
+            'category_id',
+            'attribute_id'
+        );
     }
 }

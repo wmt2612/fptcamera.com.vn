@@ -41,7 +41,7 @@
         }
 
         .main_category .producer .producer_item {
-            margin: 0;
+            margin: 0 10px;
         }
 
         .main_category .producer .producer_item a {
@@ -138,8 +138,11 @@
             .main_category .category_product .box_collum .box_product .img img {
                 margin: 0;
             }
-        }
 
+            .main_category .producer {
+                display: block;
+            }
+        }
     </style>
 @endpush
 @section('content')
@@ -207,7 +210,7 @@
                 <div class="title" style="margin-bottom: 10px">
                     <h4>Hãng sản xuất</h4>
                 </div>
-                <div class="producer_box">
+                <div class="producer_box brand_slider">
                     @foreach($brands as $brand)
                         @if($brand->logo->path)
                             <div class="producer_item">
@@ -227,7 +230,7 @@
                     <div class="title">
                         <h4>Chọn theo nhu cầu</h4>
                     </div>
-                    <div class="box_need">
+                    <div class="box_need brand_slider">
                         @foreach($categories as $cateItem)
                             <div class="need_item">
                                 <a href="#"
@@ -605,6 +608,35 @@
                 params.set('contactPrice', value)
                 handleReload(params)
             })
+
+            $('.brand_slider').slick({
+                dots: false,
+                infinite: false,
+                speed: 300,
+                slidesToShow: 12,
+                slidesToScroll: 1,
+                responsive: [
+                    {
+                        dots: false,
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 8,
+                            slidesToScroll: 1,
+                            infinite: true,
+                            dots: false
+                        }
+                    },
+                    {
+                        dots: false,
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1
+                        }
+                    }
+                ]
+            });
+
         })
     </script>
 @endpush

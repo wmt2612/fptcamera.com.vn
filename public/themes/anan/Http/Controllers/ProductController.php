@@ -294,6 +294,8 @@ class ProductController
 
             $productsArr = $products->toArray();
 
+            $attributes = $category->attributes;
+
             $data = [
                 'category' => $category,
                 'products' => $products,
@@ -301,7 +303,7 @@ class ProductController
                 'brands' => $brands,
                 'breadcrumb' => $breadcrumb,
                 'featuredProducts' => $featuredProducts,
-                'attributes' => Attribute::all(),
+                'attributes' => $attributes,
                 'posts' => $posts
             ];
 
